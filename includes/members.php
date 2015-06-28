@@ -109,6 +109,16 @@ public function Verify($data) {
     $dbConnect->close();
 
 }
+public function changePic($id,$src)
+{
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+  $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `ProfilePic` =  '".$src."' WHERE `id` = \"".$id."\"") or die (mysql_error());
+  $dbConnect->close();
+}
+public function getPic(){
+
+}
 
 
 }
