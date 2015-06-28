@@ -54,13 +54,9 @@ if ($uploadOk == 0) {
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
 
-        require_once("includes/DataBaseConnection.php");
-        $dbConnect=new DatabaseConnect;
-        $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `ProfilePic` =  '".$target_file."' WHERE `id` = \"".$id."\"") or die (mysql_error());
-        $dbConnect->close();
-        $respond = array('success' => true);
-        echo json_encode($respond);
-
+        require_once("includes/members.php");
+        $newMember=new member;
+        $newMember->changeAvatar($id,$target_file);
         //SUCESS uploading
     } else {
       $respond = array('success' => false);

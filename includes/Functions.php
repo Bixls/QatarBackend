@@ -20,6 +20,12 @@ include("members.php");
 $newMember=new member;
 $newMember->Verify($inputs[0]);
 }
+function changeAvatar($inputs)
+{
+  include("members.php");
+  $newMember=new member;
+  $newMember->changeAvatar($inputs[0]->id,$inputs[0]->src);
+}
 //***************** member Functions *****************/
 function getGroupList($inputs)
 {
@@ -27,5 +33,6 @@ function getGroupList($inputs)
   $groups=new Groups;
   $groups->getGroupList($inputs[0]);
 }
+
 
 ?>
