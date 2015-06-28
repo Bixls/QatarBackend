@@ -59,7 +59,7 @@ public function signIn($data) {
         $user->username=$row['username'];
         $user->groupID=$row['groupID'];
         $user->ProfilePic=$row['ProfilePic'];
-        $user->Verified=$row['Verified'];
+        $user->Verified=$row['Verified']==0?true:false;
 
         echo json_encode($user);
       //  echo json_encode($row);
