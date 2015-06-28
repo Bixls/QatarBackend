@@ -16,7 +16,7 @@ public  function getGroupList($inputs){
         $group=new Groups;
         $group->id=$row['id'];
         $group->name=$row['name'];
-        
+        $group->ProfilePic=$row['ProfilePic'];
       array_push($stack, $group);
       }
    echo json_encode($stack);

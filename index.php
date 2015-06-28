@@ -1,5 +1,5 @@
 <?php
-require_once("Functions.php");
+require_once("includes/Functions.php");
 
 class InputFunction
 {

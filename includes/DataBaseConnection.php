@@ -1,5 +1,5 @@
 <?php
-require ("configuration.php");
+require ("./configuration.php");
 
 class DatabaseConnect
 {
