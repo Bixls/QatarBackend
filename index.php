@@ -5,7 +5,6 @@ public  $key;
 public  $FunctionName;
 public  $inputs=array();
 }
-
 $data = json_decode(file_get_contents('php://input'));
 if($data)
 {
@@ -27,7 +26,9 @@ if($key>=-1)
 
 function Register($a)
 {
-  echo $a[0];
+$user= $a[0];
+include("members.php");
+$newMember=new member($user);
 }
 
  ?>
