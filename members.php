@@ -56,6 +56,7 @@ public function signIn($data) {
         $user=new member;
         $user->name=$row['name'];
         $user->id=$row['id'];
+        $user->Mobile=$row['Mobile'];
         $user->username=$row['username'];
         $user->groupID=$row['groupID'];
         $user->ProfilePic=$row['ProfilePic'];
