@@ -2,33 +2,30 @@
 class member{
   public $id;
   public $name;
-  public $username;
+  public $Mobile;
   private $password;
   public $groupID;
-  public $Mobile;
   public $ProfilePic;
-public $Verified;
+  public $Verified;
 
-
- private $tableName="members";
 
 
 
 public function CreateNew($user) {
 require_once("DataBaseConnection.php");
 $dbConnect=new DatabaseConnect;
-$query = mysql_query("SELECT * FROM `members` WHERE `username` = \"".$user->username."\"") or die (mysql_error());
+$query = mysql_query("SELECT * FROM `members` WHERE `Mobile` = \"".$user->Mobile."\"") or die (mysql_error());
     if ($query){
         		$row = mysql_fetch_array($query);
-        if($row['username']==$user->username){
+        if($row['Mobile']==$user->Mobile){
          $respond = array('success' => false);
 
         echo json_encode($respond);
         //User name has been already found
         }else{
            $ValidKey=rand( 1000 ,  9999 );
-          $sql = "INSERT INTO `".DB_DATABASE."`.`members` (`name`, `username`, `password`, `groupID`, `Mobile`, `ProfilePic`, `Verified`)
-          VALUES ('".$user->name."', '".$user->username."', '".$user->password."', '".$user->groupID."', '".$user->Mobile."', '".$user->ProfilePic."', '".$ValidKey."');";
+          $sql = "INSERT INTO `".DB_DATABASE."`.`members` (`name`,  `password`, `groupID`, `Mobile`, `ProfilePic`, `Verified`)
+          VALUES ('".$user->name."', '".$user->password."', '".$user->groupID."', '".$user->Mobile."', '".$user->ProfilePic."', '".$ValidKey."');";
 
           if (mysql_query($sql)) {
               $id=mysql_insert_id();
@@ -47,7 +44,7 @@ $query = mysql_query("SELECT * FROM `members` WHERE `username` = \"".$user->user
 public function signIn($data) {
   require_once("DataBaseConnection.php");
   $dbConnect=new DatabaseConnect;
-  $query = mysql_query("SELECT * FROM `members` WHERE `username` = \"".$data->username."\"") or die (mysql_error());
+  $query = mysql_query("SELECT * FROM `members` WHERE `Mobile` = \"".$data->Mobile."\"") or die (mysql_error());
       if ($query){
         $row = mysql_fetch_array($query);
         if($data->password==$row['password'])
@@ -57,7 +54,6 @@ public function signIn($data) {
         $user->name=$row['name'];
         $user->id=$row['id'];
         $user->Mobile=$row['Mobile'];
-        $user->username=$row['username'];
         $user->groupID=$row['groupID'];
         $user->ProfilePic=$row['ProfilePic'];
         $user->Verified=$row['Verified']==0?true:false;
@@ -72,17 +68,17 @@ public function signIn($data) {
       }
     $dbConnect->close();
 }
-public function Verify($data) {
+public function Verify($data,$id) {
   require_once("DataBaseConnection.php");
   $dbConnect=new DatabaseConnect;
-  $query = mysql_query("SELECT * FROM `members` WHERE `id` = \"".$data->id."\"") or die (mysql_error());
+  $query = mysql_query("SELECT * FROM `members` WHERE `id` = \"".$id."\"") or die (mysql_error());
       if ($query){
         $row = mysql_fetch_array($query);
-        if($data->id==$row['id'])
+        if($id==$row['id'])
         {
           if($data->Verified==$row['Verified'])
           {
-            $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `Verified` =  '0' WHERE `id` = \"".$data->id."\"") or die (mysql_error());
+            $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `Verified` =  '0' WHERE `id` = \"".$id."\"") or die (mysql_error());
                 if ($query){
                   $respond = array('success' => true);
                   echo json_encode($respond);
