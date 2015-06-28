@@ -28,12 +28,17 @@ if($key>=-1)
 
 //***********Functions Start here //
 
-function Register($a)
+function Register($inputs)
 {
-$user= $a[0];
 include("members.php");
 $newMember=new member;
-$newMember->CreateNew($user);
+$newMember->CreateNew( $inputs[0]);
+}
+function signIn($inputs)
+{
+include("members.php");
+$newMember=new member;
+$newMember->signIn($inputs[0]);
 }
 
  ?>
