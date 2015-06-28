@@ -1,4 +1,6 @@
 <?php
+require_once("Functions.php");
+
 class InputFunction
 {
 public  $key;
@@ -13,7 +15,7 @@ if($data)
   if(ValidateKEY($data->key))
   {
   $data->FunctionName;
-  call_user_func($data->FunctionName,$data->inputs);
+  call_user_func($data->FunctionName,$data->inputs,$data->key);
   }
 }
 
@@ -26,25 +28,4 @@ if($key>=-1)
 }
 }
 
-//***********Functions Start here //
-
-function Register($inputs)
-{
-include("members.php");
-$newMember=new member;
-$newMember->CreateNew( $inputs[0]);
-}
-function signIn($inputs)
-{
-include("members.php");
-$newMember=new member;
-$newMember->signIn($inputs[0]);
-}
-function Verify($inputs)
-{
-include("members.php");
-$newMember=new member;
-$newMember->Verify($inputs[0]);
-}
-
- ?>
+?>
