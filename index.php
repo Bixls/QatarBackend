@@ -5,17 +5,21 @@ public  $key;
 public  $FunctionName;
 public  $inputs=array();
 }
+//GET JSON DATA
 $data = json_decode(file_get_contents('php://input'));
 if($data)
 {
+  //DATA IS NOT NULL
   if(ValidateKEY($data->key))
   {
   $data->FunctionName;
   call_user_func($data->FunctionName,$data->inputs);
   }
 }
+
 function ValidateKEY($key)
 {
+  //VALIDATION Function
 if($key>=-1)
 {
   return true;
@@ -24,11 +28,23 @@ if($key>=-1)
 
 //***********Functions Start here //
 
-function Register($a)
+function Register($inputs)
 {
-$user= $a[0];
 include("members.php");
-$newMember=new member($user);
+$newMember=new member;
+$newMember->CreateNew( $inputs[0]);
+}
+function signIn($inputs)
+{
+include("members.php");
+$newMember=new member;
+$newMember->signIn($inputs[0]);
+}
+function Verify($inputs)
+{
+include("members.php");
+$newMember=new member;
+$newMember->Verify($inputs[0]);
 }
 
  ?>
