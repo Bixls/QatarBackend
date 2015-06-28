@@ -8,17 +8,20 @@ class member{
   public $Mobile;
   public $ProfilePic;
  public $tableName="members";
-public function __construct($user) {
+
+public function CreateNew($user) {
 require_once("DataBaseConnection.php");
 $dbConnect=new DatabaseConnect;
 
 $query = mysql_query("SELECT * FROM `members` WHERE `username` = \"".$user->username."\"") or die (mysql_error());
-$sucess=false;
+
 if ($query){
     		$row = mysql_fetch_array($query);
 if($row['username']==$user->username){
 
-echo json_encode($sucess);
+ $respond = array('success' => false);
+echo json_encode($respond);
+//User name has been already found
 }else{
 
 
@@ -27,10 +30,13 @@ echo json_encode($sucess);
 
   if (mysql_query($sql)) {
     $id=mysql_insert_id();
-  $sucess=true;
-  echo json_encode($sucess);
+    $respond = array('sucess' => true,'id'=>$id);
+   echo json_encode($respond);
+  //successfully Registering new user
 } else {
-echo json_encode($sucess);;
+  $respond = array('success' => false);
+ echo json_encode($respond);
+//an error has been accourd
 }
 
 }
