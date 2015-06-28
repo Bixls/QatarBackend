@@ -22,11 +22,13 @@ $query = mysql_query("SELECT * FROM `members` WHERE `username` = \"".$user->user
         		$row = mysql_fetch_array($query);
         if($row['username']==$user->username){
          $respond = array('success' => false);
+
         echo json_encode($respond);
         //User name has been already found
         }else{
-          $sql = "INSERT INTO `".DB_DATABASE."`.`members` (`name`, `username`, `password`, `groupID`, `Mobile`, `ProfilePic`)
-          VALUES ('".$user->name."', '".$user->username."', '".$user->password."', '".$user->groupID."', '".$user->Mobile."', '".$user->ProfilePic."');";
+           $ValidKey=rand( 1000 ,  9999 );
+          $sql = "INSERT INTO `".DB_DATABASE."`.`members` (`name`, `username`, `password`, `groupID`, `Mobile`, `ProfilePic`, `Verified`)
+          VALUES ('".$user->name."', '".$user->username."', '".$user->password."', '".$user->groupID."', '".$user->Mobile."', '".$user->ProfilePic."', '".$ValidKey."');";
 
           if (mysql_query($sql)) {
               $id=mysql_insert_id();
