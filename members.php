@@ -60,9 +60,7 @@ public function signIn($data) {
         $user->groupID=$row['groupID'];
         $user->ProfilePic=$row['ProfilePic'];
         $user->Verified=$row['Verified']==0?true:false;
-
         echo json_encode($user);
-      //  echo json_encode($row);
           //sucess
         }
         else{
@@ -72,6 +70,44 @@ public function signIn($data) {
         }
       }
     $dbConnect->close();
+}
+public function Verify($data) {
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+  $query = mysql_query("SELECT * FROM `members` WHERE `id` = \"".$data->id."\"") or die (mysql_error());
+      if ($query){
+        $row = mysql_fetch_array($query);
+        if($data->id==$row['id'])
+        {
+          if($data->Verified==$row['Verified'])
+          {
+            $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `Verified` =  '0' WHERE `id` = \"".$data->id."\"") or die (mysql_error());
+                if ($query){
+                  $respond = array('success' => true);
+                  echo json_encode($respond);
+                   //sucess
+                }else{
+                  $respond = array('success' => false);
+                  echo json_encode($respond);
+                   //query not posted
+                }
+
+            //sucess
+          }else{
+            //Failer
+            $respond = array('success' => false);
+            echo json_encode($respond);
+             //verification is in correct
+          }
+        }
+        else{
+          $respond = array('success' => false);
+          echo json_encode($respond);
+           //Faild logins is incorrect
+        }
+    }
+    $dbConnect->close();
+
 }
 
 

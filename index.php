@@ -40,5 +40,11 @@ include("members.php");
 $newMember=new member;
 $newMember->signIn($inputs[0]);
 }
+function Verify($inputs)
+{
+include("members.php");
+$newMember=new member;
+$newMember->Verify($inputs[0]);
+}
 
  ?>
