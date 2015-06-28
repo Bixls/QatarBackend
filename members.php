@@ -24,6 +24,7 @@ $query = mysql_query("SELECT * FROM `members` WHERE `Mobile` = \"".$user->Mobile
         //User name has been already found
         }else{
            $ValidKey=rand( 1000 ,  9999 );
+          mysql_query("set names 'utf8'");
           $sql = "INSERT INTO `".DB_DATABASE."`.`members` (`name`,  `password`, `groupID`, `Mobile`, `ProfilePic`, `Verified`)
           VALUES ('".$user->name."', '".$user->password."', '".$user->groupID."', '".$user->Mobile."', '".$user->ProfilePic."', '".$ValidKey."');";
 
@@ -44,6 +45,7 @@ $query = mysql_query("SELECT * FROM `members` WHERE `Mobile` = \"".$user->Mobile
 public function signIn($data) {
   require_once("DataBaseConnection.php");
   $dbConnect=new DatabaseConnect;
+    mysql_query("set names 'utf8'");
   $query = mysql_query("SELECT * FROM `members` WHERE `Mobile` = \"".$data->Mobile."\"") or die (mysql_error());
       if ($query){
         $row = mysql_fetch_array($query);
