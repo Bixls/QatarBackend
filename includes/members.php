@@ -70,9 +70,10 @@ public function signIn($data) {
       }
     $dbConnect->close();
 }
-public function Verify($data,$id) {
+public function Verify($data) {
   require_once("DataBaseConnection.php");
   $dbConnect=new DatabaseConnect;
+  $id=$data->id;
   $query = mysql_query("SELECT * FROM `members` WHERE `id` = \"".$id."\"") or die (mysql_error());
       if ($query){
         $row = mysql_fetch_array($query);
