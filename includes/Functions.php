@@ -26,6 +26,12 @@ function changeAvatar($inputs)
   $newMember=new member;
   $newMember->changeAvatar($inputs[0]->id,$inputs[0]->src);
 }
+function editProfile($inputs)
+{
+  include("members.php");
+  $newMember=new member;
+  $newMember->editProfile($inputs[0]);
+}
 //***************** member Functions *****************/
 function getGroupList($inputs)
 {
