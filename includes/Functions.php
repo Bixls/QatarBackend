@@ -32,7 +32,7 @@ function editProfile($inputs)
   $newMember=new member;
   $newMember->editProfile($inputs[0]);
 }
-function viewProfile($inputs)
+function getUserbyID($inputs)
 {
   include("members.php");
   $newMember=new member;

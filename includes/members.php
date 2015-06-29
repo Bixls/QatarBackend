@@ -130,7 +130,7 @@ public function editProfile($inputs){
   echo json_encode($respond);
 
 }
-public function viewProfile($inputs){
+public function getUserbyID($inputs){
   require_once("DataBaseConnection.php");
   $dbConnect=new DatabaseConnect;
   mysql_query("set names 'utf8'");
