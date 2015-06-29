@@ -70,9 +70,10 @@ public function signIn($data) {
       }
     $dbConnect->close();
 }
-public function Verify($data,$id) {
+public function Verify($data) {
   require_once("DataBaseConnection.php");
   $dbConnect=new DatabaseConnect;
+  $id=$data->id;
   $query = mysql_query("SELECT * FROM `members` WHERE `id` = \"".$id."\"") or die (mysql_error());
       if ($query){
         $row = mysql_fetch_array($query);
@@ -106,6 +107,18 @@ public function Verify($data,$id) {
         }
     }
     $dbConnect->close();
+
+}
+public function changeAvatar($id,$src)
+{
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+  $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `ProfilePic` =  '".$src."' WHERE `id` = \"".$id."\"") or die (mysql_error());
+  $dbConnect->close();
+  $respond = array('success' => true);
+  echo json_encode($respond);
+}
+public function getPic(){
 
 }
 
