@@ -36,7 +36,13 @@ function getUserbyID($inputs)
 {
   include("members.php");
   $newMember=new member;
-  $newMember->viewProfile($inputs[0]);
+  $newMember->getUserbyID($inputs[0]);
+}
+function getUsersbyGroup($inputs)
+{
+  include("members.php");
+  $newMember=new member;
+  $newMember->getUsersbyGroup($inputs[0]);
 }
 //***************** member Functions *****************/
 function getGroupList($inputs)
