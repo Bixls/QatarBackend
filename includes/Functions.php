@@ -32,6 +32,12 @@ function editProfile($inputs)
   $newMember=new member;
   $newMember->editProfile($inputs[0]);
 }
+function viewProfile($inputs)
+{
+  include("members.php");
+  $newMember=new member;
+  $newMember->viewProfile($inputs[0]);
+}
 //***************** member Functions *****************/
 function getGroupList($inputs)
 {

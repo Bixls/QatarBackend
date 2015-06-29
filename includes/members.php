@@ -7,7 +7,7 @@ class member{
   public $groupID;
   public $ProfilePic;
   public $Verified;
-  public $inboxMask;
+  public $maskInbox;
 
 
 
@@ -26,8 +26,8 @@ $query = mysql_query("SELECT * FROM `members` WHERE `Mobile` = \"".$user->Mobile
         }else{
            $ValidKey=rand( 1000 ,  9999 );
           mysql_query("set names 'utf8'");
-          $sql = "INSERT INTO `".DB_DATABASE."`.`members` (`name`,  `password`, `groupID`, `Mobile`, `ProfilePic`, `Verified`)
-          VALUES ('".$user->name."', '".$user->password."', '".$user->groupID."', '".$user->Mobile."', '".$user->ProfilePic."', '".$ValidKey."');";
+          $sql = "INSERT INTO `".DB_DATABASE."`.`members` (`name`,  `password`, `groupID`, `Mobile`, `ProfilePic`, `Verified`,`maskInbox`)
+          VALUES ('".$user->name."', '".$user->password."', '".$user->groupID."', '".$user->Mobile."', '".$user->ProfilePic."', '".$ValidKey."','11111');";
 
           if (mysql_query($sql)) {
               $id=mysql_insert_id();
@@ -60,6 +60,7 @@ public function signIn($data) {
         $user->groupID=$row['groupID'];
         $user->ProfilePic=$row['ProfilePic'];
         $user->Verified=$row['Verified']==0?true:false;
+        $user->maskInbox=$row['maskInbox'];
         echo json_encode($user);
           //sucess
         }
@@ -123,11 +124,31 @@ public function changeAvatar($id,$src)
 public function editProfile($inputs){
   require_once("DataBaseConnection.php");
   $dbConnect=new DatabaseConnect;
-  $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `maskInbox` =  '".$inputs->inputMask."' ,`name` =  '".$inputs->name."' WHERE `id` = \"".$inputs->id."\"") or die (mysql_error());
+  $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `maskInbox` =  '".$inputs->maskInbox."' ,`name` =  '".$inputs->name."' WHERE `id` = \"".$inputs->id."\"") or die (mysql_error());
   $dbConnect->close();
   $respond = array('success' => true);
   echo json_encode($respond);
 
+}
+public function viewProfile($inputs){
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+  mysql_query("set names 'utf8'");
+$query = mysql_query("SELECT * FROM `members` WHERE `id` = \"".$inputs->id."\"") or die (mysql_error());
+    if ($query){
+      $row = mysql_fetch_array($query);
+      $respond = array('name'=>$row['name'],
+      'ProfilePic'=>$row['ProfilePic'],
+      'groupID'=>$row['groupID']
+      );
+      echo json_encode($respond);
+        //sucess
+      }
+      else{
+            $respond = array('success' => false);
+              echo json_encode($respond);
+      }
+  $dbConnect->close();
 }
 
 
