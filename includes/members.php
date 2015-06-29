@@ -156,6 +156,26 @@ public function getUsersbyGroup($inputs){
   $dbConnect=new DatabaseConnect;
   mysql_query("set names 'utf8'");
 $query = mysql_query("SELECT * FROM `members` WHERE `groupID` = \"".$inputs->groupID."\"   LIMIT ".$inputs->start.", ".$inputs->limit."  ") or die (mysql_error());
+$stack = array();
+    while($row = mysql_fetch_array($query)){
+
+      $user = array(
+      'id'=>$row['id'],
+      'name'=>$row['name'],
+      'ProfilePic'=>$row['ProfilePic']
+      );
+
+    array_push($stack, $user);
+    }
+ echo json_encode($stack);
+  $dbConnect->close();
+}
+
+public function searchUsers($inputs){
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+  mysql_query("set names 'utf8'");
+$query = mysql_query("SELECT * FROM `members` WHERE `name` LIKE \"%".$inputs->Key."%\"   LIMIT ".$inputs->start.", ".$inputs->limit."  ") or die (mysql_error());
 
 $stack = array();
     while($row = mysql_fetch_array($query)){

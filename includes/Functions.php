@@ -44,6 +44,12 @@ function getUsersbyGroup($inputs)
   $newMember=new member;
   $newMember->getUsersbyGroup($inputs[0]);
 }
+function searchUsers($inputs)
+{
+  include("members.php");
+  $newMember=new member;
+  $newMember->searchUsers($inputs[0]);
+}
 //***************** member Functions *****************/
 function getGroupList($inputs)
 {
