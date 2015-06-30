@@ -64,6 +64,8 @@ public function signIn($data) {
         $user->ProfilePic=$row['ProfilePic'];
         $user->Verified=$row['Verified']==0?true:false;
         $user->maskInbox=$row['maskInbox'];
+        $user->inNOR=$row['inNOR'];
+        $user->inVIP=$row['inVIP'];
         echo json_encode($user);
           //sucess
         }
@@ -246,6 +248,28 @@ mysql_query($sql);
 
 }
 
+
+public function getUserInvNumber($inputs) {
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+    mysql_query("set names 'utf8'");
+    $MembersQuery = mysql_query("SELECT `inNOR` , `inVIP` FROM `members` WHERE `id` = \"".$inputs->id."\"  ") or die (mysql_error());
+  	$membersRow = mysql_fetch_array($MembersQuery);
+if($membersRow){
+  $respond = array('success' => true,
+  'inNOR'=>$membersRow['inNOR'],
+  'inVIP'=> $membersRow['inVIP']
+
+  );
+
+         echo json_encode($respond);
+}
+else{
+  $respond = array('success' => false);
+  echo json_encode($respond);
+  }
+$dbConnect->close();
+}
 
 }
 

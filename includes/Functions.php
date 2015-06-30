@@ -55,6 +55,11 @@ function searchUsers($inputs)
   $newMember=new member;
   $newMember->addInvPoints($inputs[0]);
 }
+function getUserInvNumber($inputs){
+ include("members.php");
+ $newMember=new member;
+ $newMember->getUserInvNumber($inputs[0]);
+}
 //***************** member Functions *****************/
 function getGroupList($inputs)
 {
