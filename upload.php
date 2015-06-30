@@ -27,29 +27,28 @@ if(isset($_POST["submit"])) {
     if($check !== false) {
         $uploadOk = 1;
     } else {
-      $respond = array('success' => true);
-      echo json_encode($respond);
+
+
         $uploadOk = 0;
     }
 }
 
 // Check file size
 if ($_FILES["fileToUpload"]["size"] > 500000) {
-  $respond = array('success' => true);
-  echo json_encode($respond);
     $uploadOk = 0;
 }
 // Allow certain file formats
 if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 && $imageFileType != "gif" ) {
-  $respond = array('success' => true);
-  echo json_encode($respond);
+
     $uploadOk = 0;
 }
 
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.";
+    $respond = array('success' => false);
+    echo json_encode($respond);
+
 // if everything is ok, try to upload file
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
@@ -57,6 +56,8 @@ if ($uploadOk == 0) {
         require_once("includes/members.php");
         $newMember=new member;
         $newMember->changeAvatar($id,$target_file);
+        $respond = array('success' => true);
+        echo json_encode($respond);
         //SUCESS uploading
     } else {
       $respond = array('success' => false);

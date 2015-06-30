@@ -57,6 +57,12 @@ function getGroupList($inputs)
   $groups=new Groups;
   $groups->getGroupList($inputs[0]);
 }
-
+//*************** invitations ************************/
+function getInvitationList($inputs)
+{
+  include("invitations.php");
+  $invitationPackage=new invitationPackages;
+  $invitationPackage->getInvitationList($inputs[0]);
+}
 
 ?>
