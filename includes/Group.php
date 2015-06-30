@@ -16,7 +16,7 @@ public  function getGroupList($inputs){
           $respond = array(
             'id' => $row['Gid'],
             'name' => $row['Gname'],
-            'ProfilePic' => $row['ProfilePic'],
+            'ProfilePic' => $row['GProfilePic'],
             );
       array_push($stack, $respond);
       }
