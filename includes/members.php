@@ -9,6 +9,9 @@ class member{
   public $Verified;
   public $maskInbox;
 
+  public $inNOR;
+  public $inVIP;
+
 
 
 
