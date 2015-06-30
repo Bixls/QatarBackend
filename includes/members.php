@@ -200,32 +200,44 @@ $stack = array();
 
 public function addInvPoints($inputs){
 
-$inputs->memberID;
-$inputs->invitationID;
-;
+
 
   require_once("DataBaseConnection.php");
   $dbConnect=new DatabaseConnect;
 
-  $sql = "INSERT INTO `".DB_DATABASE."`.`purchasing_records` (`memberID`,  `invitationID`)
-  VALUES ('".$inputs->memberID."', '".$inputs->invitationID."');";
-  mysql_query($sql);
-  $query = mysql_query("SELECT  `members`.`inNOR` , `members`.`inVIP`  WHERE `id` = \"".$inputs->memberID."\"  ") or die (mysql_error());
-	$row = mysql_fetch_array($query);
+
+  //UPDATE values in members db
+  $MembersQuery = mysql_query("SELECT `inNOR` , `inVIP` FROM `members` WHERE `id` = \"".$inputs->memberID."\"  ") or die (mysql_error());
+	$membersRow = mysql_fetch_array($MembersQuery);
+
+  $invitationsQuery = mysql_query("SELECT  `number` ,`VIP` FROM `invitationPackages` WHERE `Packageid` = \"".$inputs->invitationID."\"  ") or die (mysql_error());
+  $invitationsRow = mysql_fetch_array($invitationsQuery);
+
 $oldInvitations=0;
-if($inputs->VIP==0){
 
-$oldInvitations=$row['inNOR'];
 
-}elseif($inputs->VIP==1){
 
-$oldInvitations=$row['inVIP'];
+if($invitationsRow['VIP']==0){
+
+$oldInvitations=$membersRow['inNOR'];
+$newNumber=$oldInvitations+$invitationsRow['number'];
+  $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `inNOR` =  '".$newNumber."'  WHERE `id` = \"".$inputs->memberID."\"") or die (mysql_error());
+
+}elseif($invitationsRow['VIP']==1){
+
+$oldInvitations=$membersRow['inVIP'];
+$newNumber=$oldInvitations+$invitationsRow['number'];
+  $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `inVIP` =  '".$newNumber."'  WHERE `id` = \"".$inputs->memberID."\"") or die (mysql_error());
 
 }
+require_once("Functions.php");
+$ip=get_client_ip();
+
+$sql = "INSERT INTO `".DB_DATABASE."`.`purchasing_records` (`memberID`,  `invitationID`,`IP`)
+VALUES ('".$inputs->memberID."', '".$inputs->invitationID."','".$ip."');";
+mysql_query($sql);
 
 
-
-  $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `maskInbox` =  '".$inputs->maskInbox."' ,`name` =  '".$inputs->name."' WHERE `id` = \"".$inputs->id."\"") or die (mysql_error());
   $dbConnect->close();
   $respond = array('success' => true);
   echo json_encode($respond);
