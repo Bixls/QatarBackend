@@ -2,8 +2,8 @@
 
 class Groups{
 
-public  $id;
-public  $name;
+public  $Gid;
+public  $Gname;
 public  $ProfilePic;
 
 public  function getGroupList($inputs){
@@ -14,8 +14,8 @@ public  function getGroupList($inputs){
   $stack = array();
       while($row = mysql_fetch_array($query)){
         $group=new Groups;
-        $group->id=$row['id'];
-        $group->name=$row['name'];
+        $group->id=$row['Gid'];
+        $group->name=$row['Gname'];
         $group->ProfilePic=$row['ProfilePic'];
       array_push($stack, $group);
       }

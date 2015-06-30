@@ -50,6 +50,11 @@ function searchUsers($inputs)
   $newMember=new member;
   $newMember->searchUsers($inputs[0]);
 }
+ function addInvPoints($inputs){
+  include("members.php");
+  $newMember=new member;
+  $newMember->addInvPoints($inputs[0]);
+}
 //***************** member Functions *****************/
 function getGroupList($inputs)
 {
@@ -64,5 +69,6 @@ function getInvitationList($inputs)
   $invitationPackage=new invitationPackages;
   $invitationPackage->getInvitationList($inputs[0]);
 }
+
 
 ?>
