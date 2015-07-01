@@ -76,6 +76,12 @@ function getInvitationList($inputs)
 }
 //*************** Events ************************/
 
+function getEventbyID($inputs)
+{
+  include("Events.php");
+  $event=new Events;
+  $event->getEventbyID($inputs[0]);
+}
 function CreateEvent($inputs)
 {
   include("Events.php");

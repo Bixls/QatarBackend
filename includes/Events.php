@@ -12,6 +12,24 @@ public $timeCreated;
 public $TimeEnded;
 public $comments;
 
+public function getEventbyID($inputs){
+
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+    mysql_query("set names 'utf8'");
+    $query = mysql_query("SELECT * FROM `Events`  WHERE `id` = \"".$inputs->Eventid."\"  ") or die (mysql_error());
+    if ($query){
+    $row = mysql_fetch_array($query,MYSQL_ASSOC);
+    echo json_encode($row);
+  }
+  else{
+    $respond = array('sucess' => false);
+   echo json_encode($respond);
+  }
+  $dbConnect->close();
+
+}
+
 public function CreateEvent($inputs) {
   require_once("DataBaseConnection.php");
   $dbConnect=new DatabaseConnect;
@@ -80,11 +98,12 @@ $dbConnect=new DatabaseConnect;
 $stack = array();
   while($row = mysql_fetch_array($query)){
     $user = array(
-    'id'=>$row['id'],
-    'VIP'=>$row['name'],
-    'eventType'=>$row['ProfilePic'],
+    'Eventid'=>$row['id'],
+    'CreatorName'=>$row['name'],
+    'CreatorPic'=>$row['ProfilePic'],
     'subject'=>$row['subject'],
-    'picture'=>$row['picture'],
+    'EventPic'=>$row['picture'],
+    'VIP'=>$row['VIP'],
     'TimeEnded'=>$row['TimeEnded']
     );
   array_push($stack, $user);
@@ -92,6 +111,7 @@ $stack = array();
   echo json_encode($stack);
    $dbConnect->close();
 }
+
 
 
 
