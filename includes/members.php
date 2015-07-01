@@ -168,7 +168,7 @@ $stack = array();
       $user = array(
       'id'=>$row['id'],
       'name'=>$row['name'],
-      'GName'=>$row['Gname']
+      'ProfilePic'=>$row['ProfilePic']
       );
 
     array_push($stack, $user);

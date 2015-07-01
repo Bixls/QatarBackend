@@ -1,0 +1,185 @@
+<?php
+
+class Events{
+public $id;
+public $CreatorID;
+public $VIP;
+public $eventType;
+public $subject;
+public $description;
+public $picture;
+public $timeCreated;
+public $TimeEnded;
+public $comments;
+
+public function getEventbyID($inputs){
+
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+    mysql_query("set names 'utf8'");
+    $query = mysql_query("SELECT * FROM `Events`  WHERE `id` = \"".$inputs->Eventid."\"  ") or die (mysql_error());
+    if ($query){
+    $row = mysql_fetch_array($query,MYSQL_ASSOC);
+    echo json_encode($row);
+  }
+  else{
+    $respond = array('sucess' => false);
+   echo json_encode($respond);
+  }
+  $dbConnect->close();
+
+}
+
+public function CreateEvent($inputs) {
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+    mysql_query("set names 'utf8'");
+    $MembersQuery = mysql_query("SELECT `inNOR` , `inVIP` FROM `members` WHERE `id` = \"".$inputs->CreatorID."\"  ") or die (mysql_error());
+    $membersRow = mysql_fetch_array($MembersQuery);
+    $valid=false;
+if($inputs->VIP==0&&$membersRow['inNOR']>0)
+{
+$valid=true;
+$newValue=$membersRow['inNOR']-1;
+$query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `inNOR` =  '".$newValue."'  WHERE `id` = \"".$inputs->CreatorID."\"") or die (mysql_error());
+}
+elseif($inputs->VIP==1&&$membersRow['inVIP']>0)
+{
+$valid=true;
+$newValue=$membersRow['inVIP']-1;
+$query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `inVIP` =  '".$newValue."'  WHERE `id` = \"".$inputs->CreatorID."\"") or die (mysql_error());
+}
+if($valid)
+{
+mysql_query("set names 'utf8'");
+$sql = "INSERT INTO `".DB_DATABASE."`.`Events` (`CreatorID`,`VIP`,  `eventType`, `subject`, `description`, `TimeEnded`, `comments`)
+VALUES ('".$inputs->CreatorID."', '".$inputs->VIP."', '".$inputs->eventType."', '".$inputs->subject."', '".$inputs->description."', '".$inputs->TimeEnded."','".$inputs->comments."');";
+mysql_query($sql);
+$respond = array('sucess' => true);
+echo json_encode($respond);
+}else{
+  $respond = array('sucess' => false);
+ echo json_encode($respond);
+}
+$dbConnect->close();
+}
+
+public function getUserEventsList($inputs){
+$inputs->userID;
+require_once("DataBaseConnection.php");
+$dbConnect=new DatabaseConnect;
+  mysql_query("set names 'utf8'");
+  $query = mysql_query("SELECT `id`,`VIP`,`eventType`,`subject`,`picture`,`TimeEnded`,`approved` FROM `Events` WHERE `CreatorID` = \"".$inputs->userID."\"  ORDER BY `Events`.`timeCreated` DESC   LIMIT ".$inputs->start.", ".$inputs->limit." ") or die (mysql_error());
+$stack = array();
+  while($row = mysql_fetch_array($query)){
+
+    $user = array(
+    'id'=>$row['id'],
+    'VIP'=>$row['VIP'],
+    'eventType'=>$row['eventType'],
+    'subject'=>$row['subject'],
+    'picture'=>$row['picture'],
+    'TimeEnded'=>$row['TimeEnded'],
+    'approved'=>$row['approved']
+    );
+  array_push($stack, $user);
+}
+  echo json_encode($stack);
+   $dbConnect->close();
+}
+
+public function getGroupEvents($inputs){
+require_once("DataBaseConnection.php");
+$dbConnect=new DatabaseConnect;
+  mysql_query("set names 'utf8'");
+
+  $query = mysql_query("SELECT `Events`.`id` , `members`.`name`, `members`.`groupID` , `members`.`ProfilePic` , `Events`.`subject` , `Events`.`VIP` ,`Events`.`picture` , `Events`.`TimeEnded` , `Events`.`approved` from `Events` INNER JOIN `members` ON
+   `Events`.`CreatorID`=`members`.`id` WHERE `members`.`groupID` = ".$inputs->groupID." AND `Events`.`approved`=1 ORDER BY  `Events`.`VIP` DESC, `Events`.`TimeEnded` DESC LIMIT ".$inputs->start.", ".$inputs->limit." ") or die (mysql_error());
+$stack = array();
+  while($row = mysql_fetch_array($query)){
+    $user = array(
+    'Eventid'=>$row['id'],
+    'CreatorName'=>$row['name'],
+    'CreatorPic'=>$row['ProfilePic'],
+    'subject'=>$row['subject'],
+    'EventPic'=>$row['picture'],
+    'VIP'=>$row['VIP'],
+    'TimeEnded'=>$row['TimeEnded']
+    );
+  array_push($stack, $user);
+}
+  echo json_encode($stack);
+   $dbConnect->close();
+}
+
+public function JoinEvent($inputs){
+
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+  $query = mysql_query("SELECT * FROM `Attendees` WHERE `eventID` = \"".$inputs->eventID."\" AND `memberID` = \"".$inputs->memberID."\" ") or die (mysql_error());
+$row=mysql_fetch_array($query);
+if(empty($row)){
+
+  $sql = "INSERT INTO `".DB_DATABASE."`.`Attendees` (`eventID`,`memberID`)
+  VALUES ('".$inputs->eventID."', '".$inputs->memberID."');";
+
+  if(mysql_query($sql))
+  {
+  $respond = array('sucess' => true);
+  echo json_encode($respond);
+  }else{
+    $respond = array('sucess' => false);
+   echo json_encode($respond);
+  }
+
+}else{
+  $respond = array('sucess' => true,
+  'AlreadyAttend' => true
+);
+ echo json_encode($respond);
+}
+  $dbConnect->close();
+}
+public function LeaveEvent($inputs){
+
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+  $query = mysql_query("DELETE  FROM `Attendees` WHERE `eventID` = \"".$inputs->eventID."\" AND `memberID` = \"".$inputs->memberID."\" ") or die (mysql_error());
+if($query){
+  $respond = array('sucess' => true);
+}else{
+  $respond = array('sucess' => false);
+}
+ echo json_encode($respond);
+  $dbConnect->close();
+}
+public function ViewEventAttendees($inputs){
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+      mysql_query("set names 'utf8'");
+$query=mysql_query("SELECT members.id , members.name , members.ProfilePic FROM Attendees  INNER JOIN members ON Attendees.memberID=members.id WHERE Attendees.eventID=
+".$inputs->eventID."  LIMIT ".$inputs->start.", ".$inputs->limit."");
+$stack = array();
+while($row = mysql_fetch_array($query,MYSQL_ASSOC)){
+  array_push($stack, $row);
+
+}
+
+echo json_encode($stack);
+$dbConnect->close();
+
+}
+
+
+
+
+}
+
+
+
+
+
+
+
+
+ ?>

@@ -60,7 +60,7 @@ function getUserInvNumber($inputs){
  $newMember=new member;
  $newMember->getUserInvNumber($inputs[0]);
 }
-//***************** member Functions *****************/
+//***************** Group Functions *****************/
 function getGroupList($inputs)
 {
   include("Group.php");
@@ -74,9 +74,54 @@ function getInvitationList($inputs)
   $invitationPackage=new invitationPackages;
   $invitationPackage->getInvitationList($inputs[0]);
 }
+//*************** Events ************************/
 
+function getEventbyID($inputs)
+{
+  include("Events.php");
+  $event=new Events;
+  $event->getEventbyID($inputs[0]);
+}
+function CreateEvent($inputs)
+{
+  include("Events.php");
+  $event=new Events;
+  $event->CreateEvent($inputs[0]);
+}
+function getUserEventsList($inputs)
+{
+  include("Events.php");
+  $event=new Events;
+  $event->getUserEventsList($inputs[0]);
+}
+function getGroupEvents($inputs)
+{
+  include("Events.php");
+  $event=new Events;
+  $event->getGroupEvents($inputs[0]);
+}
 
+function JoinEvent($inputs)
+{
+  include("Events.php");
+  $event=new Events;
+  $event->JoinEvent($inputs[0]);
+}
 
+function LeaveEvent($inputs)
+{
+  include("Events.php");
+  $event=new Events;
+  $event->LeaveEvent($inputs[0]);
+}
+function ViewEventAttendees($inputs)
+{
+  include("Events.php");
+  $event=new Events;
+  $event->ViewEventAttendees($inputs[0]);
+}
+
+//*************** General functions ************************/
 function get_client_ip() {
     $ipaddress = '';
     if (getenv('HTTP_CLIENT_IP'))
