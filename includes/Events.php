@@ -112,7 +112,7 @@ $stack = array();
    $dbConnect->close();
 }
 
-public function AttendEvent($inputs){
+public function JoinEvent($inputs){
 
   require_once("DataBaseConnection.php");
   $dbConnect=new DatabaseConnect;
@@ -151,6 +151,21 @@ if($query){
 }
  echo json_encode($respond);
   $dbConnect->close();
+}
+public function ViewEventAttendees($inputs){
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+      mysql_query("set names 'utf8'");
+$query=mysql_query("SELECT members.id , members.name , members.ProfilePic FROM Attendees  INNER JOIN members ON Attendees.memberID=members.id WHERE Attendees.eventID=
+".$inputs->eventID."  LIMIT ".$inputs->start.", ".$inputs->limit."");
+$stack = array();
+while($row = mysql_fetch_array($query,MYSQL_ASSOC)){
+  array_push($stack, $row);
+
+}
+
+echo json_encode($stack);
+$dbConnect->close();
 
 }
 

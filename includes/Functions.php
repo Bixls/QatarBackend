@@ -101,11 +101,11 @@ function getGroupEvents($inputs)
   $event->getGroupEvents($inputs[0]);
 }
 
-function AttendEvent($inputs)
+function JoinEvent($inputs)
 {
   include("Events.php");
   $event=new Events;
-  $event->AttendEvent($inputs[0]);
+  $event->JoinEvent($inputs[0]);
 }
 
 function LeaveEvent($inputs)
@@ -113,6 +113,12 @@ function LeaveEvent($inputs)
   include("Events.php");
   $event=new Events;
   $event->LeaveEvent($inputs[0]);
+}
+function ViewEventAttendees($inputs)
+{
+  include("Events.php");
+  $event=new Events;
+  $event->ViewEventAttendees($inputs[0]);
 }
 
 //*************** General functions ************************/
