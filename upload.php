@@ -20,7 +20,7 @@ if (!file_exists($target_dir)) {
 
 $uploadOk = 1;
 $imageFileType = pathinfo($_FILES["fileToUpload"]["name"],PATHINFO_EXTENSION);
-$target_file = $target_dir .$id."-".date("his").".".$imageFileType;
+$target_file = $target_dir .$id."-".date("dhis").".".$imageFileType;
 // Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
