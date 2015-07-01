@@ -112,6 +112,48 @@ $stack = array();
    $dbConnect->close();
 }
 
+public function AttendEvent($inputs){
+
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+  $query = mysql_query("SELECT * FROM `Attendees` WHERE `eventID` = \"".$inputs->eventID."\" AND `memberID` = \"".$inputs->memberID."\" ") or die (mysql_error());
+if(empty(mysql_fetch_array($query))){
+
+  $sql = "INSERT INTO `".DB_DATABASE."`.`Attendees` (`eventID`,`memberID`)
+  VALUES ('".$inputs->eventID."', '".$inputs->memberID."');";
+
+  if(mysql_query($sql))
+  {
+  $respond = array('sucess' => true);
+  echo json_encode($respond);
+  }else{
+    $respond = array('sucess' => false);
+   echo json_encode($respond);
+  }
+
+}else{
+  $respond = array('sucess' => true,
+  'AlreadyAttend' => true
+);
+ echo json_encode($respond);
+}
+  $dbConnect->close();
+}
+public function LeaveEvent($inputs){
+
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+  $query = mysql_query("DELETE  FROM `Attendees` WHERE `eventID` = \"".$inputs->eventID."\" AND `memberID` = \"".$inputs->memberID."\" ") or die (mysql_error());
+if($query){
+  $respond = array('sucess' => true);
+}else{
+  $respond = array('sucess' => false);
+}
+ echo json_encode($respond);
+  $dbConnect->close();
+
+}
+
 
 
 

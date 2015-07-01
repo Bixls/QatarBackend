@@ -101,6 +101,20 @@ function getGroupEvents($inputs)
   $event->getGroupEvents($inputs[0]);
 }
 
+function AttendEvent($inputs)
+{
+  include("Events.php");
+  $event=new Events;
+  $event->AttendEvent($inputs[0]);
+}
+
+function LeaveEvent($inputs)
+{
+  include("Events.php");
+  $event=new Events;
+  $event->LeaveEvent($inputs[0]);
+}
+
 //*************** General functions ************************/
 function get_client_ip() {
     $ipaddress = '';
