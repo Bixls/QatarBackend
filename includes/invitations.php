@@ -15,7 +15,7 @@ public function getInvitationList($inputs){
   $stack = array();
       while($row = mysql_fetch_array($query)){
         $invitations=new invitationPackages;
-        $invitations->id=$row['id'];
+        $invitations->id=$row['Packageid'];
 
         $invitations->number=$row['number'];
         $invitations->packageName=$row['packageName'];

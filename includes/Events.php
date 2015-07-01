@@ -1,7 +1,6 @@
 <?php
 
 class Events{
-
 public $id;
 public $CreatorID;
 public $VIP;
@@ -12,7 +11,6 @@ public $picture;
 public $timeCreated;
 public $TimeEnded;
 public $comments;
-
 
 public function CreateEvent($inputs) {
   require_once("DataBaseConnection.php");
@@ -33,8 +31,6 @@ $valid=true;
 $newValue=$membersRow['inVIP']-1;
 $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `inVIP` =  '".$newValue."'  WHERE `id` = \"".$inputs->CreatorID."\"") or die (mysql_error());
 }
-
-
 if($valid)
 {
 mysql_query("set names 'utf8'");
@@ -47,10 +43,34 @@ echo json_encode($respond);
   $respond = array('sucess' => false);
  echo json_encode($respond);
 }
-
-
-
 $dbConnect->close();
+}
+
+public function getUserEventsList($inputs){
+$inputs->userID;
+require_once("DataBaseConnection.php");
+$dbConnect=new DatabaseConnect;
+  mysql_query("set names 'utf8'");
+  $query = mysql_query("SELECT `id`,`VIP`,`eventType`,`subject`,`picture`,`TimeEnded`,`approved` FROM `Events` WHERE `CreatorID` = \"".$inputs->userID."\"  ORDER BY `Events`.`timeCreated` DESC   LIMIT ".$inputs->start.", ".$inputs->limit." ") or die (mysql_error());
+$stack = array();
+  while($row = mysql_fetch_array($query)){
+
+    $user = array(
+    'id'=>$row['id'],
+    'VIP'=>$row['VIP'],
+    'eventType'=>$row['eventType'],
+    'subject'=>$row['subject'],
+    'picture'=>$row['picture'],
+    'TimeEnded'=>$row['TimeEnded'],
+    'approved'=>$row['approved']
+    );
+  array_push($stack, $user);
+}
+
+  echo json_encode($stack);
+   $dbConnect->close();
+
+
 }
 
 }

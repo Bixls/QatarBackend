@@ -82,6 +82,12 @@ function CreateEvent($inputs)
   $event=new Events;
   $event->CreateEvent($inputs[0]);
 }
+function getUserEventsList($inputs)
+{
+  include("Events.php");
+  $event=new Events;
+  $event->getUserEventsList($inputs[0]);
+}
 
 //*************** General functions ************************/
 function get_client_ip() {
