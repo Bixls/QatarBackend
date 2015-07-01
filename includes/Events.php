@@ -117,7 +117,8 @@ public function JoinEvent($inputs){
   require_once("DataBaseConnection.php");
   $dbConnect=new DatabaseConnect;
   $query = mysql_query("SELECT * FROM `Attendees` WHERE `eventID` = \"".$inputs->eventID."\" AND `memberID` = \"".$inputs->memberID."\" ") or die (mysql_error());
-if(empty(mysql_fetch_array($query))){
+$row=mysql_fetch_array($query);
+if(empty($row)){
 
   $sql = "INSERT INTO `".DB_DATABASE."`.`Attendees` (`eventID`,`memberID`)
   VALUES ('".$inputs->eventID."', '".$inputs->memberID."');";
