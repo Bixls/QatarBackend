@@ -66,12 +66,34 @@ $stack = array();
     );
   array_push($stack, $user);
 }
-
   echo json_encode($stack);
    $dbConnect->close();
-
-
 }
+
+public function getGroupEvents($inputs){
+require_once("DataBaseConnection.php");
+$dbConnect=new DatabaseConnect;
+  mysql_query("set names 'utf8'");
+
+  $query = mysql_query("SELECT `Events`.`id` , `members`.`name`, `members`.`groupID` , `members`.`ProfilePic` , `Events`.`subject` , `Events`.`VIP` ,`Events`.`picture` , `Events`.`TimeEnded` , `Events`.`approved` from `Events` INNER JOIN `members` ON
+   `Events`.`CreatorID`=`members`.`id` WHERE `members`.`groupID` = ".$inputs->groupID." AND `Events`.`approved`=1 ORDER BY  `Events`.`VIP` DESC, `Events`.`TimeEnded` DESC LIMIT ".$inputs->start.", ".$inputs->limit." ") or die (mysql_error());
+$stack = array();
+  while($row = mysql_fetch_array($query)){
+    $user = array(
+    'id'=>$row['id'],
+    'VIP'=>$row['name'],
+    'eventType'=>$row['ProfilePic'],
+    'subject'=>$row['subject'],
+    'picture'=>$row['picture'],
+    'TimeEnded'=>$row['TimeEnded']
+    );
+  array_push($stack, $user);
+}
+  echo json_encode($stack);
+   $dbConnect->close();
+}
+
+
 
 }
 
