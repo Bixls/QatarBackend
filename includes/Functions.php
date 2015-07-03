@@ -67,6 +67,13 @@ function getGroupList($inputs)
   $groups=new Groups;
   $groups->getGroupList($inputs[0]);
 }
+//***************** EventCategories *****************/
+function getEventCategories($inputs)
+{
+  include("EventCategories.php");
+  $eventCategories=new EventCategories;
+  $eventCategories->getEventCategories($inputs[0]);
+}
 //*************** invitations ************************/
 function getInvitationList($inputs)
 {
@@ -93,6 +100,12 @@ function getUserEventsList($inputs)
   include("Events.php");
   $event=new Events;
   $event->getUserEventsList($inputs[0]);
+}
+function getEvents($inputs)
+{
+  include("Events.php");
+  $event=new Events;
+  $event->getEvents($inputs[0]);
 }
 function getGroupEvents($inputs)
 {

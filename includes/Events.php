@@ -49,6 +49,7 @@ $valid=true;
 $newValue=$membersRow['inVIP']-1;
 $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `inVIP` =  '".$newValue."'  WHERE `id` = \"".$inputs->CreatorID."\"") or die (mysql_error());
 }
+// the user can create event
 if($valid)
 {
 mysql_query("set names 'utf8'");
@@ -110,6 +111,63 @@ $stack = array();
 }
   echo json_encode($stack);
    $dbConnect->close();
+}
+
+public function getEvents($inputs)
+{
+//$inputs->groupID;// -1:home page  anyother value i am on a group
+//$inputs->catID;//-1 uncatigorized , anyother value catigorized
+//$inputs->start;
+//$inputs->limit;
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+    mysql_query("set names 'utf8'");
+$Filters="";
+if($inputs->groupID==-1)
+{
+  $Filters.="AND `Events`.`VIP` = 1";
+//Homepage
+}
+else{
+  $Filters.="AND `members`.`groupID` = ".$inputs->groupID." ";
+//Group page
+}
+if($inputs->catID!=-1)
+{
+  $Filters.=" AND `Events`.`eventType` = ".$inputs->catID." ";
+//catigorized
+}
+    $query = mysql_query("SELECT
+      `Events`.`id` ,
+      `members`.`name`,
+      `members`.`groupID` ,
+      `members`.`ProfilePic` ,
+      `Events`.`subject` ,
+      `Events`.`VIP` ,
+      `Events`.`picture` ,
+      `Events`.`TimeEnded` ,
+      `Events`.`approved`
+      from `Events` INNER JOIN `members` ON   `Events`.`CreatorID`=`members`.`id`
+      WHERE `Events`.`approved`=1 ".$Filters."
+      ORDER BY  `Events`.`VIP` DESC,
+      `Events`.`timeCreated` DESC
+      LIMIT ".$inputs->start.", ".$inputs->limit." ") or die (mysql_error());
+      $stack = array();
+
+      while($row = mysql_fetch_array($query)){
+      $user = array(
+      'Eventid'=>$row['id'],
+      'CreatorName'=>$row['name'],
+      'CreatorPic'=>$row['ProfilePic'],
+      'subject'=>$row['subject'],
+      'EventPic'=>$row['picture'],
+      'VIP'=>$row['VIP'],
+      'TimeEnded'=>$row['TimeEnded']
+      );
+    array_push($stack, $user);
+  }
+    echo json_encode($stack);
+     $dbConnect->close();
 }
 
 public function JoinEvent($inputs){
