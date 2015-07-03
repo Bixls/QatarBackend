@@ -101,6 +101,12 @@ function getUserEventsList($inputs)
   $event=new Events;
   $event->getUserEventsList($inputs[0]);
 }
+function getEvents($inputs)
+{
+  include("Events.php");
+  $event=new Events;
+  $event->getEvents($inputs[0]);
+}
 function getGroupEvents($inputs)
 {
   include("Events.php");
