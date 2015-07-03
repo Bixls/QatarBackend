@@ -49,6 +49,7 @@ $valid=true;
 $newValue=$membersRow['inVIP']-1;
 $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `inVIP` =  '".$newValue."'  WHERE `id` = \"".$inputs->CreatorID."\"") or die (mysql_error());
 }
+// the user can create event
 if($valid)
 {
 mysql_query("set names 'utf8'");
@@ -110,6 +111,17 @@ $stack = array();
 }
   echo json_encode($stack);
    $dbConnect->close();
+}
+
+public function getEvents()
+{
+  level : home_page , group
+  Type: -1 Generic , id
+  limit
+  start
+
+
+
 }
 
 public function JoinEvent($inputs){
