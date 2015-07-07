@@ -228,6 +228,21 @@ $dbConnect->close();
 
 }
 
+public function isJoind($inputs){
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+  $query = mysql_query("SELECT * FROM `Attendees` WHERE `eventID` = \"".$inputs->eventID."\" AND `memberID` = \"".$inputs->memberID."\" ") or die (mysql_error());
+$row=mysql_fetch_array($query);
+$found=false;
+if(!empty($row)){
+  $found=true;
+}
+
+echo json_encode($found);
+$dbConnect->close();
+
+}
+
 
 
 
