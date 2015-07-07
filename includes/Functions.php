@@ -154,6 +154,19 @@ function GetFullNews($inputs)
   $news=new News;
   $news->GetFullNews($inputs[0]);
 }
+//**************** Messages ***********************/
+function sendMessege($inputs)
+{
+  include("Messages.php");
+  $messege=new Messages;
+  $messege->sendMessege($inputs[0]);
+}
+function RetriveInbox($inputs)
+{
+  include("Messages.php");
+  $messege=new Messages;
+  $messege->RetriveInbox($inputs[0]);
+}
 //*************** General functions ************************/
 function get_client_ip() {
     $ipaddress = '';
