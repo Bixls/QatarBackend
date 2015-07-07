@@ -121,6 +121,13 @@ function JoinEvent($inputs)
   $event->JoinEvent($inputs[0]);
 }
 
+function isJoind($inputs)
+{
+  include("Events.php");
+  $event=new Events;
+  $event->isJoind($inputs[0]);
+}
+
 function LeaveEvent($inputs)
 {
   include("Events.php");
