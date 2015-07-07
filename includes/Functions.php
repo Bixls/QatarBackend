@@ -134,13 +134,26 @@ function LeaveEvent($inputs)
   $event=new Events;
   $event->LeaveEvent($inputs[0]);
 }
+
 function ViewEventAttendees($inputs)
 {
   include("Events.php");
   $event=new Events;
   $event->ViewEventAttendees($inputs[0]);
 }
-
+//**************** news **********************/
+function GetNewsList($inputs)
+{
+  include("News.php");
+  $news=new News;
+  $news->GetNewsList($inputs[0]);
+}
+function GetFullNews($inputs)
+{
+  include("News.php");
+  $news=new News;
+  $news->GetFullNews($inputs[0]);
+}
 //*************** General functions ************************/
 function get_client_ip() {
     $ipaddress = '';
