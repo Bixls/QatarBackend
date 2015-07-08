@@ -167,6 +167,12 @@ function RetriveInbox($inputs)
   $messege=new Messages;
   $messege->RetriveInbox($inputs[0]);
 }
+function ReadMessege($inputs)
+{
+  include("Messages.php");
+  $messege=new Messages;
+  $messege->ReadMessege($inputs[0]);
+}
 //*************** General functions ************************/
 function get_client_ip() {
     $ipaddress = '';
