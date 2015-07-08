@@ -8,12 +8,27 @@
 
 class Messages{
 
+  public function  sendMessegeWithReturn($inputs)
+  {
+    require_once("DataBaseConnection.php");
+    $dbConnect=new DatabaseConnect;
+    $sql = "INSERT INTO `".DB_DATABASE."`.`messageLog` (`SenderID`,  `ReciverID`, `Subject`, `Content`, `EventID`)
+    VALUES ('".$inputs->SenderID."', '".$inputs->ReciverID."', '".$inputs->Subject."', '".$inputs->Content."', '".(empty($inputs->EventID)?-1:$inputs->EventID)."');";
+
+    if (mysql_query($sql)) {
+    return true;
+    } else {
+    return false;
+    }
+  $dbConnect->close();
+  }
+
 public function  sendMessege($inputs)
 {
   require_once("DataBaseConnection.php");
   $dbConnect=new DatabaseConnect;
   $sql = "INSERT INTO `".DB_DATABASE."`.`messageLog` (`SenderID`,  `ReciverID`, `Subject`, `Content`, `EventID`)
-  VALUES ('".$inputs->SenderID."', '".$inputs->ReciverID."', '".$inputs->Subject."', '".$inputs->Content."', '-1');";
+  VALUES ('".$inputs->SenderID."', '".$inputs->ReciverID."', '".$inputs->Subject."', '".$inputs->Content."', '".(empty($inputs->EventID)?-1:$inputs->EventID)."');";
 
   if (mysql_query($sql)) {
       $respond = array('sucess' => true);
@@ -28,7 +43,21 @@ $dbConnect->close();
 }
 public function  deleteMessege($inputs)
 {
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
 
+  $sql ="DELETE FROM `messageLog` WHERE messageID=".$inputs->messageID;
+  if (mysql_query($sql)) {
+      $respond = array('sucess' => true);
+     echo json_encode($respond);
+    //successfully Registering new user
+  } else {
+    $respond = array('success' => false);
+   echo json_encode($respond);
+  //an error has been accourd
+  }
+
+$dbConnect->close();
 }
 public function  ReadMessege($inputs)
 {
