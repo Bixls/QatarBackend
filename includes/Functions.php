@@ -60,6 +60,26 @@ function getUserInvNumber($inputs){
  $newMember=new member;
  $newMember->getUserInvNumber($inputs[0]);
 }
+
+//***************** commments Functions *****************/
+function addComment($inputs)
+{
+  include("comments.php");
+  $comments=new comments;
+  $comments->addComment($inputs[0]);
+}
+function RemoveComment($inputs)
+{
+  include("comments.php");
+  $comments=new comments;
+  $comments->RemoveComment($inputs[0]);
+}
+function retriveComments($inputs)
+{
+  include("comments.php");
+  $comments=new comments;
+  $comments->retriveComments($inputs[0]);
+}
 //***************** Group Functions *****************/
 function getGroupList($inputs)
 {
