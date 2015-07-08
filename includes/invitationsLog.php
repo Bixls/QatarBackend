@@ -51,44 +51,28 @@ echo json_encode($respond);
 
 
 public function JoinEvent($inputs){
-
   require_once("DataBaseConnection.php");
   $dbConnect=new DatabaseConnect;
-  $query = mysql_query("SELECT * FROM `Attendees` WHERE `eventID` = \"".$inputs->eventID."\" AND `memberID` = \"".$inputs->memberID."\" ") or die (mysql_error());
-$row=mysql_fetch_array($query);
-if(empty($row)){
-
-  $sql = "INSERT INTO `".DB_DATABASE."`.`Attendees` (`eventID`,`memberID`)
-  VALUES ('".$inputs->eventID."', '".$inputs->memberID."');";
-
-  if(mysql_query($sql))
-  {
-  $respond = array('sucess' => true);
-  echo json_encode($respond);
-  }else{
-    $respond = array('sucess' => false);
-   echo json_encode($respond);
-  }
-
-}else{
-  $respond = array('sucess' => true,
-  'AlreadyAttend' => true
-);
- echo json_encode($respond);
-}
-  $dbConnect->close();
-}
-public function LeaveEvent($inputs){
-
-  require_once("DataBaseConnection.php");
-  $dbConnect=new DatabaseConnect;
-  $query = mysql_query("DELETE  FROM `Attendees` WHERE `eventID` = \"".$inputs->eventID."\" AND `memberID` = \"".$inputs->memberID."\" ") or die (mysql_error());
+$query=mysql_query("UPDATE  `invitationsLog` SET `IsGoing` = '1' WHERE `invitationsLog`.`memberID` = ".$inputs->memberID." AND `invitationsLog`.`EventID`=".$inputs->eventID)or die (mysql_error());
 if($query){
   $respond = array('sucess' => true);
 }else{
   $respond = array('sucess' => false);
 }
  echo json_encode($respond);
+  $dbConnect->close();
+}
+public function LeaveEvent($inputs){
+
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+  $query=mysql_query("UPDATE  `invitationsLog` SET `IsGoing` = '0' WHERE `invitationsLog`.`memberID` = ".$inputs->memberID." AND `invitationsLog`.`EventID`=".$inputs->eventID)or die (mysql_error());
+  if($query){
+  $respond = array('sucess' => true);
+  }else{
+  $respond = array('sucess' => false);
+  }
+  echo json_encode($respond);
   $dbConnect->close();
 }
 public function ViewEventAttendees($inputs){
@@ -107,11 +91,25 @@ echo json_encode($stack);
 $dbConnect->close();
 
 }
-
 public function isJoind($inputs){
+require_once("DataBaseConnection.php");
+$dbConnect=new DatabaseConnect;
+$query = mysql_query("SELECT `IsGoing` FROM `invitationsLog` WHERE `EventID` = \"".$inputs->eventID."\" AND
+`memberID` = \"".$inputs->memberID."\" ") or die (mysql_error());
+$row=mysql_fetch_array($query);
+$found=false;
+if($row["IsGoing"]==1){
+$found=true;
+}
+echo json_encode($found);
+$dbConnect->close();
+}
+
+public function isInvited($inputs){
   require_once("DataBaseConnection.php");
   $dbConnect=new DatabaseConnect;
-  $query = mysql_query("SELECT * FROM `Attendees` WHERE `eventID` = \"".$inputs->eventID."\" AND `memberID` = \"".$inputs->memberID."\" ") or die (mysql_error());
+  $query = mysql_query("SELECT * FROM `invitationsLog` WHERE `EventID` = \"".$inputs->eventID."\" AND
+  `memberID` = \"".$inputs->memberID."\" ") or die (mysql_error());
 $row=mysql_fetch_array($query);
 $found=false;
 if(!empty($row)){

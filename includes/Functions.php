@@ -127,6 +127,14 @@ function JoinEvent($inputs)
   $invitationsLog->JoinEvent($inputs[0]);
 }
 
+function isInvited($inputs)
+{
+  include("invitationsLog.php");
+  $invitationsLog=new invitationsLog;
+  $invitationsLog->isInvited($inputs[0]);
+}
+
+
 function isJoind($inputs)
 {
   include("invitationsLog.php");
