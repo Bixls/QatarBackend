@@ -79,12 +79,15 @@ public function ViewEventAttendees($inputs){
   require_once("DataBaseConnection.php");
   $dbConnect=new DatabaseConnect;
       mysql_query("set names 'utf8'");
-$query=mysql_query("SELECT members.id , members.name , members.ProfilePic FROM Attendees  INNER JOIN members ON Attendees.memberID=members.id WHERE Attendees.eventID=
+$query=mysql_query("SELECT members.id , members.name , members.ProfilePic FROM invitationsLog
+   INNER JOIN members ON invitationsLog.memberID=members.id WHERE i nvitationsLog.EventID=
 ".$inputs->eventID."  LIMIT ".$inputs->start.", ".$inputs->limit."");
 $stack = array();
+if($query){
 while($row = mysql_fetch_array($query,MYSQL_ASSOC)){
   array_push($stack, $row);
 
+}
 }
 
 echo json_encode($stack);
