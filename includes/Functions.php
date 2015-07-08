@@ -113,32 +113,85 @@ function getGroupEvents($inputs)
   $event=new Events;
   $event->getGroupEvents($inputs[0]);
 }
-
+//********************8 event invitations and Attendees ***************/
+function invite($inputs)
+{
+  include("invitationsLog.php");
+  $invitationsLog=new invitationsLog;
+  $invitationsLog->invite($inputs[0]);
+}
 function JoinEvent($inputs)
 {
-  include("Events.php");
-  $event=new Events;
-  $event->JoinEvent($inputs[0]);
+  include("invitationsLog.php");
+  $invitationsLog=new invitationsLog;
+  $invitationsLog->JoinEvent($inputs[0]);
 }
+
+function isInvited($inputs)
+{
+  include("invitationsLog.php");
+  $invitationsLog=new invitationsLog;
+  $invitationsLog->isInvited($inputs[0]);
+}
+
 
 function isJoind($inputs)
 {
-  include("Events.php");
-  $event=new Events;
-  $event->isJoind($inputs[0]);
+  include("invitationsLog.php");
+  $invitationsLog=new invitationsLog;
+  $invitationsLog->isJoind($inputs[0]);
 }
 
 function LeaveEvent($inputs)
 {
-  include("Events.php");
-  $event=new Events;
-  $event->LeaveEvent($inputs[0]);
+  include("invitationsLog.php");
+  $invitationsLog=new invitationsLog;
+  $invitationsLog->LeaveEvent($inputs[0]);
 }
+
 function ViewEventAttendees($inputs)
 {
-  include("Events.php");
-  $event=new Events;
-  $event->ViewEventAttendees($inputs[0]);
+  include("invitationsLog.php");
+  $invitationsLog=new invitationsLog;
+  $invitationsLog->ViewEventAttendees($inputs[0]);
+}
+//**************** news **********************/
+function GetNewsList($inputs)
+{
+  include("News.php");
+  $news=new News;
+  $news->GetNewsList($inputs[0]);
+}
+function GetFullNews($inputs)
+{
+  include("News.php");
+  $news=new News;
+  $news->GetFullNews($inputs[0]);
+}
+//**************** Messages ***********************/
+function sendMessege($inputs)
+{
+  include("Messages.php");
+  $messege=new Messages;
+  $messege->sendMessege($inputs[0]);
+}
+function RetriveInbox($inputs)
+{
+  include("Messages.php");
+  $messege=new Messages;
+  $messege->RetriveInbox($inputs[0]);
+}
+function ReadMessege($inputs)
+{
+  include("Messages.php");
+  $messege=new Messages;
+  $messege->ReadMessege($inputs[0]);
+}
+function deleteMessege($inputs)
+{
+  include("Messages.php");
+  $messege=new Messages;
+  $messege->deleteMessege($inputs[0]);
 }
 
 //*************** General functions ************************/
