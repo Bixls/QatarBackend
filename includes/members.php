@@ -129,7 +129,9 @@ public function changeAvatar($id,$src)
 public function editProfile($inputs){
   require_once("DataBaseConnection.php");
   $dbConnect=new DatabaseConnect;
-  $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `maskInbox` =  '".$inputs->maskInbox."' ,`name` =  '".$inputs->name."' WHERE `id` = \"".$inputs->id."\"") or die (mysql_error());
+  $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET
+  `maskInbox` =  '".$inputs->maskInbox."' ,`name` =  '".$inputs->name."'
+  WHERE `id` = \"".$inputs->id."\"") or die (mysql_error());
   $dbConnect->close();
   $respond = array('success' => true);
   echo json_encode($respond);
