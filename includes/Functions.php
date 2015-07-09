@@ -219,6 +219,17 @@ function SendFeedback($inputs){
   $feedback=new Feedbacks;
   $feedback->SendFeedback($inputs[0]);
 }
+//************** BlockList *************************
+function SetBlockList($inputs){
+  include("BlockList.php");
+  $BlockList=new BlockList;
+  $BlockList->SetBlockList($inputs[0]);
+}
+function GetUserBlockList($inputs){
+  include("BlockList.php");
+  $BlockList=new BlockList;
+  $BlockList->GetUserBlockList($inputs[0]);
+}
 //*************** General functions ************************/
 function get_client_ip() {
     $ipaddress = '';
