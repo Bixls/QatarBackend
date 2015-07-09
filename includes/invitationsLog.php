@@ -100,11 +100,11 @@ $dbConnect=new DatabaseConnect;
 $query = mysql_query("SELECT `IsGoing` FROM `invitationsLog` WHERE `EventID` = \"".$inputs->eventID."\" AND
 `memberID` = \"".$inputs->memberID."\" ") or die (mysql_error());
 $row=mysql_fetch_array($query);
-$found=false;
+  $respond = array('sucess' => false);
 if($row["IsGoing"]==1){
-$found=true;
+  $respond = array('sucess' => true);
 }
-echo json_encode($found);
+echo json_encode($respond);
 $dbConnect->close();
 }
 
@@ -114,12 +114,12 @@ public function isInvited($inputs){
   $query = mysql_query("SELECT * FROM `invitationsLog` WHERE `EventID` = \"".$inputs->eventID."\" AND
   `memberID` = \"".$inputs->memberID."\" ") or die (mysql_error());
 $row=mysql_fetch_array($query);
-$found=false;
+  $respond = array('sucess' => false);
 if(!empty($row)){
-  $found=true;
+  $respond = array('sucess' => true);
 }
 
-echo json_encode($found);
+echo json_encode($respond);
 $dbConnect->close();
 
 }
