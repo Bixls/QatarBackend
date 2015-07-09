@@ -213,7 +213,12 @@ function deleteMessege($inputs)
   $messege=new Messages;
   $messege->deleteMessege($inputs[0]);
 }
-
+//************** Feedbacks *************************
+function SendFeedback($inputs){
+  include("Feedbacks.php");
+  $feedback=new Feedbacks;
+  $feedback->SendFeedback($inputs[0]);
+}
 //*************** General functions ************************/
 function get_client_ip() {
     $ipaddress = '';
