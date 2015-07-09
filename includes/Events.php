@@ -184,6 +184,38 @@ if($inputs->catID!=-1)
      $dbConnect->close();
 }
 
+public function approveEventByID($inputs)
+{
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+  $sql=mysql_query("UPDATE `".DB_DATABASE."`.`Events` SET `approved` = '1' WHERE `Events`.`id` = ".$inputs->Eventid) or die (mysql_error());
+    $dbConnect->close();
+  if($sql){
+    return true;
+  }else{
+return false;
+  }
+
+}
+public function getEventsNotApprovedList($inputs){
+
+}
+public function DisapproveEventbyID($inputs){
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+  $sql=mysql_query("SELECT `VIP` FROM `Events` WHERE `Events`.`id`=".$inputs->Eventid) or die (mysql_error());
+  if($sql){
+      $row=mysql_fetch_array($sql);
+  if($row["VIP"]==1){
+    //Give the user back his points
+  }
+  else{
+    // Just Send the dissaproval messege ي
+  }
+  }
+
+    $dbConnect->close();
+}
 
 
 
