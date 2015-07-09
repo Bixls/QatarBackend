@@ -5,48 +5,47 @@ class invitationsLog{
 public function invite($inputs)
 {
   require_once("DataBaseConnection.php");
-
-
   require_once("Messages.php");
+  require_once("BlockList.php");
+  require_once("Events.php");
   $messege=new Messages;
+  $BlockList=new BlockList;
+  $Events=new Events;
 
   $messegeInput = new stdClass();
   $messegeInput->SenderID = $inputs->SenderID;
   $messegeInput->Subject = $inputs->Subject;
   $messegeInput->Content = $inputs->Content;
   $messegeInput->EventID = $inputs->EventID;
-$respond= array();
+  $messegeInput->eventType =$Events->getEventTypebyID($inputs->EventID);
+  $respond= array();
 
 foreach ($inputs->listArray as $key) {
-
-$dbConnect=new DatabaseConnect;
-$query = mysql_query("SELECT * FROM `invitationsLog` WHERE `EventID` = \"".$inputs->EventID."\" AND
-`memberID` = \"".$key->id."\" ") or die (mysql_error());
-$row=mysql_fetch_array($query);
+  $messegeInput->ReciverID=$key->id;
   $res = new stdClass();
   $res->id=$key->id;
-    if(empty($row)){
-    $sql = mysql_query("INSERT INTO `".DB_DATABASE."`.`invitationsLog` (`EventID`,`memberID`)
-    VALUES ('".$inputs->EventID."', '".$key->id."');") or die (mysql_error());
-    $dbConnect->close();
-    $messegeInput->ReciverID=$key->id;
-        if($messege->sendMessegeWithReturn($messegeInput)){
-          //Messege Sent
-          $res->sucess=true;
-        }
-        else{
-            $res->sucess=false;
-            //Messege was not Sent
-        }
-    }
-    else{
-      $res->sucess=false;
-      //Already invited
-    }
+      if(!$BlockList->isUserBlockEventid($messegeInput)){
+      $dbConnect=new DatabaseConnect;
+      $query = mysql_query("SELECT * FROM `invitationsLog` WHERE `EventID` = \"".$inputs->EventID."\" AND
+      `memberID` = \"".$key->id."\" ") or die (mysql_error());
+      $row=mysql_fetch_array($query);
+          if(empty($row)){
+          $sql = mysql_query("INSERT INTO `".DB_DATABASE."`.`invitationsLog` (`EventID`,`memberID`)
+          VALUES ('".$inputs->EventID."', '".$key->id."');") or die (mysql_error());
+          $dbConnect->close();
+              if($messege->sendMessegeWithReturn($messegeInput)){
+                $res->sucess=true;  //Messege Sent
+              }
+              else{
+                  $res->sucess=false;  //Messege was not Sent
+              }
+          }else{
+            $res->sucess=false;  //Already invited
+          }
+      }else{ $res->sucess=true; } //member Block the invitation
     array_push($respond,$res);
 }
 echo json_encode($respond);
-
 }
 
 

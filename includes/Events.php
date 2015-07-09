@@ -30,6 +30,20 @@ public function getEventbyID($inputs){
 
 }
 
+public function getEventTypebyID($inputs){
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+    $query = mysql_query("SELECT eventType FROM `Events`  WHERE `id` = \"".$inputs."\"  ") or die (mysql_error());
+  $re=0;
+    if ($query){
+    $row = mysql_fetch_array($query,MYSQL_ASSOC);
+      $re= $row["eventType"];
+  }
+  $dbConnect->close();
+return $re;
+}
+
+
 public function CreateEvent($inputs) {
   require_once("DataBaseConnection.php");
   $dbConnect=new DatabaseConnect;

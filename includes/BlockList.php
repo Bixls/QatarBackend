@@ -27,6 +27,20 @@ class BlockList{
 
 
   }
+  public function isUserBlockEventid($inputs){
+    require_once("DataBaseConnection.php");
+    $dbConnect=new DatabaseConnect;
+    $sql=mysql_query("SELECT InvitationID FROM BlockList WHERE memberID=".$inputs->ReciverID." AND InvitationID=".$inputs->eventType);
+    $respond=false;
+    if($sql){
+    $row=mysql_fetch_array($sql);
+    if(!empty($row)){
+    $respond=true;
+    }
+    }
+    $dbConnect->close();
+    return $respond;
+  }
   public function GetUserBlockList($inputs){
     require_once("DataBaseConnection.php");
     $dbConnect=new DatabaseConnect;
