@@ -17,10 +17,15 @@
             }
             $this->db = $db;
         }
-        public function select($table,$where=array(),$limit=false,$order=false,$where_mode="AND",$print_query=false){
+        public function select($table,$where=array(),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin=false){
             $this->result = null;
             $this->sql = null;
-            $query = 'SELECT * FROM `'.$table.'`';
+            $query = 'SELECT '.$What.' FROM `'.$table.'` ';
+            if($innerJoin)
+            {
+                $query .="$innerJoin";
+            }
+
             if(!empty($where)){
                 $query .= ' WHERE';
                 if(is_array($where)){

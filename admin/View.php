@@ -20,7 +20,7 @@ $show_page=1;
 
   mysql_query("set names 'utf8'");                    // figure out the total pages in the database
 
-                      $total_results =  $db->select($table,$where=array(),$limit=false,$order=false,$where_mode="AND",$print_query=false)->count();
+                      $total_results =  $db->select($table,$where,$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin)->count();
                       $total_pages = ceil($total_results / $per_page);
 
                       // check if the 'page' variable is set in the URL (ex: view-paginated.php?page=1)
@@ -49,7 +49,7 @@ $show_page=1;
                       }
 
                       // display pagination
-$db->select($table,$where=array(),$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false);
+$db->select($table,$where,$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin);
 
 
 
@@ -77,7 +77,7 @@ foreach ($db->result_array() as $row) {
     echo($row[$colum]);
   }else{
 
-    echo("<img class=\"img-responsive thumbnail\" src=\"../image.php?id=".$row[$colum]."&t=150x150\">");
+    echo("<img height='80px' class=\"img-responsive thumbnail\" src=\"../image.php?id=".$row[$colum]."&t=150x150\">");
 
   }
 
