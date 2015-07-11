@@ -28,19 +28,16 @@ $this->db = new DB;
 
 public function getEventbyID($inputs){
 
-  require_once("DataBaseConnection.php");
-  $dbConnect=new DatabaseConnect;
-    mysql_query("set names 'utf8'");
-    $query = mysql_query("SELECT * FROM `Events`  WHERE `id` = \"".$inputs->Eventid."\"  ") or die (mysql_error());
-    if ($query){
-    $row = mysql_fetch_array($query,MYSQL_ASSOC);
-    echo json_encode($row);
-  }
-  else{
-    $respond = array('sucess' => false);
-   echo json_encode($respond);
-  }
-  $dbConnect->close();
+
+
+        $What="`members`.`name` , `members`.`ProfilePic`,
+         `Events`.`id` ,`Events`.`subject` ,`Events`.`eventType` , `Events`.`VIP` ,
+         `Events`.`picture` ,`Events`.`description`, `Events`.`TimeEnded`, `Events`.`timeCreated` ,
+          `Events`.`comments` , `Events`.`approved`";
+        $innerJoin = "INNER JOIN `members` ON `Events`.`CreatorID`=`members`.`id`";
+        $this->db->select('Events',array('Events`.`id'=>$inputs->Eventid),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
+        echo json_encode($this->db->error?$this->db->errorMessege():$this->db->result());
+
 
 }
 
@@ -172,7 +169,6 @@ if($inputs->catID!=-1)
       `members`.`ProfilePic` ,
       `Events`.`subject` ,
       `Events`.`VIP` ,
-        `Events`.`eventType` ,
       `Events`.`picture` ,
       `Events`.`TimeEnded` ,
       `Events`.`approved`
@@ -189,7 +185,6 @@ if($inputs->catID!=-1)
       'CreatorName'=>$row['name'],
       'CreatorPic'=>$row['ProfilePic'],
       'subject'=>$row['subject'],
-      'catID'=>$row['eventType'],
       'EventPic'=>$row['picture'],
       'VIP'=>$row['VIP'],
       'TimeEnded'=>$row['TimeEnded']
@@ -205,14 +200,32 @@ public function editEvent($inputs){
   echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
 }
 
+public function approveEventByID($inputs)
+{
+  $this->db->update("Events",array('approved' =>1), $where=array("id"=>$inputs->id));
+  echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
+}
+public function getEventsNotApprovedList($inputs){
 
-
-
+}
+public function DisapproveEventbyID($inputs){
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+  $sql=mysql_query("SELECT `VIP` FROM `Events` WHERE `Events`.`id`=".$inputs->Eventid) or die (mysql_error());
+  if($sql){
+      $row=mysql_fetch_array($sql);
+  if($row["VIP"]==1){
+    //Give the user back his points
+  }
+  else{
+    // Just Send the dissaproval messege ي
+  }
+  }
+    $dbConnect->close();
 }
 
 
-
-
+}
 
 
 

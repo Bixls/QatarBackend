@@ -39,9 +39,15 @@ public function  ReadMessege($inputs)
     $this->db->select($table,$where,$limit,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
     echo json_encode($this->db->error?$this->db->errorMessege():$this->db->result());
   }else{
-    $What="*";
-    $innerJoin = "";
-    $this->db->select('Events',array('id'=>$messegeIntry['EventID']),$limit,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
+
+
+
+    $What="`members`.`name` , `members`.`ProfilePic`,
+     `Events`.`id` ,`Events`.`subject` ,`Events`.`eventType` , `Events`.`VIP` ,
+     `Events`.`picture` ,`Events`.`description`, `Events`.`TimeEnded`, `Events`.`timeCreated` ,
+      `Events`.`comments` , `Events`.`approved`";
+    $innerJoin = "INNER JOIN `members` ON `Events`.`CreatorID`=`members`.`id`";
+    $this->db->select('Events',array('Events`.`id'=>$messegeIntry['EventID']),$limit,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
     echo json_encode($this->db->error?$this->db->errorMessege():$this->db->result());
   }
     $this->db->update('messageLog', $fields=array('Status'=>1), $where);
