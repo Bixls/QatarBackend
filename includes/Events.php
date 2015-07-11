@@ -199,8 +199,7 @@ if($inputs->catID!=-1)
 }
 public function editEvent($inputs){
   $this->db->update("Events", get_object_vars($inputs), $where=array("id"=>$inputs->id));
-  $respond = array('sucess' => true);
-  echo json_encode($this->db->error?$this->db->errorMessege():$respond);
+  echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
 }
 
 
