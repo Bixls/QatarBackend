@@ -1,5 +1,9 @@
 <?php
 
+
+require_once('db.php');
+
+
 class Events{
 public $id;
 public $CreatorID;
@@ -11,6 +15,16 @@ public $picture;
 public $timeCreated;
 public $TimeEnded;
 public $comments;
+
+
+
+
+
+public $db;
+public function __construct() {
+global $db;
+$this->db = new DB;
+}
 
 public function getEventbyID($inputs){
 
@@ -184,6 +198,11 @@ if($inputs->catID!=-1)
      $dbConnect->close();
 }
 
+public function editEvent($inputs){
+  $this->db->update("Events", get_object_vars($inputs), $where=array("id"=>$inputs->id));
+  echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
+}
+
 public function approveEventByID($inputs)
 {
   require_once("DataBaseConnection.php");
@@ -213,18 +232,11 @@ public function DisapproveEventbyID($inputs){
     // Just Send the dissaproval messege ي
   }
   }
-
     $dbConnect->close();
 }
 
 
-
-
 }
-
-
-
-
 
 
 

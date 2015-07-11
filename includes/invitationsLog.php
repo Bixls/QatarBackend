@@ -79,7 +79,7 @@ public function ViewEventAttendees($inputs){
   $dbConnect=new DatabaseConnect;
       mysql_query("set names 'utf8'");
 $query=mysql_query("SELECT members.id , members.name , members.ProfilePic FROM invitationsLog
-   INNER JOIN members ON invitationsLog.memberID=members.id WHERE i nvitationsLog.EventID=
+   INNER JOIN members ON invitationsLog.memberID=members.id WHERE invitationsLog.EventID=
 ".$inputs->eventID."  LIMIT ".$inputs->start.", ".$inputs->limit."");
 $stack = array();
 if($query){
