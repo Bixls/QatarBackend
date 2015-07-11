@@ -109,7 +109,7 @@ public function  RetriveInbox($inputs)
   $table="messageLog";
   $where=array('messageLog`.`ReciverID'=>$inputs->ReciverID);
   $limit=$inputs->start.",".$inputs->limit;
-  $What="`messageLog`.`messageID`,`members`.`name` , `members`.`ProfilePic` , `messageLog`.`Subject`, `messageLog`.`Status`";
+  $What="`messageLog`.`messageID`,`members`.`name` , `members`.`ProfilePic` , `messageLog`.`Subject`, `messageLog`.`type`, `messageLog`.`Status`";
   $innerJoin=  "INNER JOIN `members` ON `members`.`id`=`messageLog`.`SenderID`";
   $this->db->select($table,$where,$limit,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
   echo json_encode($this->db->error?$this->db->errorMessege():$this->db->result());
