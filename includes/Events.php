@@ -205,16 +205,8 @@ public function editEvent($inputs){
 
 public function approveEventByID($inputs)
 {
-  require_once("DataBaseConnection.php");
-  $dbConnect=new DatabaseConnect;
-  $sql=mysql_query("UPDATE `".DB_DATABASE."`.`Events` SET `approved` = '1' WHERE `Events`.`id` = ".$inputs->Eventid) or die (mysql_error());
-    $dbConnect->close();
-  if($sql){
-    return true;
-  }else{
-return false;
-  }
-
+  $this->db->update("Events",array('approved' =>1), $where=array("id"=>$inputs->id));
+  echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
 }
 public function getEventsNotApprovedList($inputs){
 
