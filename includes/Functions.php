@@ -133,6 +133,12 @@ function getGroupEvents($inputs)
   $event=new Events;
   $event->getGroupEvents($inputs[0]);
 }
+function editEvent($inputs)
+{
+  include("Events.php");
+  $event=new Events;
+  $event->editEvent($inputs[0]);
+}
 //********************8 event invitations and Attendees ***************/
 function invite($inputs)
 {
@@ -212,6 +218,12 @@ function deleteMessege($inputs)
   include("Messages.php");
   $messege=new Messages;
   $messege->deleteMessege($inputs[0]);
+}
+function unReadInbox($inputs)
+{
+  include("Messages.php");
+  $messege=new Messages;
+  $messege->unReadInbox($inputs[0]);
 }
 //************** Feedbacks *************************
 function SendFeedback($inputs){

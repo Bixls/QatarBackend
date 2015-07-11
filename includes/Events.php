@@ -1,5 +1,9 @@
 <?php
 
+
+require_once('db.php');
+
+
 class Events{
 public $id;
 public $CreatorID;
@@ -11,6 +15,16 @@ public $picture;
 public $timeCreated;
 public $TimeEnded;
 public $comments;
+
+
+
+
+
+public $db;
+public function __construct() {
+global $db;
+$this->db = new DB;
+}
 
 public function getEventbyID($inputs){
 
@@ -183,7 +197,11 @@ if($inputs->catID!=-1)
     echo json_encode($stack);
      $dbConnect->close();
 }
-
+public function editEvent($inputs){
+  $this->db->update("Events", get_object_vars($inputs), $where=array("id"=>$inputs->id));
+  $respond = array('sucess' => true);
+  echo json_encode($this->db->error?$this->db->errorMessege():$respond);
+}
 
 
 

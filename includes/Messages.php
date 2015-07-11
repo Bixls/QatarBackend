@@ -5,8 +5,14 @@
 //deleteMessege(senderID)
 //ReadMessege
 //RetriveInbox(list of all messeges in my inbox)
-
+    require_once('db.php');
 class Messages{
+
+  public $db;
+  public function __construct() {
+  global $db;
+  $this->db = new DB;
+  }
 
   public function  sendMessegeWithReturn($inputs)
   {
@@ -82,7 +88,7 @@ public function  ReadMessege($inputs)
   }else{
     $query=mysql_query("SELECT `members`.`name` , `members`.`ProfilePic`,
        `messageLog`.`Subject`,`messageLog`.`TimeSent`,`messageLog`.`Content` ,
-    `Events`.`id`, `Events`.`subject`, `Events`.`picture`
+    `Events`.`id`, `Events`.`subject`, `Events`.`picture`, `Events`.`VIP`
        from `messageLog` INNER JOIN `members` ON `members`.`id`=`messageLog`.`SenderID`
      INNER JOIN `Events` ON  `Events`.`id`=`messageLog`.`EventID`
        WHERE messageID =".$inputs->messageID)or die (mysql_error());
@@ -100,27 +106,21 @@ $dbConnect->close();
 }
 public function  RetriveInbox($inputs)
 {
-  require_once("DataBaseConnection.php");
-  $dbConnect=new DatabaseConnect;
-  $sql = mysql_query("SELECT  `messageLog`.`messageID`,`members`.`name` , `members`.`ProfilePic`
-    , `messageLog`.`Subject`, `messageLog`.`Status` from `messageLog` INNER JOIN `members`
-    ON `members`.`id`=`messageLog`.`SenderID`
-    WHERE `messageLog`.`ReciverID` = \"".$inputs->ReciverID."\"
-     LIMIT ".$inputs->start.", ".$inputs->limit."  ") or die (mysql_error());
-   if ($sql){
-     $stack = array();
-       while( $row = mysql_fetch_array($sql,MYSQL_ASSOC)){
-       array_push($stack, $row);
-     }
-       echo json_encode($stack);
-
-}else{
-$respond = array('sucess' => false);
-echo json_encode($respond);
-}
-$dbConnect->close();
+  $table="messageLog";
+  $where=array('messageLog`.`ReciverID'=>$inputs->ReciverID);
+  $limit=$inputs->start.",".$inputs->limit;
+  $What="`messageLog`.`messageID`,`members`.`name` , `members`.`ProfilePic` , `messageLog`.`Subject`, `messageLog`.`Status`";
+  $innerJoin=  "INNER JOIN `members` ON `members`.`id`=`messageLog`.`SenderID`";
+  $this->db->select($table,$where,$limit,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
+  echo json_encode($this->db->error?$this->db->errorMessege():$this->db->result());
 }
 
+public function  unReadInbox($inputs)
+{
+    $this->db->select('messageLog',$where=array('ReciverID'=>$inputs->ReciverID,'Status'=>0),false,false,"AND",false,"*",false);
+    $respond = array('unReaded' => $this->db->count());
+    echo json_encode($this->db->error?$this->db->errorMessege():$respond);
+}
 
 
 }
