@@ -172,6 +172,7 @@ if($inputs->catID!=-1)
       `members`.`ProfilePic` ,
       `Events`.`subject` ,
       `Events`.`VIP` ,
+        `Events`.`eventType` ,
       `Events`.`picture` ,
       `Events`.`TimeEnded` ,
       `Events`.`approved`
@@ -188,6 +189,7 @@ if($inputs->catID!=-1)
       'CreatorName'=>$row['name'],
       'CreatorPic'=>$row['ProfilePic'],
       'subject'=>$row['subject'],
+      'catID'=>$row['eventType'],
       'EventPic'=>$row['picture'],
       'VIP'=>$row['VIP'],
       'TimeEnded'=>$row['TimeEnded']
@@ -197,6 +199,7 @@ if($inputs->catID!=-1)
     echo json_encode($stack);
      $dbConnect->close();
 }
+
 public function editEvent($inputs){
   $this->db->update("Events", get_object_vars($inputs), $where=array("id"=>$inputs->id));
   echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
