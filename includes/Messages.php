@@ -30,8 +30,8 @@ public function  ReadMessege($inputs)
   $this->db->select($table='messageLog',$where=array('messageID'=>$inputs->messageID),$limit=false,false,"AND",false,"*",false);
   if(!$this->db->error)
   {
-
-  $sw=($this->db->row_array()['type']);
+  $messegeIntry=$this->db->row_array();
+  $sw=($messegeIntry['type']);
     if($sw=='0'||$sw=='1'){
     $What="`members`.`name` , `members`.`ProfilePic`,
        `messageLog`.`Subject`,`messageLog`.`TimeSent`,`messageLog`.`Content`";
@@ -39,13 +39,9 @@ public function  ReadMessege($inputs)
     $this->db->select($table,$where,$limit,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
     echo json_encode($this->db->error?$this->db->errorMessege():$this->db->result());
   }else{
-    $What="`members`.`name` , `members`.`ProfilePic`,
-       `messageLog`.`Subject`,`messageLog`.`TimeSent`,`messageLog`.`Content` ,
-    `Events`.`id`, `Events`.`subject`, `Events`.`picture`, `Events`.`VIP`";
-
-    $innerJoin = " INNER JOIN `members` ON `members`.`id`=`messageLog`.`SenderID`
-     INNER JOIN `Events` ON  `Events`.`id`=`messageLog`.`EventID`";
-    $this->db->select($table,$where,$limit,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
+    $What="*";
+    $innerJoin = "";
+    $this->db->select('Events',array('id'=>$messegeIntry['EventID']),$limit,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
     echo json_encode($this->db->error?$this->db->errorMessege():$this->db->result());
   }
     $this->db->update('messageLog', $fields=array('Status'=>1), $where);
@@ -56,7 +52,7 @@ public function  RetriveInbox($inputs)
   $table="messageLog";
   $where=array('messageLog`.`ReciverID'=>$inputs->ReciverID);
   $limit=$inputs->start.",".$inputs->limit;
-  $What="`messageLog`.`messageID`,`members`.`name` , `members`.`ProfilePic` , `messageLog`.`Subject`, `messageLog`.`type`, `messageLog`.`Status`";
+  $What="`messageLog`.`messageID`,`members`.`name` , `members`.`ProfilePic` , `messageLog`.`Subject`, `messageLog`.`type`, `messageLog`.`Status`, `messageLog`.`EventID`";
   $innerJoin=  "INNER JOIN `members` ON `members`.`id`=`messageLog`.`SenderID`";
   $this->db->select($table,$where,$limit,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
   echo json_encode($this->db->error?$this->db->errorMessege():$this->db->result());
