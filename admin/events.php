@@ -9,5 +9,34 @@ $customeFileds= array('Approve' =>"approve.php?id=" ,
 
 require_once("View.php");
 
+class events{
+
+public function ViewUnApprovedEventList(){
+
+}
+public function ViewEventList(){
+
+}
+public function getEventsbyMember($memberID){
+
+}
+public function SearchEventsByName($searcher){
+  
+}
+public function approveEvent($id){
+
+}
+public function disApproveEvent($id){
+
+}
+public function RemoveEvent($id){
+
+}
+public function ViewEvent($id){
+
+}
+
+}
+
 
  ?>

@@ -10,12 +10,6 @@
 </head>
 <body>
 <div class="container">
-
-<?php
-
-require_once("../configuration.php");
-
-
-</div>
-</body>
-</html>
+<h1>
+  Qatar Invitations admin panel
+</h1>
