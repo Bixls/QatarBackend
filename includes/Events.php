@@ -169,6 +169,7 @@ if($inputs->catID!=-1)
       `members`.`ProfilePic` ,
       `Events`.`subject` ,
       `Events`.`VIP` ,
+        `Events`.`eventType` ,
       `Events`.`picture` ,
       `Events`.`TimeEnded` ,
       `Events`.`approved`
@@ -186,6 +187,7 @@ if($inputs->catID!=-1)
       'CreatorPic'=>$row['ProfilePic'],
       'subject'=>$row['subject'],
       'EventPic'=>$row['picture'],
+        'catID'=>$row['eventType'],
       'VIP'=>$row['VIP'],
       'TimeEnded'=>$row['TimeEnded']
       );
