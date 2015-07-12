@@ -9,6 +9,8 @@
  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </head>
 <body>
+  <div id="messeges">
+  </div>
 <div class="container">
 <h1>
   Qatar Invitations admin panel

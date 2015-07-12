@@ -29,7 +29,7 @@ foreach ($input as $row) {
     echo "<td>";
   foreach ($customeFileds as $key=>$colum) {
 
-    echo("<a href=\"".$colum.$row[$list[$keyID]]."\"/>".$key." </a>");
+    echo("<a class=\"link\" id=".$colum.$row[$list[$keyID]]." href=\"#\"/>".$key." </a>");
 
   }
       echo "</td>";
@@ -39,6 +39,38 @@ foreach ($input as $row) {
 echo("</table>");
 
 
+?>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript">
+function getFunctionName(name){
+  switch(name) {
+      case 'v':
+          return "test";
+          break;
+      case 'd':
+          return "test2";
+          break;
+      default:
+          default return "test3";
+  }
+}
+$(document).ready(function(){
+    $("a").click(function(event){
+        $.post("post.php",
+        {
+          id:event.target.id,
+          fn:getFunctionName(event.target.id.substring(0, 1))
+        },
+        function(data,status){
+          $('#messeges').append(data);
+        });
+    });
+});
+</script>
+
+
+
+<?php
 
 
 

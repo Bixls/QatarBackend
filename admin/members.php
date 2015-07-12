@@ -9,11 +9,11 @@ class members{
     $per_page = 2;
     $where=array("Verified!=0");
     $list = array('id'=>'id' ,' Name'=>'name','Picture'=>'ProfilePic','Gname'=>'Gname');
-    $customeFileds= array('Approve' =>"approve.php?id=" ,
-                          'Delete'=>"delete.php?id=",
-                          'View'=>"delete.php?id=",
-                          'Edit'=>"delete.php?id=",
-                          'disapprove'=>"delete.php?id=");
+    $customeFileds= array('Approve' =>"a" ,
+                          'Delete'=>"d",
+                          'View'=>"v",
+                          'Edit'=>"e",
+                          'disapprove'=>"c");
     $innerJoin="INNER JOIN `groups` ON `members`.`groupID`=`groups`.`Gid`";
     $getArray=$_GET;
     require ("functions/generalFunctions.php");
