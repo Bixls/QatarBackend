@@ -31,7 +31,7 @@ public function getEventbyID($inputs){
 
 
         $What="`members`.`name` , `members`.`ProfilePic`,
-         `Events`.`id` ,`Events`.`subject` ,`Events`.`eventType` , `Events`.`VIP` ,
+         `Events`.`id` ,`Events`.`subject` ,`Events`.`eventType` ,`Events`.`CreatorID`, `Events`.`VIP` ,
          `Events`.`picture` ,`Events`.`description`, `Events`.`TimeEnded`, `Events`.`timeCreated` ,
           `Events`.`comments` , `Events`.`approved`";
         $innerJoin = "INNER JOIN `members` ON `Events`.`CreatorID`=`members`.`id`";
