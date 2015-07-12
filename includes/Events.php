@@ -78,8 +78,8 @@ $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `inVIP` =  '".$new
 if($valid)
 {
 mysql_query("set names 'utf8'");
-$sql = "INSERT INTO `".DB_DATABASE."`.`Events` (`CreatorID`,`VIP`,  `eventType`, `subject`, `description`, `TimeEnded`, `comments`)
-VALUES ('".$inputs->CreatorID."', '".$inputs->VIP."', '".$inputs->eventType."', '".$inputs->subject."', '".$inputs->description."', '".$inputs->TimeEnded."','".$inputs->comments."');";
+$sql = "INSERT INTO `".DB_DATABASE."`.`Events` (`CreatorID`,`VIP`,  `eventType`, `subject`, `description`, `TimeEnded`, `comments`, `picture`)
+VALUES ('".$inputs->CreatorID."', '".$inputs->VIP."', '".$inputs->eventType."', '".$inputs->subject."', '".$inputs->description."', '".$inputs->TimeEnded."','".$inputs->comments."','".$inputs->picture."');";
 mysql_query($sql);
 $respond = array('sucess' => true);
 echo json_encode($respond);
