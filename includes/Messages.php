@@ -5,8 +5,8 @@
 //deleteMessege(senderID)
 //ReadMessege
 //RetriveInbox(list of all messeges in my inbox)
-    require_once('db.php');
-class Messages{
+  require_once('db.php');
+  class Messages{
 
   public $db;
   public function __construct() {
@@ -14,102 +14,51 @@ class Messages{
   $this->db = new DB;
   }
 
-  public function  sendMessegeWithReturn($inputs)
-  {
-    require_once("DataBaseConnection.php");
-    $dbConnect=new DatabaseConnect;
-    $sql = "INSERT INTO `".DB_DATABASE."`.`messageLog` (`SenderID`,  `ReciverID`, `Subject`, `Content`, `EventID`)
-    VALUES ('".$inputs->SenderID."', '".$inputs->ReciverID."', '".$inputs->Subject."', '".$inputs->Content."', '".(empty($inputs->EventID)?-1:$inputs->EventID)."');";
-
-    if (mysql_query($sql)) {
-    return true;
-    } else {
-    return false;
-    }
-  $dbConnect->close();
-  }
-
 public function  sendMessege($inputs)
 {
-  require_once("DataBaseConnection.php");
-  $dbConnect=new DatabaseConnect;
-  $sql = "INSERT INTO `".DB_DATABASE."`.`messageLog` (`SenderID`,  `ReciverID`, `Subject`, `Content`, `EventID`)
-  VALUES ('".$inputs->SenderID."', '".$inputs->ReciverID."', '".$inputs->Subject."', '".$inputs->Content."', '".(empty($inputs->EventID)?-1:$inputs->EventID)."');";
-
-  if (mysql_query($sql)) {
-      $respond = array('sucess' => true);
-     echo json_encode($respond);
-    //successfully Registering new user
-  } else {
-    $respond = array('success' => false);
-   echo json_encode($respond);
-  //an error has been accourd
-  }
-$dbConnect->close();
+  $this->db->insert("messageLog", get_object_vars($inputs));
+  echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
 }
 public function  deleteMessege($inputs)
 {
-  require_once("DataBaseConnection.php");
-  $dbConnect=new DatabaseConnect;
-
-  $sql ="DELETE FROM `messageLog` WHERE messageID=".$inputs->messageID;
-  if (mysql_query($sql)) {
-      $respond = array('sucess' => true);
-     echo json_encode($respond);
-    //successfully Registering new user
-  } else {
-    $respond = array('success' => false);
-   echo json_encode($respond);
-  //an error has been accourd
-  }
-
-$dbConnect->close();
+  $this->db->delete("messageLog", $where=array("id"=>$inputs->id));
+  echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
 }
 public function  ReadMessege($inputs)
 {
-  require_once("DataBaseConnection.php");
-  $dbConnect=new DatabaseConnect;
-  $query=mysql_query("SELECT EventID FROM messageLog WHERE messageID =".$inputs->messageID);
-  if ($query){
-    //First i need to read the messege
-  mysql_query("UPDATE  `".DB_DATABASE."`.`messageLog` SET `Status` = '1' WHERE `messageLog`.`messageID` = ".$inputs->messageID);
-  $row = mysql_fetch_array($query,MYSQL_ASSOC);
-  if($row['EventID']==-1)
+
+  $this->db->select($table='messageLog',$where=array('messageID'=>$inputs->messageID),$limit=false,false,"AND",false,"*",false);
+  if(!$this->db->error)
   {
-    $query=mysql_query("SELECT `members`.`name` , `members`.`ProfilePic`,
-       `messageLog`.`Subject`,`messageLog`.`TimeSent`,`messageLog`.`Content`
-       from `messageLog` INNER JOIN `members`
-       ON `members`.`id`=`messageLog`.`SenderID`
-       WHERE messageID =".$inputs->messageID)or die (mysql_error());
-       $row = mysql_fetch_array($query,MYSQL_ASSOC);
-         $row['invitation']=false;
-       echo json_encode($row);
-    //general messege
+  $messegeIntry=$this->db->row_array();
+  $sw=($messegeIntry['type']);
+    if($sw=='0'||$sw=='1'){
+    $What="`members`.`name` , `members`.`ProfilePic`,
+       `messageLog`.`Subject`,`messageLog`.`TimeSent`,`messageLog`.`Content`";
+    $innerJoin=  "INNER JOIN `members` ON `members`.`id`=`messageLog`.`SenderID`";
+    $this->db->select($table,$where,$limit,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
+    echo json_encode($this->db->error?$this->db->errorMessege():$this->db->result());
   }else{
-    $query=mysql_query("SELECT `members`.`name` , `members`.`ProfilePic`,
-       `messageLog`.`Subject`,`messageLog`.`TimeSent`,`messageLog`.`Content` ,
-    `Events`.`id`, `Events`.`subject`, `Events`.`picture`, `Events`.`VIP`
-       from `messageLog` INNER JOIN `members` ON `members`.`id`=`messageLog`.`SenderID`
-     INNER JOIN `Events` ON  `Events`.`id`=`messageLog`.`EventID`
-       WHERE messageID =".$inputs->messageID)or die (mysql_error());
-       $row = mysql_fetch_array($query,MYSQL_ASSOC);
-      $row['invitation']=true;
-       echo json_encode($row);
-    //invitation messege
+
+
+
+    $What="`members`.`name` , `members`.`ProfilePic`,
+     `Events`.`id` ,`Events`.`subject` ,`Events`.`eventType` , `Events`.`VIP` ,
+     `Events`.`picture` ,`Events`.`description`, `Events`.`TimeEnded`, `Events`.`timeCreated` ,
+      `Events`.`comments` , `Events`.`approved`";
+    $innerJoin = "INNER JOIN `members` ON `Events`.`CreatorID`=`members`.`id`";
+    $this->db->select('Events',array('Events`.`id'=>$messegeIntry['EventID']),$limit,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
+    echo json_encode($this->db->error?$this->db->errorMessege():$this->db->result());
   }
-   }else{
-     //Query faild
-  $respond = array('sucess' => false);
- echo json_encode($respond);
-}
-$dbConnect->close();
+    $this->db->update('messageLog', $fields=array('Status'=>1), $where);
+  }else{ echo json_encode($this->db->errorMessege());}
 }
 public function  RetriveInbox($inputs)
 {
   $table="messageLog";
   $where=array('messageLog`.`ReciverID'=>$inputs->ReciverID);
   $limit=$inputs->start.",".$inputs->limit;
-  $What="`messageLog`.`messageID`,`members`.`name` , `members`.`ProfilePic` , `messageLog`.`Subject`, `messageLog`.`Status`";
+  $What="`messageLog`.`messageID`,`members`.`name` , `members`.`ProfilePic` , `messageLog`.`Subject`, `messageLog`.`type`, `messageLog`.`Status`, `messageLog`.`EventID`";
   $innerJoin=  "INNER JOIN `members` ON `members`.`id`=`messageLog`.`SenderID`";
   $this->db->select($table,$where,$limit,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
   echo json_encode($this->db->error?$this->db->errorMessege():$this->db->result());
