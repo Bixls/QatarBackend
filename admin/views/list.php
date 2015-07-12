@@ -42,24 +42,25 @@ echo("</table>");
 ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script type="text/javascript">
-function getFunctionName(name){
-  switch(name) {
-      case 'v':
-          return "test";
-          break;
-      case 'd':
-          return "test2";
-          break;
-      default:
-          default return "test3";
+function getFunctionName(i){
+  switch(i) {
+  <?php
+    foreach ($customeFileds as $key=>$colum) {
+
+      echo("case '$colum':\n");
+      echo("return '".$key."_".$table."' ;\n");
+      echo("break;\n");
+    }
+  ?>
   }
 }
+
 $(document).ready(function(){
-    $("a").click(function(event){
+    $(".link").click(function(event){
         $.post("post.php",
         {
-          id:event.target.id,
-          fn:getFunctionName(event.target.id.substring(0, 1))
+          id:event.target.id.substring(1),
+          fn: getFunctionName(event.target.id.substring(0, 1))
         },
         function(data,status){
           $('#messeges').append(data);
