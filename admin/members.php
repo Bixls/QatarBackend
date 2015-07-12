@@ -48,18 +48,26 @@ class members{
 
   }
 
-  public function approveMember($id){
+  public function Edit($id){
+
+  echo $id;
 
   }
-  public function removeMember($id){
+  public function View($id){
+
+  echo $id;
 
   }
-  public function disApproveMember($id){
+  public function Approve($id){
 
   }
-  public function viewMember($id){
+  public function Delete($id){
 
   }
+  public function Disapprove($id){
+
+  }
+
 }
 
  ?>

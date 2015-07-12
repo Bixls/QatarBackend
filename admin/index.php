@@ -8,15 +8,9 @@ $title="Admin Panel";
 
 include ("views/header.php");
 
-require_once("members.php");
 
-if(!empty($_GET))
-{
-$function=$_GET['fn'];
-$inputs=$_GET['i'];
-$class=$_GET['c'];
-call_user_func($class."::".$function,$inputs);;
-}
+
+include_once("direct.php");
 
 
 include ("views/footer.php");

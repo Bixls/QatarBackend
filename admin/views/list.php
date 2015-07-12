@@ -48,7 +48,7 @@ function getFunctionName(i){
     foreach ($customeFileds as $key=>$colum) {
 
       echo("case '$colum':\n");
-      echo("return '".$key."_".$table."' ;\n");
+      echo("return '$key' ;\n");
       echo("break;\n");
     }
   ?>
@@ -57,10 +57,11 @@ function getFunctionName(i){
 
 $(document).ready(function(){
     $(".link").click(function(event){
-        $.post("post.php",
+        $.post("direct.php",
         {
-          id:event.target.id.substring(1),
-          fn: getFunctionName(event.target.id.substring(0, 1))
+          i:event.target.id.substring(1),
+          fn: getFunctionName(event.target.id.substring(0, 1)),
+          c:"members"
         },
         function(data,status){
           $('#messeges').append(data);
