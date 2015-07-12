@@ -21,7 +21,7 @@ public function  sendMessege($inputs)
 }
 public function  deleteMessege($inputs)
 {
-  $this->db->delete("messageLog", $where=array("id"=>$inputs->id));
+  $this->db->delete("messageLog", $where=array("messageID"=>$inputs->id));
   echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
 }
 public function  ReadMessege($inputs)
