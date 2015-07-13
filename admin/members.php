@@ -78,13 +78,25 @@ class members{
   }
   }
   public function Approve($id){
-
+//Set the randome number in the Database
+//Send sms with this number
+global $db;
+  $ValidKey=rand( 1000 ,  9999 );
+  //Code to send The SMS
+  $db->update('members',$what=array('Verified'=>$ValidKey),$where = array('id' => $id ));
+  include("functions/generalFunctions.php");
+  messege("alert-success","Sucess      ","Approval sms is $ValidKey");
   }
   public function Delete($id){
 
   }
   public function Disapprove($id){
-
+    global $db;
+    //Set the randome number in the Database
+    //Send sms with this number
+      $ValidKey=-1;
+      $db->update('members',$what=array('Verified'=>$ValidKey),$where = array('id' => $id ));
+      //Send internal Messege
   }
 
 }

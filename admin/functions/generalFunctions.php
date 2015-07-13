@@ -10,5 +10,12 @@ return 0;
   return $start;
 }
 
+function messege($type,$title,$content){
+
+echo("<div class=\"alert $type fade in\">");
+echo  " <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>";
+echo "<strong>$title</strong>$content";
+echo"</div>";
+}
 
  ?>
