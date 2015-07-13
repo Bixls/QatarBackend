@@ -53,7 +53,14 @@ public function CreateNew($input){
 
 public function insert($id)
 {
-echo $_POST['Gname'];
+global $db;
+$db->insert("groups", $what = array('Gname' =>  $_POST['Gname'],'GProfilePic' =>  $_POST['GProfilePic'] ));
+include("functions/generalFunctions.php");
+  if(!$db->error){
+  messege("alert-success","Sucess","Group has been created");
+  }else{
+  messege("alert-danger","Falied ",$db->errorMessege());
+  }
 }
 
 }
