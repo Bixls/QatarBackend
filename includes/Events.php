@@ -137,7 +137,6 @@ $stack = array();
   echo json_encode($stack);
    $dbConnect->close();
 }
-
 public function getEvents($inputs)
 {
 //$inputs->groupID;// -1:home page  anyother value i am on a group
@@ -169,6 +168,7 @@ if($inputs->catID!=-1)
       `members`.`ProfilePic` ,
       `Events`.`subject` ,
       `Events`.`VIP` ,
+        `Events`.`eventType` ,
       `Events`.`picture` ,
       `Events`.`TimeEnded` ,
       `Events`.`approved`
@@ -186,6 +186,7 @@ if($inputs->catID!=-1)
       'CreatorPic'=>$row['ProfilePic'],
       'subject'=>$row['subject'],
       'EventPic'=>$row['picture'],
+        'catID'=>$row['eventType'],
       'VIP'=>$row['VIP'],
       'TimeEnded'=>$row['TimeEnded']
       );
@@ -194,6 +195,7 @@ if($inputs->catID!=-1)
     echo json_encode($stack);
      $dbConnect->close();
 }
+
 
 public function editEvent($inputs){
   $this->db->update("Events", get_object_vars($inputs), $where=array("id"=>$inputs->id));
