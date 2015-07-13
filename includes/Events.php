@@ -104,7 +104,7 @@ $stack = array();
     'VIP'=>$row['VIP'],
     'eventType'=>$row['eventType'],
     'subject'=>$row['subject'],
-    'picture'=>$row['picture'],
+  'EventPic'=>$row['picture'],
     'TimeEnded'=>$row['TimeEnded'],
     'approved'=>$row['approved']
     );
