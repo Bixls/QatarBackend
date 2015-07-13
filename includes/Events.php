@@ -95,18 +95,29 @@ $inputs->userID;
 require_once("DataBaseConnection.php");
 $dbConnect=new DatabaseConnect;
   mysql_query("set names 'utf8'");
-  $query = mysql_query("SELECT `id`,`VIP`,`eventType`,`subject`,`picture`,`TimeEnded`,`approved` FROM `Events` WHERE `CreatorID` = \"".$inputs->userID."\"  ORDER BY `Events`.`timeCreated` DESC   LIMIT ".$inputs->start.", ".$inputs->limit." ") or die (mysql_error());
+  $query = mysql_query("SELECT 
+    `Events`.`id` ,
+    `members`.`name`,
+    `members`.`groupID` ,
+    `members`.`ProfilePic` ,
+    `Events`.`subject` ,
+    `Events`.`VIP` ,
+      `Events`.`eventType` ,
+    `Events`.`picture` ,
+    `Events`.`TimeEnded` ,
+    `Events`.`approved`
+     from `Events` INNER JOIN `members` ON   `Events`.`CreatorID`=`members`.`id` WHERE `CreatorID` = \"".$inputs->userID."\"  ORDER BY `Events`.`timeCreated` DESC   LIMIT ".$inputs->start.", ".$inputs->limit." ") or die (mysql_error());
 $stack = array();
   while($row = mysql_fetch_array($query)){
-
     $user = array(
-    'Eventid'=>$row['id'],
-    'VIP'=>$row['VIP'],
-    'eventType'=>$row['eventType'],
-    'subject'=>$row['subject'],
-  'EventPic'=>$row['picture'],
-    'TimeEnded'=>$row['TimeEnded'],
-    'approved'=>$row['approved']
+      'Eventid'=>$row['id'],
+      'CreatorName'=>$row['name'],
+      'CreatorPic'=>$row['ProfilePic'],
+      'subject'=>$row['subject'],
+      'EventPic'=>$row['picture'],
+        'catID'=>$row['eventType'],
+      'VIP'=>$row['VIP'],
+      'TimeEnded'=>$row['TimeEnded']
     );
   array_push($stack, $user);
 }
