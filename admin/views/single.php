@@ -12,14 +12,8 @@
         </div>
         <div class="modal-body">
       <?php
-        foreach ($body as $key=>$colum) {
-          echo ("<div>");
-          echo($key);
-          echo (" : ");
-          echo($colum);
-          echo ("</div>");
-        }
-      ?>
+      echo $body;
+       ?>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

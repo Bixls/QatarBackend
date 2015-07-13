@@ -63,7 +63,7 @@ $(document).ready(function(){
         {
           i:event.target.id.substring(1),
           fn: getFunctionName(event.target.id.substring(0, 1)),
-          c:"members"
+          c:"<?php echo $table ?>"
         },
         function(data,status){
           $('#messeges').html(data);

@@ -6,7 +6,7 @@ class members{
   public function viewUnApprovedMemberList(){
     global $db;
     $table="members";
-    $per_page = 10;
+    global $per_page;
     $where=array("Verified"=>1);
     $list = array('id'=>'id' ,' Name'=>'name','Picture'=>'ProfilePic','Gname'=>'Gname');
     $customeFileds= array('Approve' =>"a" ,
@@ -20,7 +20,7 @@ class members{
     $start=getStartPage($getArray,$per_page);
     $db->select($table,$where,$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin);
     $input=$db->result_array();
-  
+
     //print_r($input);
     $header=$list;
     $keyID="id";
@@ -30,7 +30,7 @@ class members{
   public function viewMemberList(){
     global $db;
     $table="members";
-    $per_page = 2;
+      global $per_page;
     $where="";
     $list = array('id'=>'id' ,' Name'=>'name','Picture'=>'ProfilePic','Gname'=>'Gname');
     $customeFileds= array('View'=>"v",'Edit'=>"e");
@@ -71,11 +71,12 @@ class members{
   if(!$db->error){
   $result=$db->row_array();
   $header=$result['name'];
-  $body=$result;
+  $body=implode(",",$result);
   include("views/single.php");
   }else{
   $header="Error";
   $body=$db->errorMessege();
+  include("views/single.php");
   }
   }
   public function Approve($id){

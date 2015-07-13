@@ -7,7 +7,7 @@ require_once('../db.php');
 $db = new db(DB_DATABASE, DB_USER, DB_PASSWORD, DB_HOST); // $host is optional and defaults to 'localhost'
 mysql_query("set names 'utf8'");
 require_once("members.php");
-
+require_once("group.php");
 if(isset($_POST['fn']))
 {
 $function=$_POST['fn'];

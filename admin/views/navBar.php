@@ -22,28 +22,32 @@
           </ul>
         </li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Groups <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+           aria-haspopup="true" aria-expanded="false">Groups <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Create New</a></li>
-            <li><a href="#">View All</a></li>
+            <li><a class="menuLinks" id="CreateGroup" i="0" c="groups" fn="CreateNew" href="#">Create New</a></li>
+            <li><a href="?fn=viewGroupList&c=groups&i=0">View All</a></li>
           </ul>
         </li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">News <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+           aria-haspopup="true" aria-expanded="false">Events <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Approve Events</a></li>
             <li><a href="#">View All</a></li>
           </ul>
         </li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Events <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+          aria-haspopup="true" aria-expanded="false">News <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Create New</a></li>
             <li><a href="#">View All</a></li>
           </ul>
         </li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Advertising <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+          aria-expanded="false">Advertising <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Create New</a></li>
             <li><a href="#">View All</a></li>
@@ -68,3 +72,20 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".menuLinks").click(function(event){
+      $.post("direct.php",
+      {
+        i:$("#"+event.target.id).attr( "i" ),
+        fn:$("#"+event.target.id).attr( "fn" ),
+        c:$("#"+event.target.id).attr( "c" )
+      },
+      function(data,status){
+        $('#messeges').html(data);
+      });
+
+    });
+});
+</script>
