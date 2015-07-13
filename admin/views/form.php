@@ -26,7 +26,7 @@ public function RenderForm(){
   foreach ($this->ElementsArray as $element) {
   $output.=$element->echoElement();
   }
-  $output.="<button type=\"button\" id=\"Sbutton\" class=\"btn btn-default\">Submit</button>";
+  $output.="<button type=\"submit\" id=\"Sbutton\" class=\"btn btn-default\">Submit</button>";
   $output.='
   <h4 id="loading"></h4>
   <div id="msg"></div>
@@ -75,8 +75,6 @@ private $id;
     $output='
     <input type="file" name="fileToUpload" id="file" required />
     <input type="hidden" name="type" id="type" value='.$this->type.' required />
-    <input type="submit" value="Upload" class="uploadImage" />
-
     ';
     return $output;
 

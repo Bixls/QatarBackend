@@ -30,7 +30,7 @@ require_once("configuration.php");
 
             $PicType=$_POST["type"];
             $target_dir = ROOTPATH."/uploads/".date("Ym")."/".$PicType."/";
-
+            $Target_Online="uploads/".date("Ym")."/".$PicType."/";
 
             if (!file_exists($target_dir)) {
                 mkdir($target_dir, 0775, true);
@@ -40,6 +40,7 @@ require_once("configuration.php");
 
 
             $imageFileType = pathinfo($_FILES["fileToUpload"]["name"],PATHINFO_EXTENSION);
+            $FileNameOnline=$Target_Online .$TicketId;
             $FileName=$target_dir .$TicketId;
             $target_file = $target_dir .$TicketId.".".$imageFileType;
             // Check if image file is a actual image or fake image
@@ -77,9 +78,9 @@ require_once("configuration.php");
                     $respond = array('success' => true,'id'=>$TicketId);
                     createthumb($target_file,$FileName."150x150.".$imageFileType,150,150);
                     $dbConnect=new DatabaseConnect;
-                    mysql_query("UPDATE `".DB_DATABASE."`.`Images` SET `imageSrc` = '".$FileName."', `ext` = '".$imageFileType."' WHERE `Images`.`imageID` = ".$TicketId."");
+                    mysql_query("UPDATE `".DB_DATABASE."`.`Images` SET `imageSrc` = '".$FileNameOnline."', `ext` = '".$imageFileType."' WHERE `Images`.`imageID` = ".$TicketId."");
                     echo json_encode($respond);
-                  
+
                     //SUCESS uploading
                 } else {
                   $respond = array('success' => false);

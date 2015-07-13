@@ -53,13 +53,15 @@ public function CreateNew($input){
 
 public function insert($id)
 {
+  ob_start();
   $NoResponse="NoResponse";
   include(ROOTPATH."/upload.php");
   print_r($respond);
+  ob_end_clean();
 if($respond['success']=="true"){
 
 global $db;
-$db->insert("groups", $what = array('Gname' =>  $_POST['Gname'],'GProfilePic' => $respond['sucess']));
+$db->insert("groups", $what = array('Gname' =>  $_POST['Gname'],'GProfilePic' => $respond['id']));
 include("functions/generalFunctions.php");
   if(!$db->error){
   messege("alert-success","Sucess","Group has been created");

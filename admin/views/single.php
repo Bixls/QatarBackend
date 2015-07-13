@@ -40,8 +40,8 @@ $(document).ready(function(){
   success: function(data)   // A function to be called if request succeeds
   {
   $('#loading').hide();
-  //$("#myModal").modal("hide");
-  $('#msg').html(data);
+  $("#myModal").modal("hide");
+  $('#messeges').append(data);
 
   }
   });
