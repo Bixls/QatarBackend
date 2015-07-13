@@ -1,50 +1,60 @@
 <?php
 
-class invitationsLog{
+  require_once('db.php');
+  class invitationsLog{
+  public $db;
+  public function __construct() {
+  global $db;
+  $this->db = new DB;
+  }
 
 public function invite($inputs)
 {
-  require_once("DataBaseConnection.php");
-  require_once("Messages.php");
-  require_once("BlockList.php");
-  require_once("Events.php");
-  $messege=new Messages;
-  $BlockList=new BlockList;
-  $Events=new Events;
-
-  $messegeInput = new stdClass();
-  $messegeInput->SenderID = $inputs->SenderID;
-  $messegeInput->Subject = $inputs->Subject;
-  $messegeInput->Content = $inputs->Content;
-  $messegeInput->EventID = $inputs->EventID;
-  $messegeInput->eventType =$Events->getEventTypebyID($inputs->EventID);
-  $respond= array();
+$error= array();
+$this->db->select($table='Events',$where=array('id'=>$inputs->EventID),false,false,"AND",false,"*",false);
+if($this->db->error){echo json_encode($this->db->errorMessege()); return false; }
+$outs=$this->db->row_array();
+$eventType=$outs['eventType'];
+$vip=$outs['VIP'];
+$sender=$outs['CreatorID'];
+$respond= array();
 
 foreach ($inputs->listArray as $key) {
-  $messegeInput->ReciverID=$key->id;
+
   $res = new stdClass();
   $res->id=$key->id;
-      if(!$BlockList->isUserBlockEventid($messegeInput)){
-      $dbConnect=new DatabaseConnect;
-      $query = mysql_query("SELECT * FROM `invitationsLog` WHERE `EventID` = \"".$inputs->EventID."\" AND
-      `memberID` = \"".$key->id."\" ") or die (mysql_error());
-      $row=mysql_fetch_array($query);
-          if(empty($row)){
-          $sql = mysql_query("INSERT INTO `".DB_DATABASE."`.`invitationsLog` (`EventID`,`memberID`)
-          VALUES ('".$inputs->EventID."', '".$key->id."');") or die (mysql_error());
-          $dbConnect->close();
-              if($messege->sendMessegeWithReturn($messegeInput)){
-                $res->sucess=true;  //Messege Sent
-              }
-              else{
-                  $res->sucess=false;  //Messege was not Sent
-              }
-          }else{
-            $res->sucess=false;  //Already invited
-          }
-      }else{ $res->sucess=true; } //member Block the invitation
-    array_push($respond,$res);
+
+
+    $this->db->select($table='BlockList',$where=array('memberID'=>$key->id,'InvitationID'=>$eventType),false,false,"AND",false,"*",false);
+    if($this->db->error){echo json_encode($this->db->errorMessege()); return false; }
+
+      if($this->db->count()<=0){
+                        //check there is no other selected
+          $this->db->select($table='invitationsLog',$where=array('EventID'=>$inputs->EventID,'memberID'=>$key->id),false,false,"AND",false,"*",false);
+              if($this->db->error){echo json_encode($this->db->errorMessege()); return false; }
+
+              if($this->db->count()<=0)
+                  {
+                      //invite people
+                      $this->db->insert("invitationsLog", array('EventID' =>$inputs->EventID , 'memberID'=>$key->id ));
+                  if($this->db->error){echo json_encode($this->db->errorMessege()); return false; }
+                      //Send messege
+                      $this->db->insert("messageLog",array('SenderID' => $sender, 'ReciverID'=>$key->id,'EventID'=>$inputs->EventID,'type'=>$vip?3:2));
+                    if($this->db->error){echo json_encode($this->db->errorMessege()); return false; }
+                      $res->sucess=true;
+                  }
+                  else{
+                        $res->sucess=false;  //Already invited
+                  }
+
+      }
+      else{ $res->sucess=true; } //member Block the invitation
+
+        array_push($respond,$res);
 }
+
+
+//array_push($respond,$error);
 echo json_encode($respond);
 }
 
@@ -79,7 +89,7 @@ public function ViewEventAttendees($inputs){
   $dbConnect=new DatabaseConnect;
       mysql_query("set names 'utf8'");
 $query=mysql_query("SELECT members.id , members.name , members.ProfilePic FROM invitationsLog
-   INNER JOIN members ON invitationsLog.memberID=members.id WHERE i nvitationsLog.EventID=
+   INNER JOIN members ON invitationsLog.memberID=members.id WHERE invitationsLog.EventID=
 ".$inputs->eventID."  LIMIT ".$inputs->start.", ".$inputs->limit."");
 $stack = array();
 if($query){

@@ -27,7 +27,7 @@ $query = mysql_query("SELECT * FROM `members` WHERE `Mobile` = \"".$user->Mobile
         echo json_encode($respond);
         //User name has been already found
         }else{
-           $ValidKey=rand( 1000 ,  9999 );
+           $ValidKey=1;
           mysql_query("set names 'utf8'");
           $sql = "INSERT INTO `".DB_DATABASE."`.`members` (`name`,  `password`, `groupID`, `Mobile`, `ProfilePic`, `Verified`,`maskInbox`)
           VALUES ('".$user->name."', '".$user->password."', '".$user->groupID."', '".$user->Mobile."', '".$user->ProfilePic."', '".$ValidKey."','11111');";

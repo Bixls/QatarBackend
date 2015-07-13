@@ -1,5 +1,9 @@
 <?php
 
+
+require_once('db.php');
+
+
 class Events{
 public $id;
 public $CreatorID;
@@ -12,21 +16,28 @@ public $timeCreated;
 public $TimeEnded;
 public $comments;
 
+
+
+
+
+public $db;
+public function __construct() {
+global $db;
+$this->db = new DB;
+}
+
 public function getEventbyID($inputs){
 
-  require_once("DataBaseConnection.php");
-  $dbConnect=new DatabaseConnect;
-    mysql_query("set names 'utf8'");
-    $query = mysql_query("SELECT * FROM `Events`  WHERE `id` = \"".$inputs->Eventid."\"  ") or die (mysql_error());
-    if ($query){
-    $row = mysql_fetch_array($query,MYSQL_ASSOC);
-    echo json_encode($row);
-  }
-  else{
-    $respond = array('sucess' => false);
-   echo json_encode($respond);
-  }
-  $dbConnect->close();
+
+
+        $What="`members`.`name` , `members`.`ProfilePic`,
+         `Events`.`id` ,`Events`.`subject` ,`Events`.`eventType` ,`Events`.`CreatorID`, `Events`.`VIP` ,
+         `Events`.`picture` ,`Events`.`description`, `Events`.`TimeEnded`, `Events`.`timeCreated` ,
+          `Events`.`comments` , `Events`.`approved`";
+        $innerJoin = "INNER JOIN `members` ON `Events`.`CreatorID`=`members`.`id`";
+        $this->db->select('Events',array('Events`.`id'=>$inputs->Eventid),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
+        echo json_encode($this->db->error?$this->db->errorMessege():$this->db->result());
+
 
 }
 
@@ -67,8 +78,8 @@ $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `inVIP` =  '".$new
 if($valid)
 {
 mysql_query("set names 'utf8'");
-$sql = "INSERT INTO `".DB_DATABASE."`.`Events` (`CreatorID`,`VIP`,  `eventType`, `subject`, `description`, `TimeEnded`, `comments`)
-VALUES ('".$inputs->CreatorID."', '".$inputs->VIP."', '".$inputs->eventType."', '".$inputs->subject."', '".$inputs->description."', '".$inputs->TimeEnded."','".$inputs->comments."');";
+$sql = "INSERT INTO `".DB_DATABASE."`.`Events` (`CreatorID`,`VIP`,  `eventType`, `subject`, `description`, `TimeEnded`, `comments`, `picture`)
+VALUES ('".$inputs->CreatorID."', '".$inputs->VIP."', '".$inputs->eventType."', '".$inputs->subject."', '".$inputs->description."', '".$inputs->TimeEnded."','".$inputs->comments."','".$inputs->picture."');";
 mysql_query($sql);
 $respond = array('sucess' => true);
 echo json_encode($respond);
@@ -84,18 +95,29 @@ $inputs->userID;
 require_once("DataBaseConnection.php");
 $dbConnect=new DatabaseConnect;
   mysql_query("set names 'utf8'");
-  $query = mysql_query("SELECT `id`,`VIP`,`eventType`,`subject`,`picture`,`TimeEnded`,`approved` FROM `Events` WHERE `CreatorID` = \"".$inputs->userID."\"  ORDER BY `Events`.`timeCreated` DESC   LIMIT ".$inputs->start.", ".$inputs->limit." ") or die (mysql_error());
+  $query = mysql_query("SELECT 
+    `Events`.`id` ,
+    `members`.`name`,
+    `members`.`groupID` ,
+    `members`.`ProfilePic` ,
+    `Events`.`subject` ,
+    `Events`.`VIP` ,
+      `Events`.`eventType` ,
+    `Events`.`picture` ,
+    `Events`.`TimeEnded` ,
+    `Events`.`approved`
+     from `Events` INNER JOIN `members` ON   `Events`.`CreatorID`=`members`.`id` WHERE `CreatorID` = \"".$inputs->userID."\"  ORDER BY `Events`.`timeCreated` DESC   LIMIT ".$inputs->start.", ".$inputs->limit." ") or die (mysql_error());
 $stack = array();
   while($row = mysql_fetch_array($query)){
-
     $user = array(
-    'id'=>$row['id'],
-    'VIP'=>$row['VIP'],
-    'eventType'=>$row['eventType'],
-    'subject'=>$row['subject'],
-    'picture'=>$row['picture'],
-    'TimeEnded'=>$row['TimeEnded'],
-    'approved'=>$row['approved']
+      'Eventid'=>$row['id'],
+      'CreatorName'=>$row['name'],
+      'CreatorPic'=>$row['ProfilePic'],
+      'subject'=>$row['subject'],
+      'EventPic'=>$row['picture'],
+        'catID'=>$row['eventType'],
+      'VIP'=>$row['VIP'],
+      'TimeEnded'=>$row['TimeEnded']
     );
   array_push($stack, $user);
 }
@@ -126,7 +148,6 @@ $stack = array();
   echo json_encode($stack);
    $dbConnect->close();
 }
-
 public function getEvents($inputs)
 {
 //$inputs->groupID;// -1:home page  anyother value i am on a group
@@ -158,6 +179,7 @@ if($inputs->catID!=-1)
       `members`.`ProfilePic` ,
       `Events`.`subject` ,
       `Events`.`VIP` ,
+        `Events`.`eventType` ,
       `Events`.`picture` ,
       `Events`.`TimeEnded` ,
       `Events`.`approved`
@@ -175,6 +197,7 @@ if($inputs->catID!=-1)
       'CreatorPic'=>$row['ProfilePic'],
       'subject'=>$row['subject'],
       'EventPic'=>$row['picture'],
+        'catID'=>$row['eventType'],
       'VIP'=>$row['VIP'],
       'TimeEnded'=>$row['TimeEnded']
       );
@@ -185,14 +208,37 @@ if($inputs->catID!=-1)
 }
 
 
+public function editEvent($inputs){
+  $this->db->update("Events", get_object_vars($inputs), $where=array("id"=>$inputs->id));
+  echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
+}
 
+public function approveEventByID($inputs)
+{
+  $this->db->update("Events",array('approved' =>1), $where=array("id"=>$inputs->id));
+  echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
+}
+public function getEventsNotApprovedList($inputs){
 
-
+}
+public function DisapproveEventbyID($inputs){
+  require_once("DataBaseConnection.php");
+  $dbConnect=new DatabaseConnect;
+  $sql=mysql_query("SELECT `VIP` FROM `Events` WHERE `Events`.`id`=".$inputs->Eventid) or die (mysql_error());
+  if($sql){
+      $row=mysql_fetch_array($sql);
+  if($row["VIP"]==1){
+    //Give the user back his points
+  }
+  else{
+    // Just Send the dissaproval messege ي
+  }
+  }
+    $dbConnect->close();
 }
 
 
-
-
+}
 
 
 

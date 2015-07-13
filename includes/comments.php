@@ -46,7 +46,7 @@ public function retriveComments($inputs){
 
     require_once("DataBaseConnection.php");
     $dbConnect=new DatabaseConnect;
-    $sql = mysql_query("SELECT  `".$tableName."`.`CommentID`,`members`.`name` , `members`.`ProfilePic`
+    $sql = mysql_query("SELECT  `".$tableName."`.`CommentID`,`members`.`name` ,`members`.`id`, `members`.`ProfilePic`
       , `".$tableName."`.`comment` from `".$tableName."` INNER JOIN `members`
       ON `members`.`id`=`".$tableName."`.`memberID`
       WHERE `".$tableName."`.`POSTID` = \"".$inputs->POSTID."\"

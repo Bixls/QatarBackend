@@ -2,8 +2,8 @@
 
 
 
-
-require_once("includes/DataBaseConnection.php");
+require_once("configuration.php");
+require_once(ROOTPATH."/includes/DataBaseConnection.php");
 $dbConnect=new DatabaseConnect;
 $sql = mysql_query("SELECT * FROM `Images`  WHERE `imageid`=".$_GET['id']."");
 $row=mysql_fetch_array($sql);

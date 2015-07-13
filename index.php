@@ -1,7 +1,7 @@
 <?php
-
-require_once("includes/Functions.php");
 require_once("configuration.php");
+require_once("includes/Functions.php");
+
 
 class InputFunction
 {
