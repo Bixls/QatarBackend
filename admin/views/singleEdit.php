@@ -11,15 +11,19 @@
           <h4 class="modal-title"><? echo $header ?></h4>
         </div>
         <div class="modal-body">
+      <form role="form">
       <?php
         foreach ($body as $key=>$colum) {
-          echo ("<div>");
-          echo($key);
-          echo (" : ");
-          echo($colum);
-          echo ("</div>");
+          ?>
+          <div class="form-group">
+            <label for="<?php    echo($key); ?>"> <?php    echo($key); ?></label>
+            <input class="form-control" id="<?php    echo($key); ?>" value="<?php    echo($colum); ?>" >
+          </div>
+          <?php
         }
       ?>
+         <button type="submit" class="btn btn-default">Submit</button>
+    </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

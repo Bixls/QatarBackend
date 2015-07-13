@@ -40,7 +40,6 @@ echo("</table>");
 
 
 ?>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script type="text/javascript">
 function getFunctionName(i){
   switch(i) {
@@ -64,7 +63,7 @@ $(document).ready(function(){
           c:"members"
         },
         function(data,status){
-          $('#messeges').append(data);
+          $('#messeges').html(data);
         });
     });
 });

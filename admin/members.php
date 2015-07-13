@@ -47,16 +47,35 @@ class members{
   public function SearchMembersByNameList(){
 
   }
-
   public function Edit($id){
-
-  echo $id;
-
+    global $db;
+    $What="*";
+    $innerJoin = "";
+    $db->select('members',array('members`.`id'=>$id),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
+    if(!$db->error){
+    $result=$db->row_array();
+    $header=$result['name'];
+    $body=$result;
+    include("views/singleEdit.php");
+    }else{
+    $header="Error";
+    $body=$db->errorMessege();
+    }
   }
   public function View($id){
-
-  echo $id;
-
+  global $db;
+  $What="*";
+  $innerJoin = "INNER JOIN `groups` ON `members`.`groupID`=`groups`.`Gid`";
+  $db->select('members',array('members`.`id'=>$id),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
+  if(!$db->error){
+  $result=$db->row_array();
+  $header=$result['name'];
+  $body=$result;
+  include("views/single.php");
+  }else{
+  $header="Error";
+  $body=$db->errorMessege();
+  }
   }
   public function Approve($id){
 
