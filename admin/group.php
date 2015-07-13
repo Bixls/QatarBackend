@@ -53,14 +53,21 @@ public function CreateNew($input){
 
 public function insert($id)
 {
+  $NoResponse="NoResponse";
+  include(ROOTPATH."/upload.php");
+  print_r($respond);
+if($respond['success']=="true"){
+
 global $db;
-$db->insert("groups", $what = array('Gname' =>  $_POST['Gname'],'GProfilePic' =>  $_POST['GProfilePic'] ));
+$db->insert("groups", $what = array('Gname' =>  $_POST['Gname'],'GProfilePic' => $respond['sucess']));
 include("functions/generalFunctions.php");
   if(!$db->error){
   messege("alert-success","Sucess","Group has been created");
   }else{
   messege("alert-danger","Falied ",$db->errorMessege());
   }
+
+}
 }
 
 }

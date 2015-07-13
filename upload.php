@@ -1,10 +1,14 @@
 <?php
 require_once("configuration.php");
+  if(!isset($NoResponse)){
     if (!isset($_SERVER['PHP_AUTH_USER'])) {
+
         header('WWW-Authenticate: Basic realm="My Realm"');
         header('HTTP/1.0 401 Unauthorized');
         echo 'You dont have acess to this file';
         exit;
+
+    }
     } else {
                 if($_SERVER['PHP_AUTH_USER']==AUSER&&$_SERVER['PHP_AUTH_PW']==APASS)
                 {
@@ -25,7 +29,7 @@ require_once("configuration.php");
 
 
             $PicType=$_POST["type"];
-            $target_dir = "uploads/".date("Ym")."/".$PicType."/";
+            $target_dir = ROOTPATH."/uploads/".date("Ym")."/".$PicType."/";
 
 
             if (!file_exists($target_dir)) {
@@ -62,7 +66,7 @@ require_once("configuration.php");
             // Check if $uploadOk is set to 0 by an error
             if ($uploadOk == 0) {
                 $respond = array('success' => false);
-                echo json_encode($respond);
+               echo json_encode($respond);
                 $dbConnect=new DatabaseConnect;
                 mysql_query("DELETE  FROM `Images` WHERE `imageID`=".$TicketId."");
                 $dbConnect->close();
@@ -75,6 +79,7 @@ require_once("configuration.php");
                     $dbConnect=new DatabaseConnect;
                     mysql_query("UPDATE `".DB_DATABASE."`.`Images` SET `imageSrc` = '".$FileName."', `ext` = '".$imageFileType."' WHERE `Images`.`imageID` = ".$TicketId."");
                     echo json_encode($respond);
+                  
                     //SUCESS uploading
                 } else {
                   $respond = array('success' => false);
