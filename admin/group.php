@@ -42,7 +42,7 @@ public function CreateNew($input){
   include("views/form.php");
   $form=new form("index.php","title");
   $form->addElement('Gname',"","text","Group Name");
-  $form->addElement('GProfilePic',"","text","Group Profile Pic");
+  $form->addImage('GProfilePic',"group","Group Profile Pic");
   $form->addElement('i',"0","hidden","");
   $form->addElement('fn',"insert","hidden","");
   $form->addElement('c',"groups","hidden","");
