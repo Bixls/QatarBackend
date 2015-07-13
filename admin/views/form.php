@@ -22,7 +22,7 @@ array_push($this->ElementsArray,$myElement);
 //print_r($this->ElementsArray);
 }
 public function RenderForm(){
-  $output="<form id=\"uploadimage\"  method=\"post\" enctype=\"multipart/form-data\">";
+  $output="<form id=\"mForm\"  method=\"post\" enctype=\"multipart/form-data\">";
   foreach ($this->ElementsArray as $element) {
   $output.=$element->echoElement();
   }
@@ -75,7 +75,7 @@ private $id;
     $output='
     <input type="file" name="fileToUpload" id="file" required />
     <input type="hidden" name="type" id="type" value='.$this->type.' required />
-    <input type="submit" value="Upload" class="submit" />
+    <input type="submit" value="Upload" class="uploadImage" />
 
     ';
     return $output;
