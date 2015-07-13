@@ -10,7 +10,8 @@ require_once("configuration.php");
 
     }
     } else {
-                if($_SERVER['PHP_AUTH_USER']==AUSER&&$_SERVER['PHP_AUTH_PW']==APASS)
+
+                if(($_SERVER['PHP_AUTH_USER']==AUSER&&$_SERVER['PHP_AUTH_PW']==APASS)||isset($NoResponse))
                 {
 
                   $TicketId=0;

@@ -56,7 +56,6 @@ public function insert($id)
   ob_start();
   $NoResponse="NoResponse";
   include(ROOTPATH."/upload.php");
-  print_r($respond);
   ob_end_clean();
 if($respond['success']=="true"){
 
