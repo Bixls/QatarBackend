@@ -40,18 +40,21 @@ public function CreateNew($input){
 
   $header="Create Group";
   include("views/form.php");
-  $form=new form;
-  $form->addElement('i2',"myValye","text","lable1");
-  $form->addElement('i21',"ssdsdmyValye","text","labsdsdsdle1");
-  $form->addElement('i3',"myVasdslye","text","labsdsdle1");
+  $form=new form("index.php","title");
+  $form->addElement('Gname',"","text","Group Name");
+  $form->addElement('GProfilePic',"","text","Group Profile Pic");
+  $form->addElement('i',"0","hidden","");
+  $form->addElement('fn',"insert","hidden","");
+  $form->addElement('c',"groups","hidden","");
   $body=$form->RenderForm();
 //  $body="fields that will create the new group is here";
   include("views/single.php");
-
-
 }
 
-
+public function insert($id)
+{
+echo $_POST['Gname'];
+}
 
 }
 

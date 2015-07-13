@@ -24,11 +24,22 @@
   </div>
 
 
-
 <script>
 $(document).ready(function(){
+  $("#myModal").modal();
 
-        $("#myModal").modal();
+  $("#Sbutton").click(function(){
+    $.ajax({
+              type: 'post',
+              url: 'direct.php',
+              data: $('#mForm').serialize(),
+              success: function (data) {
+                $("#myModal").modal("hide");
+                $('#messeges').append(data);
+                alert("sucess");
+              }
+            });
+        });
 
 });
 </script>
