@@ -100,7 +100,7 @@ $stack = array();
   while($row = mysql_fetch_array($query)){
 
     $user = array(
-    'id'=>$row['id'],
+    'Eventid'=>$row['id'],
     'VIP'=>$row['VIP'],
     'eventType'=>$row['eventType'],
     'subject'=>$row['subject'],
