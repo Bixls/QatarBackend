@@ -11,6 +11,7 @@ foreach ($header as $key=>$colum) {
 }
     echo "</tr></thead>";
 
+if(!empty($input)){
 foreach ($input as $row) {
   echo "<tr>";
   foreach ($list as $key=>$colum) {
@@ -34,6 +35,8 @@ foreach ($input as $row) {
   }
       echo "</td>";
   echo "</tr>";
+}
+}else{
 }
 
 echo("</table>");

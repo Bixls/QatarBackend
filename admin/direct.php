@@ -21,6 +21,11 @@ $function=$_GET['fn'];
 $inputs=$_GET['i'];
 $class=$_GET['c'];
 call_user_func($class."::".$function,$inputs);
+}else{
+?>
+  <a href="?fn=viewUnApprovedMemberList&c=members&i=0&" >View unapproved members</a>
+  <a href="?fn=viewMemberList&c=members&i=0&" >View unapproved members</a>
+<?
 }
 
 

@@ -18,4 +18,8 @@ echo "<strong>$title</strong>$content";
 echo"</div>";
 }
 
+function SendAdminMessege($type,$title,$content){
+
+}
+
  ?>

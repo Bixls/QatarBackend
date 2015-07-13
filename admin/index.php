@@ -6,6 +6,8 @@ $db = new db(DB_DATABASE, DB_USER, DB_PASSWORD, DB_HOST); // $host is optional a
 mysql_query("set names 'utf8'");
 $title="Admin Panel";
 
+
+
 include ("views/header.php");
 
 

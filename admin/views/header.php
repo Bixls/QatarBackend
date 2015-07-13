@@ -9,8 +9,12 @@
  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 <body>
-  
+  <?php include ("views/navBar.php"); ?>
+  <div style="position:fixed;width:100%">
+  <div class="container">
+  <div class="col-md-6"></div>
+  <div class="col-md-6" style="" id="messeges">
+  </div>
+  </div>
+</div>
 <div class="container">
-<h1>
-  Qatar Invitations admin panel
-</h1>
