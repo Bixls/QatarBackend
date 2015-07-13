@@ -31,7 +31,7 @@ public function getEventbyID($inputs){
 
 
         $What="`members`.`name` , `members`.`ProfilePic`,
-         `Events`.`id` ,`Events`.`subject` ,`Events`.`eventType` , `Events`.`VIP` ,
+         `Events`.`id` ,`Events`.`subject` ,`Events`.`eventType` ,`Events`.`CreatorID`, `Events`.`VIP` ,
          `Events`.`picture` ,`Events`.`description`, `Events`.`TimeEnded`, `Events`.`timeCreated` ,
           `Events`.`comments` , `Events`.`approved`";
         $innerJoin = "INNER JOIN `members` ON `Events`.`CreatorID`=`members`.`id`";
@@ -78,8 +78,8 @@ $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `inVIP` =  '".$new
 if($valid)
 {
 mysql_query("set names 'utf8'");
-$sql = "INSERT INTO `".DB_DATABASE."`.`Events` (`CreatorID`,`VIP`,  `eventType`, `subject`, `description`, `TimeEnded`, `comments`)
-VALUES ('".$inputs->CreatorID."', '".$inputs->VIP."', '".$inputs->eventType."', '".$inputs->subject."', '".$inputs->description."', '".$inputs->TimeEnded."','".$inputs->comments."');";
+$sql = "INSERT INTO `".DB_DATABASE."`.`Events` (`CreatorID`,`VIP`,  `eventType`, `subject`, `description`, `TimeEnded`, `comments`, `picture`)
+VALUES ('".$inputs->CreatorID."', '".$inputs->VIP."', '".$inputs->eventType."', '".$inputs->subject."', '".$inputs->description."', '".$inputs->TimeEnded."','".$inputs->comments."','".$inputs->picture."');";
 mysql_query($sql);
 $respond = array('sucess' => true);
 echo json_encode($respond);
@@ -100,7 +100,7 @@ $stack = array();
   while($row = mysql_fetch_array($query)){
 
     $user = array(
-    'id'=>$row['id'],
+    'Eventid'=>$row['id'],
     'VIP'=>$row['VIP'],
     'eventType'=>$row['eventType'],
     'subject'=>$row['subject'],
@@ -137,7 +137,6 @@ $stack = array();
   echo json_encode($stack);
    $dbConnect->close();
 }
-
 public function getEvents($inputs)
 {
 //$inputs->groupID;// -1:home page  anyother value i am on a group
@@ -196,6 +195,7 @@ if($inputs->catID!=-1)
     echo json_encode($stack);
      $dbConnect->close();
 }
+
 
 public function editEvent($inputs){
   $this->db->update("Events", get_object_vars($inputs), $where=array("id"=>$inputs->id));
