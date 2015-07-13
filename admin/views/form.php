@@ -72,10 +72,13 @@ private $id;
   }
 
   public function echoElement(){
-    $output='
-    <input type="file" name="fileToUpload" id="file" required />
+    $output="";
+    $output.='<div class="form-group">';
+    $output.='<label for="'.$this->id.'"> '.$this->lable.' </label>';
+    $output.='
+    <input type="file" name="fileToUpload" class="form-control"  id="file" required />
     <input type="hidden" name="type" id="type" value='.$this->type.' required />
-    ';
+    </div>';
     return $output;
 
   }
