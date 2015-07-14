@@ -4,6 +4,15 @@
 class events{
 
 public function ViewUnApprovedEventList(){
+$where=array('approved' => 0 );
+ events::ViewList($where);
+}
+public function ViewEventList(){
+  $where=array('approved' => 1 );
+ events::ViewList($where);
+}
+public function ViewList($where){
+
   global $db;
   $table="Events";
 
@@ -31,7 +40,7 @@ public function ViewUnApprovedEventList(){
   INNER JOIN `EventCatigories` ON   `Events`.`eventType`=`EventCatigories`.`catID`";
 
   $getArray=$_GET;
-  $where= array('Events`.`approved' => 0 );
+  $where;
   require ("functions/generalFunctions.php");
   $start=getStartPage($getArray,$per_page);
   $db->select($table,$where,$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$what,$innerJoin);
@@ -42,8 +51,6 @@ public function ViewUnApprovedEventList(){
 
 
   include("views/list.php");
-}
-public function ViewEventList(){
 
 }
 public function getEventsbyMember($memberID){

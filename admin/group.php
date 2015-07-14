@@ -9,22 +9,23 @@ public function addGroup($inputs){
 }
 public function viewGroupList(){
   global $db;
-  $table="groups";
+  require_once("views/tablelist.php");
+  $myTable =new TableView;
+  $myTable->addE("group ID","Gid","`Gid`");
+  $myTable->addE("Group Name","Gname","`Gname`");
+  $myTable->addElement("Group Picture","GProfilePic","`GProfilePic`","<img class=\"img-responsive thumbnail\" src='../image.php?id=","&t=150x150' />");
+  $keyid="Gid";
   global  $per_page;
-  $list = array('id'=>'Gid' ,' Name'=>'Gname','Picture'=>'GProfilePic');
-  $customeFileds= array('View'=>"v",
-                        'Edit'=>"e"
-                      );
+  $myTable->addF("View","View","v");
+  $myTable->addF("Edit","Edit","e");
+  $what=$myTable->returnArray();
+  $table="groups";
   $innerJoin="";
   $getArray=$_GET;
   require ("functions/generalFunctions.php");
   $start=getStartPage($getArray,$per_page);
   $db->select($table,"",$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin);
   $input=$db->result_array();
-
-  //print_r($input);
-  $header=$list;
-  $keyID="id";
   include("views/list.php");
 }
 public function editGroup($id){
