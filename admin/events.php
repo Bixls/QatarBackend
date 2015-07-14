@@ -9,7 +9,7 @@ public function ViewUnApprovedEventList(){
   global  $per_page;
 
   $list = array('id'=>'id' ,' Name'=>'VIP','Subject'=>'subject'
-  ,'Picture'=>'picture','Event Type'=>'catName','Creator Name'=>'name','Creator Group'=>'Gname');
+  ,'Picture'=>'picture','Event description'=>'description','Event Type'=>'catName','Creator Name'=>'name','Creator Group'=>'Gname');
 
   $customeFileds= array('Approve'=>"a",
                         'Disapprove'=>"d"
@@ -19,6 +19,7 @@ public function ViewUnApprovedEventList(){
     `EventCatigories`.`catName`,
     `Gname`,
     `Events`.`subject` ,
+    `Events`.`description` ,
     `Events`.`VIP` ,
     `Events`.`picture` ,
     `Events`.`TimeEnded` ,
