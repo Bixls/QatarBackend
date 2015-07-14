@@ -4,46 +4,40 @@ class members{
 
 
   public function viewUnApprovedMemberList(){
-    global $db;
-    $table="members";
-    global $per_page;
-    $where=array("Verified"=>1);
-    $list = array('id'=>'id' ,' Name'=>'name','Picture'=>'ProfilePic','Gname'=>'Gname');
-    $customeFileds= array('Approve' =>"a" ,
-                          'disapprove'=>"c",
-                          'View'=>"v",
-                          'Edit'=>"e"
-                        );
-    $innerJoin="INNER JOIN `groups` ON `members`.`groupID`=`groups`.`Gid`";
-    $getArray=$_GET;
-    require ("functions/generalFunctions.php");
-    $start=getStartPage($getArray,$per_page);
-    $db->select($table,$where,$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin);
-    $input=$db->result_array();
-
-    //print_r($input);
-    $header=$list;
-    $keyID="id";
-    include("views/list.php");
-
+    $where=array('Verified' => 1 );
+    $Page_Title="Un-Verified members";
+   members::getMembersList($where,$Page_Title);
   }
-  public function viewMemberList(){
+  public function getMembersList($where,$Page_Title){
     global $db;
+
+    require_once("views/tablelist.php");
+    $myTable =new TableView;
+    $myTable->addE("member ID","id","`id`");
+    $myTable->addE("Member Name","name","`name`");
+    $myTable->addE("Group Name","Gname","`Gname`");
+    $myTable->addElement("Member Picture","ProfilePic","`ProfilePic`","<img class=\"img-responsive thumbnail\" src='../image.php?id=","&t=150x150' />");
+    $keyid="id";
+    global  $per_page;
+    $myTable->addF("Approve","Approve","a");
+    $myTable->addF("Disapprive","disapprove","c");
+    $myTable->addF("View","View","v");
+    $myTable->addF("Edit","Edit","e");
+    $what=$myTable->returnArray();
     $table="members";
-      global $per_page;
-    $where="";
-    $list = array('id'=>'id' ,' Name'=>'name','Picture'=>'ProfilePic','Gname'=>'Gname');
-    $customeFileds= array('View'=>"v",'Edit'=>"e");
     $innerJoin="INNER JOIN `groups` ON `members`.`groupID`=`groups`.`Gid`";
     $getArray=$_GET;
     require ("functions/generalFunctions.php");
     $start=getStartPage($getArray,$per_page);
-    $db->select($table,$where,$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin);
+    $db->select($table,$where,$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$what,$innerJoin);
     $input=$db->result_array();
-    //print_r($input);
-    $header=$list;
-    $keyID="id";
     include("views/list.php");
+  }
+
+  public function viewMemberList(){
+    $Page_Title="All members";
+    $where=array('1' => 1 );
+    members::getMembersList($where,$Page_Title);
   }
   public function SearchMembersByNameList(){
 

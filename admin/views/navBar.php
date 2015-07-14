@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Qatar Invitations</a>
+      <a class="navbar-brand" href="index.php">Qatar Invitations</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -33,8 +33,8 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
            aria-haspopup="true" aria-expanded="false">Events <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Approve Events</a></li>
-            <li><a href="#">View All</a></li>
+            <li><a href="?fn=ViewUnApprovedEventList&c=events&i=0">Approve Events</a></li>
+            <li><a href="?fn=ViewEventList&c=events&i=0">View All</a></li>
           </ul>
         </li>
         <li class="dropdown">
@@ -64,8 +64,8 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Sign out</a></li>
             <li><a href="#">Change password</a></li>
+            <li><a href="logout.php">Sign out</a></li>
           </ul>
         </li>
       </ul>

@@ -95,7 +95,7 @@ $inputs->userID;
 require_once("DataBaseConnection.php");
 $dbConnect=new DatabaseConnect;
   mysql_query("set names 'utf8'");
-  $query = mysql_query("SELECT 
+  $query = mysql_query("SELECT
     `Events`.`id` ,
     `members`.`name`,
     `members`.`groupID` ,
@@ -213,29 +213,7 @@ public function editEvent($inputs){
   echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
 }
 
-public function approveEventByID($inputs)
-{
-  $this->db->update("Events",array('approved' =>1), $where=array("id"=>$inputs->id));
-  echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
-}
-public function getEventsNotApprovedList($inputs){
 
-}
-public function DisapproveEventbyID($inputs){
-  require_once("DataBaseConnection.php");
-  $dbConnect=new DatabaseConnect;
-  $sql=mysql_query("SELECT `VIP` FROM `Events` WHERE `Events`.`id`=".$inputs->Eventid) or die (mysql_error());
-  if($sql){
-      $row=mysql_fetch_array($sql);
-  if($row["VIP"]==1){
-    //Give the user back his points
-  }
-  else{
-    // Just Send the dissaproval messege ي
-  }
-  }
-    $dbConnect->close();
-}
 
 
 }

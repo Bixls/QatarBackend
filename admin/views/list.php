@@ -1,44 +1,51 @@
 <?
-
-echo "<table class=\"table table-striped\">";
-echo "<thead><tr> ";
-
-foreach ($header as $key=>$colum) {
-  echo "<td>";
-  echo($key);
-  echo "</td>";
-
-}
-    echo "</tr></thead>";
+$firstTime=true;
+echo ("<div class=\"page-header\">
+    <h1>$Page_Title</h1>
+  </div>");
 
 if(!empty($input)){
+    echo "<table class=\"table table-striped\">";
 foreach ($input as $row) {
-  echo "<tr>";
-  foreach ($list as $key=>$colum) {
-      echo "<td>";
 
-      if($key!="Picture"){
-    echo($row[$colum]);
-  }else{
-
-    echo("<img height='80px' class=\"img-responsive thumbnail\" src=\"../image.php?id=".$row[$colum]."&t=150x150\">");
-
+if($firstTime){
+  echo "<thead><tr> ";
+  foreach ($row as $key=>$value) {
+    echo "<td>";
+    $myTable->RenderHeader($key);
+    echo "</td>";
   }
+  echo "</tr></thead>";
+  $firstTime=false;
+}
 
-      echo "</td>";
+
+  echo "<tr>";
+
+
+  foreach ($row as $key=>$value) {
+      echo "<td>";
+  $myTable->RenderElement($key,$value);
+    echo "</td>";
+
   }
     echo "<td>";
-  foreach ($customeFileds as $key=>$colum) {
+  foreach (  $myTable->functionsArray as $colum) {
 
-    echo("<a class=\"link\" id=".$colum.$row[$list[$keyID]]." href=\"#\"/>".$key." </a>");
+      echo("<a class=\"link\" id=".($colum->short).$row[$keyid]." href=\"#\"/>".$colum->title." </a>");
 
-  }
+    }
       echo "</td>";
   echo "</tr>";
 }
-}else{
-}
 
+/*
+echo("<a class=\"link\" id=".$colum.$row[$list[$keyID]]." href=\"#\"/>".$key." </a>");
+
+ */
+
+
+}
 echo("</table>");
 
 
@@ -47,10 +54,10 @@ echo("</table>");
 function getFunctionName(i){
   switch(i) {
   <?php
-    foreach ($customeFileds as $key=>$colum) {
+    foreach ( $myTable->functionsArray as $colum) {
 
-      echo("case '$colum':\n");
-      echo("return '$key' ;\n");
+      echo("case '$colum->short':\n");
+      echo("return '$colum->fn' ;\n");
       echo("break;\n");
     }
   ?>

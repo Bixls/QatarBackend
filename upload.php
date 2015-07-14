@@ -1,7 +1,7 @@
 <?php
 require_once("configuration.php");
-  if(!isset($NoResponse)){
-    if (!isset($_SERVER['PHP_AUTH_USER'])) {
+
+    if (!isset($_SERVER['PHP_AUTH_USER'])&&!isset($NoResponse)) {
 
         header('WWW-Authenticate: Basic realm="My Realm"');
         header('HTTP/1.0 401 Unauthorized');
@@ -9,8 +9,9 @@ require_once("configuration.php");
         exit;
 
     }
-    } else {
-                if($_SERVER['PHP_AUTH_USER']==AUSER&&$_SERVER['PHP_AUTH_PW']==APASS)
+     else {
+
+                if(($_SERVER['PHP_AUTH_USER']==AUSER&&$_SERVER['PHP_AUTH_PW']==APASS)||isset($NoResponse))
                 {
 
                   $TicketId=0;
