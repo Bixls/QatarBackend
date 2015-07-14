@@ -33,7 +33,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
            aria-haspopup="true" aria-expanded="false">Events <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Approve Events</a></li>
+            <li><a href="?fn=ViewUnApprovedEventList&c=events&i=0">Approve Events</a></li>
             <li><a href="#">View All</a></li>
           </ul>
         </li>

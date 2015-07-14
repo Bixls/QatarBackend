@@ -95,7 +95,7 @@ $inputs->userID;
 require_once("DataBaseConnection.php");
 $dbConnect=new DatabaseConnect;
   mysql_query("set names 'utf8'");
-  $query = mysql_query("SELECT 
+  $query = mysql_query("SELECT
     `Events`.`id` ,
     `members`.`name`,
     `members`.`groupID` ,
