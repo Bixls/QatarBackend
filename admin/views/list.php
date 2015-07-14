@@ -24,16 +24,21 @@ if($firstTime){
   $myTable->RenderElement($key,$value);
     echo "</td>";
 
-}
+  }
+    echo "<td>";
+  foreach (  $myTable->functionsArray as $colum) {
 
+      echo("<a class=\"link\" id=".($colum->short).$row[$keyid]." href=\"#\"/>".$colum->title." </a>");
+
+    }
+      echo "</td>";
   echo "</tr>";
 }
 
-/*  foreach ($customeFileds as $key=>$colum) {
+/*
+echo("<a class=\"link\" id=".$colum.$row[$list[$keyID]]." href=\"#\"/>".$key." </a>");
 
-    echo("<a class=\"link\" id=".$colum.$row[$list[$keyID]]." href=\"#\"/>".$key." </a>");
-
-  }*/
+ */
 
 
 }
@@ -45,10 +50,10 @@ echo("</table>");
 function getFunctionName(i){
   switch(i) {
   <?php
-    foreach ($customeFileds as $key=>$colum) {
+    foreach ( $myTable->functionsArray as $colum) {
 
-      echo("case '$colum':\n");
-      echo("return '$key' ;\n");
+      echo("case '$colum->short':\n");
+      echo("return '$colum->fn' ;\n");
       echo("break;\n");
     }
   ?>

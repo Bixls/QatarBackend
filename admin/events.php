@@ -18,11 +18,12 @@ public function ViewUnApprovedEventList(){
   $myTable->addE("el description","description","`Events`.`description`");
   $myTable->addE("esm el catgory","catName","`EventCatigories`.`catName`");
   $myTable->addE("esm el group","Gname","`Gname`");
-
+  $keyid="id";
   global  $per_page;
-  $customeFileds= array('Approve'=>"a",
-                        'Disapprove'=>"d"
-                      );
+  $myTable->addF("Approve ya 3m","Approve","a");
+  $myTable->addF("ya 3m dis Approve","Disapprove","d");
+
+
   $what=$myTable->returnArray();
   $innerJoin="INNER JOIN (SELECT `groups`.`Gname` Gname ,`members`.`name` ,`members`.`id`
   FROM groups INNER JOIN members ON members.groupID=groups.Gid)
@@ -40,7 +41,6 @@ public function ViewUnApprovedEventList(){
 
 
 
-  $keyID="id";
   include("views/list.php");
 }
 public function ViewEventList(){
