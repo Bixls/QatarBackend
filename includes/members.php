@@ -28,6 +28,7 @@ $query = mysql_query("SELECT * FROM `members` WHERE `Mobile` = \"".$user->Mobile
         //User name has been already found
         }else{
            $ValidKey=1;
+          $user->password=md5($user->password);
           mysql_query("set names 'utf8'");
           $sql = "INSERT INTO `".DB_DATABASE."`.`members` (`name`,  `password`, `groupID`, `Mobile`, `ProfilePic`, `Verified`,`maskInbox`)
           VALUES ('".$user->name."', '".$user->password."', '".$user->groupID."', '".$user->Mobile."', '".$user->ProfilePic."', '".$ValidKey."','11111');";
@@ -53,7 +54,7 @@ public function signIn($data) {
   $query = mysql_query("SELECT * FROM `members` WHERE `Mobile` = \"".$data->Mobile."\"") or die (mysql_error());
       if ($query){
         $row = mysql_fetch_array($query);
-        if($data->password==$row['password'])
+        if(md5($data->password)==$row['password'])
         {
         $respond = array('success' => true);
         $user=new member;
