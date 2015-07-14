@@ -1,24 +1,32 @@
 <?php
 
+  require_once("views/tablelist.php");
 
 class events{
 
 public function ViewUnApprovedEventList(){
 $where=array('approved' => 0 );
 $Page_Title="Un approved Events";
- events::ViewList($where,$Page_Title);
+  $myFunctions =new TableView;
+$myFunctions->addF("View","ViewEvent","v");
+$myFunctions->addF("Edit","Edit","e");
+$myFunctions->addF("Approve","Approve","a");
+$myFunctions->addF("Disapprive","disapprove","c");
+ events::ViewList($where,$Page_Title,$myFunctions);
 }
 public function ViewEventList(){
   $where=array('approved' => 1 );
   $Page_Title="All Approved Events";
- events::ViewList($where,$Page_Title);
+  $myFunctions =new TableView;
+  $myFunctions->addF("View","ViewEvent","v");
+  $myFunctions->addF("Edit","Edit","e");
+ events::ViewList($where,$Page_Title,$myFunctions);
 }
-public function ViewList($where,$Page_Title){
+public function ViewList($where,$Page_Title,$myFunctions){
 
   global $db;
   $table="Events";
 
-  require_once("views/tablelist.php");
   $myTable =new TableView;
 
   $myTable->addE("ID","id","`Events`.`id`");
@@ -31,9 +39,6 @@ public function ViewList($where,$Page_Title){
   $myTable->addE("esm el group","Gname","`Gname`");
   $keyid="id";
   global  $per_page;
-  $myTable->addF("Approve ya 3m","Approve","a");
-  $myTable->addF("ya 3m dis Approve","Disapprove","d");
-
 
   $what=$myTable->returnArray();
   $innerJoin="INNER JOIN (SELECT `groups`.`Gname` Gname ,`members`.`name` ,`members`.`id`

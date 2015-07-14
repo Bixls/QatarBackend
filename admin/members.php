@@ -1,17 +1,22 @@
 <?php
-
+  require_once("views/tablelist.php");
 class members{
 
 
   public function viewUnApprovedMemberList(){
     $where=array('Verified' => 1 );
     $Page_Title="Un-Verified members";
-   members::getMembersList($where,$Page_Title);
+    $myFunctions =new TableView;
+    $myFunctions->addF("Approve","Approve","a");
+    $myFunctions->addF("Disapprive","disapprove","c");
+    $myFunctions->addF("View","View","v");
+    $myFunctions->addF("Edit","Edit","e");
+   members::getMembersList($where,$Page_Title,$myFunctions);
   }
-  public function getMembersList($where,$Page_Title){
+  public function getMembersList($where,$Page_Title,$myFunctions){
     global $db;
 
-    require_once("views/tablelist.php");
+
     $myTable =new TableView;
     $myTable->addE("member ID","id","`id`");
     $myTable->addE("Member Name","name","`name`");
@@ -19,10 +24,8 @@ class members{
     $myTable->addElement("Member Picture","ProfilePic","`ProfilePic`","<img class=\"img-responsive thumbnail\" src='../image.php?id=","&t=150x150' />");
     $keyid="id";
     global  $per_page;
-    $myTable->addF("Approve","Approve","a");
-    $myTable->addF("Disapprive","disapprove","c");
-    $myTable->addF("View","View","v");
-    $myTable->addF("Edit","Edit","e");
+
+
     $what=$myTable->returnArray();
     $table="members";
     $innerJoin="INNER JOIN `groups` ON `members`.`groupID`=`groups`.`Gid`";
@@ -37,6 +40,11 @@ class members{
   public function viewMemberList(){
     $Page_Title="All members";
     $where=array('1' => 1 );
+    $myFunctions =new TableView;
+    $myFunctions->addF("View","View","v");
+    $myFunctions->addF("Edit","Edit","e");
+   members::getMembersList($where,$Page_Title,$myFunctions);
+
     members::getMembersList($where,$Page_Title);
   }
   public function SearchMembersByNameList(){
