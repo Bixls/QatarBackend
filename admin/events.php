@@ -7,10 +7,6 @@ public function ViewUnApprovedEventList(){
   global $db;
   $table="Events";
   global  $per_page;
-
-  $list = array('id'=>'id' ,' Name'=>'VIP','Subject'=>'subject'
-  ,'Picture'=>'picture','Event description'=>'description','Event Type'=>'catName','Creator Name'=>'name','Creator Group'=>'Gname');
-
   $customeFileds= array('Approve'=>"a",
                         'Disapprove'=>"d"
                       );
@@ -40,7 +36,22 @@ public function ViewUnApprovedEventList(){
   $input=$db->result_array();
 
   //print_r($input);
-  $header=$list;
+
+  require_once("views/tablelist.php");
+
+  $myTable =new TableView;
+
+
+$myTable->addE("ID","id");
+$myTable->addE("vip","VIP");
+$myTable->addE("esm el sha5s","name");
+//$myTable->addE("ht5ls emta","TimeEnded");
+$myTable->addE("subjecta","subject");
+$myTable->addE("el sora","picture");
+$myTable->addE("el description","description");
+$myTable->addE("esm el catgory","catName");
+$myTable->addE("esm el group","Gname");
+
   $keyID="id";
   include("views/list.php");
 }

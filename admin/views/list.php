@@ -1,44 +1,42 @@
 <?
+$firstTime=true;
+if(!empty($input)){
+    echo "<table class=\"table table-striped\">";
+foreach ($input as $row) {
 
-echo "<table class=\"table table-striped\">";
-echo "<thead><tr> ";
+if($firstTime){
+  echo "<thead><tr> ";
+  foreach ($row as $key=>$value) {
+    echo "<td>";
+    $myTable->RenderHeader($key);
+    echo "</td>";
+  }
+  echo "</tr></thead>";
+  $firstTime=false;
+}
 
-foreach ($header as $key=>$colum) {
-  echo "<td>";
-  echo($key);
-  echo "</td>";
+
+  echo "<tr>";
+
+
+  foreach ($row as $key=>$value) {
+      echo "<td>";
+  $myTable->RenderElement($key,$value);
+    echo "</td>";
 
 }
-    echo "</tr></thead>";
 
-if(!empty($input)){
-foreach ($input as $row) {
-  echo "<tr>";
-  foreach ($list as $key=>$colum) {
-      echo "<td>";
+  echo "</tr>";
+}
 
-      if($key!="Picture"){
-    echo($row[$colum]);
-  }else{
-
-    echo("<img height='80px' class=\"img-responsive thumbnail\" src=\"../image.php?id=".$row[$colum]."&t=150x150\">");
-
-  }
-
-      echo "</td>";
-  }
-    echo "<td>";
-  foreach ($customeFileds as $key=>$colum) {
+/*  foreach ($customeFileds as $key=>$colum) {
 
     echo("<a class=\"link\" id=".$colum.$row[$list[$keyID]]." href=\"#\"/>".$key." </a>");
 
-  }
-      echo "</td>";
-  echo "</tr>";
-}
-}else{
-}
+  }*/
 
+
+}
 echo("</table>");
 
 
