@@ -1,5 +1,9 @@
 <?
 $firstTime=true;
+echo ("<div class=\"page-header\">
+    <h1>$Page_Title</h1>
+  </div>");
+
 if(!empty($input)){
     echo "<table class=\"table table-striped\">";
 foreach ($input as $row) {

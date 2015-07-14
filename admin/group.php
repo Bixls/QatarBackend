@@ -8,6 +8,8 @@ public function addGroup($inputs){
 
 }
 public function viewGroupList(){
+
+  $Page_Title="Groups";
   global $db;
   require_once("views/tablelist.php");
   $myTable =new TableView;

@@ -5,13 +5,15 @@ class events{
 
 public function ViewUnApprovedEventList(){
 $where=array('approved' => 0 );
- events::ViewList($where);
+$Page_Title="Un approved Events";
+ events::ViewList($where,$Page_Title);
 }
 public function ViewEventList(){
   $where=array('approved' => 1 );
- events::ViewList($where);
+  $Page_Title="All Approved Events";
+ events::ViewList($where,$Page_Title);
 }
-public function ViewList($where){
+public function ViewList($where,$Page_Title){
 
   global $db;
   $table="Events";

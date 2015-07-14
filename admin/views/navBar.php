@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Qatar Invitations</a>
+      <a class="navbar-brand" href="index.php">Qatar Invitations</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->

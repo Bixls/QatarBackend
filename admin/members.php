@@ -5,10 +5,12 @@ class members{
 
   public function viewUnApprovedMemberList(){
     $where=array('Verified' => 1 );
-   members::getMembersList($where);
+    $Page_Title="Un-Verified members";
+   members::getMembersList($where,$Page_Title);
   }
-  public function getMembersList($where){
+  public function getMembersList($where,$Page_Title){
     global $db;
+
     require_once("views/tablelist.php");
     $myTable =new TableView;
     $myTable->addE("member ID","id","`id`");
@@ -33,8 +35,9 @@ class members{
   }
 
   public function viewMemberList(){
+    $Page_Title="All members";
     $where=array('1' => 1 );
-    members::getMembersList($where);
+    members::getMembersList($where,$Page_Title);
   }
   public function SearchMembersByNameList(){
 
