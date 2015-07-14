@@ -64,8 +64,8 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Sign out</a></li>
             <li><a href="#">Change password</a></li>
+            <li><a href="logout.php">Sign out</a></li>
           </ul>
         </li>
       </ul>
