@@ -6,27 +6,28 @@ class events{
 public function ViewUnApprovedEventList(){
   global $db;
   $table="Events";
+
+  require_once("views/tablelist.php");
+  $myTable =new TableView;
+
+  $myTable->addE("ID","id","`Events`.`id`");
+  $myTable->addE("vip","VIP","`Events`.`VIP`");
+  $myTable->addE("esm el sha5s","name","`members`.`name`");
+  $myTable->addE("subjecta","subject","`Events`.`subject`");
+  $myTable->addElement("el sora","picture","`Events`.`picture`","<img class=\"img-responsive thumbnail\" src='../image.php?id=","&t=150x150' />");
+  $myTable->addE("el description","description","`Events`.`description`");
+  $myTable->addE("esm el catgory","catName","`EventCatigories`.`catName`");
+  $myTable->addE("esm el group","Gname","`Gname`");
+
   global  $per_page;
   $customeFileds= array('Approve'=>"a",
                         'Disapprove'=>"d"
                       );
-  $what= ('`Events`.`id` ,
-    `members`.`name`,
-    `EventCatigories`.`catName`,
-    `Gname`,
-    `Events`.`subject` ,
-    `Events`.`description` ,
-    `Events`.`VIP` ,
-    `Events`.`picture` ,
-    `Events`.`TimeEnded` ,
-    `Events`.`description`');
+  $what=$myTable->returnArray();
   $innerJoin="INNER JOIN (SELECT `groups`.`Gname` Gname ,`members`.`name` ,`members`.`id`
   FROM groups INNER JOIN members ON members.groupID=groups.Gid)
    `members` ON `Events`.`CreatorID`=`members`.`id`
   INNER JOIN `EventCatigories` ON   `Events`.`eventType`=`EventCatigories`.`catID`";
-
-
-
 
   $getArray=$_GET;
   $where= array('Events`.`approved' => 0 );
@@ -37,20 +38,7 @@ public function ViewUnApprovedEventList(){
 
   //print_r($input);
 
-  require_once("views/tablelist.php");
 
-  $myTable =new TableView;
-
-
-$myTable->addE("ID","id");
-$myTable->addE("vip","VIP");
-$myTable->addE("esm el sha5s","name");
-//$myTable->addE("ht5ls emta","TimeEnded");
-$myTable->addE("subjecta","subject");
-$myTable->addE("el sora","picture");
-$myTable->addE("el description","description");
-$myTable->addE("esm el catgory","catName");
-$myTable->addE("esm el group","Gname");
 
   $keyID="id";
   include("views/list.php");
