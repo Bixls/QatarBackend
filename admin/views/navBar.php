@@ -41,8 +41,8 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
           aria-haspopup="true" aria-expanded="false">News <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Create New</a></li>
-            <li><a href="#">View All</a></li>
+              <li><a class="menuLinks" id="CreateNews" i="0" c="news" fn="CreateNew" href="#">Create New</a></li>
+            <li><a href="?fn=ViewNewsList&c=news&i=0">View All</a></li>
           </ul>
         </li>
         <li class="dropdown">

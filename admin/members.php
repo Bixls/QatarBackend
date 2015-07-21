@@ -44,8 +44,6 @@ class members{
     $myFunctions->addF("View","View","v");
     $myFunctions->addF("Edit","Edit","e");
    members::getMembersList($where,$Page_Title,$myFunctions);
-
-    members::getMembersList($where,$Page_Title);
   }
   public function SearchMembersByNameList(){
 
