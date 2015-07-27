@@ -248,6 +248,12 @@ function GetUserBlockList($inputs){
   $BlockList=new BlockList;
   $BlockList->GetUserBlockList($inputs[0]);
 }
+//****************** Strings *******************?/
+function getString($inputs){
+include ("strings.php");
+$strings=new strings;
+$strings->getString($inputs[0]);
+}
 //*************** General functions ************************/
 function get_client_ip() {
     $ipaddress = '';
