@@ -1,5 +1,11 @@
 <?php
+require_once('db.php');
 class member{
+    public $db;
+    public function __construct() {
+    global $db;
+    $this->db = new DB;
+    }
   public $id;
   public $name;
   public $Mobile;
@@ -128,15 +134,13 @@ public function changeAvatar($id,$src)
 }
 
 public function editProfile($inputs){
-  require_once("DataBaseConnection.php");
-  $dbConnect=new DatabaseConnect;
-  $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET
-  `maskInbox` =  '".$inputs->maskInbox."' ,`name` =  '".$inputs->name."'
-  WHERE `id` = \"".$inputs->id."\"") or die (mysql_error());
-  $dbConnect->close();
-  $respond = array('success' => true);
-  echo json_encode($respond);
-
+  //Verify member name
+  // if changed password
+  if(isset($inputs->password)){
+    $inputs->password=md5($inputs->password);
+  }
+  $this->db->update("members", get_object_vars($inputs), $where=array("id"=>$inputs->id));
+  echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
 }
 public function getUserbyID($inputs){
   require_once("DataBaseConnection.php");
