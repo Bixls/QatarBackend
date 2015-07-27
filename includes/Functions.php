@@ -87,6 +87,12 @@ function getGroupList($inputs)
   $groups=new Groups;
   $groups->getGroupList($inputs[0]);
 }
+function getGroupbyID($inputs)
+{
+  include("Group.php");
+  $groups=new Groups;
+  $groups->getGroupbyID($inputs[0]);
+}
 //***************** EventCategories *****************/
 function getEventCategories($inputs)
 {
