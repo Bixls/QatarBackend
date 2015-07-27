@@ -4,7 +4,7 @@ class members{
 
 
   public function viewUnApprovedMemberList(){
-    $where=array('Verified' => 1 );
+    $where=array('Verified' => 0 );
     $Page_Title="Un-Verified members";
     $myFunctions =new TableView;
     $myFunctions->addF("Approve","Approve","a");

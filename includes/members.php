@@ -60,7 +60,7 @@ public function signIn($data) {
         $user->Mobile=$row['Mobile'];
         $user->groupID=$row['groupID'];
         $user->ProfilePic=$row['ProfilePic'];
-        $user->Verified=$row['Verified']==0?true:false;
+        $user->Verified=$row['Verified']==1?true:false;
         $user->maskInbox=$row['maskInbox'];
         $user->inNOR=$row['inNOR'];
         $user->inVIP=$row['inVIP'];
@@ -86,7 +86,7 @@ public function Verify($data) {
         {
           if($data->Verified==$row['Verified'])
           {
-            $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `Verified` =  '0' WHERE `id` = \"".$id."\"") or die (mysql_error());
+            $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `Verified` =  '1' WHERE `id` = \"".$id."\"") or die (mysql_error());
                 if ($query){
                   $respond = array('success' => true);
                   echo json_encode($respond);
