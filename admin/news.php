@@ -58,6 +58,9 @@ class news{
 
   }
   }
+  public function delete($id){
+
+  }
 
   public function ViewNewsList(){
 
@@ -67,7 +70,7 @@ class news{
     $myFunctions =new TableView;
     $myFunctions->addF("View","View","v");
     $myFunctions->addF("Edit","Edit","e");
-
+    $myFunctions->addF("Delete","delete","d");
     global $db;
 
 
