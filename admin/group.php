@@ -18,8 +18,9 @@ public function viewGroupList(){
   $myTable->addElement("Group Picture","GProfilePic","`GProfilePic`","<img class=\"img-responsive thumbnail\" src='../image.php?id=","&t=150x150' />");
   $keyid="Gid";
   global  $per_page;
-  $myTable->addF("View","View","v");
-  $myTable->addF("Edit","Edit","e");
+  $myFunctions =new TableView;
+  $myFunctions->addF("View","View","v");
+  $myFunctions->addF("Edit","Edit","e");
   $what=$myTable->returnArray();
   $table="groups";
   $innerJoin="";

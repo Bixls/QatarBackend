@@ -30,7 +30,7 @@ if($firstTime){
 
   }
     echo "<td>";
-  foreach (  $myTable->functionsArray as $colum) {
+  foreach (  $myFunctions->functionsArray as $colum) {
 
       echo("<a class=\"link\" id=".($colum->short).$row[$keyid]." href=\"#\"/>".$colum->title." </a>");
 
@@ -54,7 +54,7 @@ echo("</table>");
 function getFunctionName(i){
   switch(i) {
   <?php
-    foreach ( $myTable->functionsArray as $colum) {
+    foreach ( $myFunctions->functionsArray as $colum) {
 
       echo("case '$colum->short':\n");
       echo("return '$colum->fn' ;\n");

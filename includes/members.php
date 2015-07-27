@@ -1,5 +1,11 @@
 <?php
+require_once('db.php');
 class member{
+    public $db;
+    public function __construct() {
+    global $db;
+    $this->db = new DB;
+    }
   public $id;
   public $name;
   public $Mobile;
@@ -15,37 +21,28 @@ class member{
 
 
 
-public function CreateNew($user) {
-require_once("DataBaseConnection.php");
-$dbConnect=new DatabaseConnect;
-$query = mysql_query("SELECT * FROM `members` WHERE `Mobile` = \"".$user->Mobile."\"") or die (mysql_error());
-    if ($query){
-        		$row = mysql_fetch_array($query);
-        if($row['Mobile']==$user->Mobile){
-         $respond = array('success' => false);
-
-        echo json_encode($respond);
-        //User name has been already found
-        }else{
-           $ValidKey=1;
-          $user->password=md5($user->password);
-          mysql_query("set names 'utf8'");
-          $sql = "INSERT INTO `".DB_DATABASE."`.`members` (`name`,  `password`, `groupID`, `Mobile`, `ProfilePic`, `Verified`,`maskInbox`)
-          VALUES ('".$user->name."', '".$user->password."', '".$user->groupID."', '".$user->Mobile."', '".$user->ProfilePic."', '".$ValidKey."','11111');";
-
-          if (mysql_query($sql)) {
-              $id=mysql_insert_id();
-              $respond = array('sucess' => true,'id'=>$id);
-             echo json_encode($respond);
-            //successfully Registering new user
-          } else {
-            $respond = array('success' => false);
-           echo json_encode($respond);
-          //an error has been accourd
-          }
-        }
-    }
-    $dbConnect->close();
+public function CreateNew($inputs) {
+$errors = array();
+  if($this->alreadyFoundMobile($inputs->Mobile)){
+    array_push($errors,"Mobile");
+  }
+  if($this->alreadyFound($inputs->name,$inputs->groupID)){
+    array_push($errors,"name");
+  }
+  if(empty($errors))
+  {
+  $inputs->password=md5($inputs->password);
+  $this->db->insert("members", get_object_vars($inputs));
+  if(!$this->db->error){
+    echo json_encode(  array('sucess' => true,'id'=>$this->db->id())) ;
+  }else{
+    echo json_encode($this->db->errorMessege());
+  }
+  }else{
+    $respond["sucess"]=false;
+      $respond["reason"]=$errors;
+    echo json_encode($respond);
+  }
 }
 public function signIn($data) {
   require_once("DataBaseConnection.php");
@@ -63,7 +60,7 @@ public function signIn($data) {
         $user->Mobile=$row['Mobile'];
         $user->groupID=$row['groupID'];
         $user->ProfilePic=$row['ProfilePic'];
-        $user->Verified=$row['Verified']==0?true:false;
+        $user->Verified=$row['Verified']==1?true:false;
         $user->maskInbox=$row['maskInbox'];
         $user->inNOR=$row['inNOR'];
         $user->inVIP=$row['inVIP'];
@@ -89,7 +86,7 @@ public function Verify($data) {
         {
           if($data->Verified==$row['Verified'])
           {
-            $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `Verified` =  '0' WHERE `id` = \"".$id."\"") or die (mysql_error());
+            $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `Verified` =  '1' WHERE `id` = \"".$id."\"") or die (mysql_error());
                 if ($query){
                   $respond = array('success' => true);
                   echo json_encode($respond);
@@ -126,16 +123,33 @@ public function changeAvatar($id,$src)
   $respond = array('success' => true);
   echo json_encode($respond);
 }
+function alreadyFound($name,$groupID){
+  $this->db->select("members",$where = array('name' =>$name, 'groupID'=> $groupID),"",$order=false,$where_mode="AND",$print_query=false,$What="*","");
+  if($this->db->count()>0){
+    return true;
+  }
+  return false;
+}
+function alreadyFoundMobile($Mobile){
+  $this->db->select("members",$where = array('Mobile' =>$Mobile),"",$order=false,$where_mode="AND",$print_query=false,$What="*","");
+  if($this->db->count()>0){
+    return true;
+  }
+  return false;
+}
 
 public function editProfile($inputs){
-  require_once("DataBaseConnection.php");
-  $dbConnect=new DatabaseConnect;
-  $query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET
-  `maskInbox` =  '".$inputs->maskInbox."' ,`name` =  '".$inputs->name."'
-  WHERE `id` = \"".$inputs->id."\"") or die (mysql_error());
-  $dbConnect->close();
-  $respond = array('success' => true);
-  echo json_encode($respond);
+  //Verify member name
+  if(!$this->alreadyFound($inputs->name,$inputs->groupID)){
+  // if changed password
+  if(isset($inputs->password)){
+    $inputs->password=md5($inputs->password);
+  }
+  $this->db->update("members", get_object_vars($inputs), $where=array("id"=>$inputs->id));
+    echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
+  }else{
+    echo json_encode($respond = array('sucess' =>false ,'reason'=>"name" ));
+  }
 
 }
 public function getUserbyID($inputs){

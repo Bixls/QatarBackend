@@ -1,6 +1,15 @@
 <?php
+require_once('db.php');
+
 
 class Groups{
+
+
+  public $db;
+  public function __construct() {
+  global $db;
+  $this->db = new DB;
+  }
 
 public  $Gid;
 public  $Gname;
@@ -17,12 +26,20 @@ public  function getGroupList($inputs){
             'id' => $row['Gid'],
             'name' => $row['Gname'],
             'ProfilePic' => $row['GProfilePic'],
+            'Royal' => $row['Royal']
             );
       array_push($stack, $respond);
       }
    echo json_encode($stack);
     $dbConnect->close();
 
+  }
+  public function getGroupbyID($inputs){
+    $table="groups";
+    $innerJoin="";
+    $this->db->select($table,$where = array('Gid' =>$inputs->id  ),"",$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin);
+    $output=$this->db->result_array();
+    echo json_encode($output);
   }
 
 

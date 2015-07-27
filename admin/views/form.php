@@ -48,17 +48,29 @@ function __construct($id,$value,$type,$lable){
   $this->lable=$lable;
 }
 public function echoElement(){
+
 $output="";
 $output.='<div class="form-group">';
 if($this->type!="hidden"){ $output.='<label for="'.$this->id.'"> '.$this->lable.' </label>';}
-$output.='<input type="'.$this->type.'" class="form-control" id="'.  $this->id.'" name="'.  $this->id.'"
-    value="'.  $this->value .'" >
-  </div>';
+if($this->type=="select"){
+$output.='<select class="form-control" id="'.  $this->id.'" name="'.  $this->id.'">';
+foreach ($this->value as $key => $value) {
+$output.='<option value="'.$key.'">'.$value.'</option>';
+}
+$output.='</select>';
+}elseif($this->type=="textarea"){
+$output.='<textarea class="form-control" rows="5" id="'.  $this->id.'" name="'.  $this->id.'"></textarea>';
+}else{
+  $output.='<input type="'.$this->type.'" class="form-control" id="'.  $this->id.'" name="'.  $this->id.'"
+      value="'.  $this->value .'" >
+    </div>';
+}
+
+
 return   $output;
 }
 
 }
-
 
 class image{
 
