@@ -20,7 +20,7 @@ if($firstTime){
 }
 
 
-  echo "<tr>";
+  echo "<tr id='R$row[$keyid]'>";
 
 
   foreach ($row as $key=>$value) {
@@ -64,8 +64,16 @@ function getFunctionName(i){
   }
 }
 
+
+
 $(document).ready(function(){
     $(".link").click(function(event){
+      var r=true;
+      if(event.target.id.substring(0, 1)=="d")
+      {
+        r = confirm("do you Realy want to delete "+event.target.id.substring(1));
+      }
+      if(r){
         $.post("direct.php",
         {
           i:event.target.id.substring(1),
@@ -75,6 +83,7 @@ $(document).ready(function(){
         function(data,status){
           $('#messeges').html(data);
         });
+      }
     });
 });
 </script>

@@ -59,7 +59,15 @@ class news{
   }
   }
   public function delete($id){
-
+    global $db;
+    $db->delete("News",$where=array('NewsID' => $id));
+    include("functions/generalFunctions.php");
+    if(!$db->error){
+    messege("alert-success","Sucess","news has been delete successfully");
+    echo("<script>$('#R$id').hide();</script>");
+    }else{
+    messege("alert-danger","Falied ",implode(" ",$db->errorMessege()));
+    }
   }
 
   public function ViewNewsList(){
