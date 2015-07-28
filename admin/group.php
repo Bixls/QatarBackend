@@ -21,6 +21,7 @@ public function viewGroupList(){
   $myFunctions =new TableView;
   $myFunctions->addF("View","View","v");
   $myFunctions->addF("Edit","Edit","e");
+    $myFunctions->addF("Delete","Delete","d");
   $what=$myTable->returnArray();
   $table="groups";
   $innerJoin="";
@@ -54,7 +55,18 @@ public function CreateNew($input){
 //  $body="fields that will create the new group is here";
   include("views/single.php");
 }
+public function Delete($id){
+  global $db;
+  $db->delete("groups",$where=array('Gid' => $id));
+  include("functions/generalFunctions.php");
+  if(!$db->error){
+  messege("alert-success","Sucess","group has been delete successfully");
+  echo("<script>$('#R$id').hide();</script>");
+  }else{
+  messege("alert-danger","Falied ",implode(" ",$db->errorMessege()));
+  }
 
+}
 public function insert($id)
 {
   ob_start();

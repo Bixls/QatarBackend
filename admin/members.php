@@ -43,6 +43,7 @@ class members{
     $myFunctions =new TableView;
     $myFunctions->addF("View","View","v");
     $myFunctions->addF("Edit","Edit","e");
+    $myFunctions->addF("Delete","Delete","d");
    members::getMembersList($where,$Page_Title,$myFunctions);
   }
   public function SearchMembersByNameList(){
@@ -88,8 +89,18 @@ global $db;
   $db->update('members',$what=array('Verified'=>$ValidKey),$where = array('id' => $id ));
   include("functions/generalFunctions.php");
   messege("alert-success","Sucess      ","Approval sms is $ValidKey");
+  echo("<script>$('#R$id').hide();</script>");
   }
   public function Delete($id){
+    global $db;
+    $db->delete("members",$where=array('id' => $id));
+    include("functions/generalFunctions.php");
+    if(!$db->error){
+    messege("alert-success","Sucess","member has been delete successfully");
+    echo("<script>$('#R$id').hide();</script>");
+    }else{
+    messege("alert-danger","Falied ",implode(" ",$db->errorMessege()));
+    }
 
   }
   public function Disapprove($id){
@@ -101,6 +112,7 @@ global $db;
       //Send internal Messege
       include("functions/generalFunctions.php");
       messege("alert-danger","Sucess      ","the member was rejected");
+      echo("<script>$('#R$id').hide();</script>");
   }
 
 }
