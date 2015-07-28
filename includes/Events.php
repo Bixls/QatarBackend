@@ -56,38 +56,27 @@ return $re;
 
 
 public function CreateEvent($inputs) {
-  require_once("DataBaseConnection.php");
-  $dbConnect=new DatabaseConnect;
-    mysql_query("set names 'utf8'");
-    $MembersQuery = mysql_query("SELECT `inNOR` , `inVIP` FROM `members` WHERE `id` = \"".$inputs->CreatorID."\"  ") or die (mysql_error());
-    $membersRow = mysql_fetch_array($MembersQuery);
-    $valid=false;
-if($inputs->VIP==0&&$membersRow['inNOR']>0)
-{
-$valid=true;
-$newValue=$membersRow['inNOR']-1;
-$query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `inNOR` =  '".$newValue."'  WHERE `id` = \"".$inputs->CreatorID."\"") or die (mysql_error());
-}
-elseif($inputs->VIP==1&&$membersRow['inVIP']>0)
-{
-$valid=true;
-$newValue=$membersRow['inVIP']-1;
-$query = mysql_query("UPDATE  `".DB_DATABASE."`.`members` SET `inVIP` =  '".$newValue."'  WHERE `id` = \"".$inputs->CreatorID."\"") or die (mysql_error());
-}
-// the user can create event
-if($valid)
-{
-mysql_query("set names 'utf8'");
-$sql = "INSERT INTO `".DB_DATABASE."`.`Events` (`CreatorID`,`VIP`,  `eventType`, `subject`, `description`, `TimeEnded`, `comments`, `picture`)
-VALUES ('".$inputs->CreatorID."', '".$inputs->VIP."', '".$inputs->eventType."', '".$inputs->subject."', '".$inputs->description."', '".$inputs->TimeEnded."','".$inputs->comments."','".$inputs->picture."');";
-mysql_query($sql);
-$respond = array('sucess' => true);
-echo json_encode($respond);
-}else{
-  $respond = array('sucess' => false);
- echo json_encode($respond);
-}
-$dbConnect->close();
+
+  $error=array();
+  if($inputs->VIP==1){
+      $this->db->select($table='members',$where=array('id'=>$inputs->CreatorID),false,false,"AND",false,"*",false);
+      $output=$this->db->row_array();
+      if($output['inVIP']>0){
+        $newVip=$output['inVIP']-1;
+        $this->db->update('members',$what= array('inVIP' => $newVip),$where=array('id'=>$inputs->CreatorID));
+      }else{
+      array_push($error,"VIP");
+      }
+    }
+
+  if(empty($error)){
+  $this->db->insert("Events", get_object_vars($inputs));
+  echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
+  }else{
+  echo json_encode($arrayName = array('sucess' =>false ,'reason'=>$error ));
+  // echo faild because you dont have enough points
+  }
+
 }
 
 public function getUserEventsList($inputs){
@@ -154,6 +143,7 @@ public function getEvents($inputs)
 //$inputs->catID;//-1 uncatigorized , anyother value catigorized
 //$inputs->start;
 //$inputs->limit;
+$timeNow=Date("Y-m-d h:m:s");
   require_once("DataBaseConnection.php");
   $dbConnect=new DatabaseConnect;
     mysql_query("set names 'utf8'");
@@ -172,6 +162,11 @@ if($inputs->catID!=-1)
   $Filters.=" AND `Events`.`eventType` = ".$inputs->catID." ";
 //catigorized
 }
+if(1)
+{
+  $Filters.=" AND `Events`.`TimeEnded` >= '".$timeNow."' ";
+//catigorized
+}
     $query = mysql_query("SELECT
       `Events`.`id` ,
       `members`.`name`,
@@ -179,7 +174,7 @@ if($inputs->catID!=-1)
       `members`.`ProfilePic` ,
       `Events`.`subject` ,
       `Events`.`VIP` ,
-        `Events`.`eventType` ,
+      `Events`.`eventType` ,
       `Events`.`picture` ,
       `Events`.`TimeEnded` ,
       `Events`.`approved`
@@ -209,8 +204,28 @@ if($inputs->catID!=-1)
 
 
 public function editEvent($inputs){
+  $error=false;
+  if($inputs->VIP==1){
+    $this->db->select($table='Events',$where=array('id'=>$inputs->id),false,false,"AND",false,"*",false);
+    $output=$this->db->row_array();
+    if($output['VIP']==0){
+      $this->db->select($table='members',$where=array('id'=>$inputs->CreatorID),false,false,"AND",false,"*",false);
+      $output=$this->db->row_array();
+      if($output['inVIP']>0){
+        $newVip=$output['inVIP']-1;
+      $this->db->update('members',$what= array('inVIP' => $newVip),$where=array('id'=>$inputs->CreatorID));
+      }else{
+        $error=true;
+      }
+    }
+  }
+  if(!$error){
   $this->db->update("Events", get_object_vars($inputs), $where=array("id"=>$inputs->id));
   echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
+}else{
+  echo json_encode($arrayName = array('sucess' =>false ,'reason'=>"VIP" ));
+  // echo faild because you dont have enough points
+}
 }
 
 
