@@ -1,8 +1,8 @@
 <div class="container">
   <div class="jumbotron col-md-8">
-    <h1>Welcome</h1>
-    <h3>Welcome to Qatar Admin Panel</h3>
-    <p>If this is your first time please check the attached manual</p>
+    <h1>اهلا بكم</h1>
+    <h3>في لوحه تحكم دعوات قطر</h3>
+    <p>اذا كانت هذه المره الاول لك من فضلك اقرا ملف التعليمات</p>
   </div>
 
 </div>

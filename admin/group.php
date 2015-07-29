@@ -9,19 +9,19 @@ public function addGroup($inputs){
 }
 public function viewGroupList(){
 
-  $Page_Title="Groups";
+  $Page_Title="القبائل";
   global $db;
   require_once("views/tablelist.php");
   $myTable =new TableView;
-  $myTable->addE("group ID","Gid","`Gid`");
-  $myTable->addE("Group Name","Gname","`Gname`");
-  $myTable->addElement("Group Picture","GProfilePic","`GProfilePic`","<img class=\"img-responsive thumbnail\" src='../image.php?id=","&t=150x150' />");
+  $myTable->addE("id","Gid","`Gid`");
+  $myTable->addE("اسم القبيله","Gname","`Gname`");
+  $myTable->addElement("صوره القبيله","GProfilePic","`GProfilePic`","<img class=\"img-responsive thumbnail\" src='../image.php?id=","&t=150x150' />");
   $keyid="Gid";
   global  $per_page;
   $myFunctions =new TableView;
-  $myFunctions->addF("View","View","v");
-  $myFunctions->addF("Edit","Edit","e");
-    $myFunctions->addF("Delete","Delete","d");
+  $myFunctions->addF("عرض","View","v");
+  $myFunctions->addF("تعديل","Edit","e");
+    $myFunctions->addF("حذف","Delete","d");
   $what=$myTable->returnArray();
   $table="groups";
   $innerJoin="";
@@ -43,11 +43,11 @@ public function Edit($id){
 }
 public function CreateNew($input){
 
-  $header="Create Group";
+  $header="اضافه قبيله جديده";
   include("views/form.php");
   $form=new form("index.php","title");
-  $form->addElement('Gname',"","text","Group Name");
-  $form->addImage('GProfilePic',"group","Group Profile Pic");
+  $form->addElement('Gname',"","text","اسم القليله");
+  $form->addImage('GProfilePic',"group","صوره القبيله");
   $form->addElement('i',"0","hidden","");
   $form->addElement('fn',"insert","hidden","");
   $form->addElement('c',"groups","hidden","");
@@ -60,7 +60,7 @@ public function Delete($id){
   $db->delete("groups",$where=array('Gid' => $id));
   include("functions/generalFunctions.php");
   if(!$db->error){
-  messege("alert-success","Sucess","group has been delete successfully");
+  messege("alert-success","تمت العمليه بنجاح","لقد تم حذف القبيله بنجاح");
   echo("<script>$('#R$id').hide();</script>");
   }else{
   messege("alert-danger","Falied ",implode(" ",$db->errorMessege()));
@@ -79,7 +79,7 @@ global $db;
 $db->insert("groups", $what = array('Gname' =>  $_POST['Gname'],'GProfilePic' => $respond['id']));
 include("functions/generalFunctions.php");
   if(!$db->error){
-  messege("alert-success","Sucess","Group has been created");
+  messege("alert-success","تمت العمليه , ","  لقد تم اضافه القبيله بنجاح");
   }else{
   messege("alert-danger","Falied ",$db->errorMessege());
   }

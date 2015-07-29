@@ -4,24 +4,24 @@
 
 class events{
 
-public function ViewUnApprovedEventList(){
-$where=array('approved' => 0 );
-$Page_Title="Un approved Events";
-  $myFunctions =new TableView;
-$myFunctions->addF("View","ViewEvent","v");
-$myFunctions->addF("Edit","Edit","e");
-$myFunctions->addF("Approve","Approve","a");
-$myFunctions->addF("Disapprive","disapprove","c");
- events::ViewList($where,$Page_Title,$myFunctions);
-}
-public function ViewEventList(){
-  $where=array('approved' => 1 );
-  $Page_Title="All Approved Events";
-  $myFunctions =new TableView;
-  $myFunctions->addF("View","ViewEvent","v");
-  $myFunctions->addF("Edit","Edit","e");
- events::ViewList($where,$Page_Title,$myFunctions);
-}
+  public function ViewUnApprovedEventList(){
+  $where=array('approved' => 0 );
+  $Page_Title="الموافقة على المناسبات";
+    $myFunctions =new TableView;
+  $myFunctions->addF("عرض","ViewEvent","v");
+  $myFunctions->addF("تعديل","Edit","e");
+  $myFunctions->addF("موافقة","Approve","a");
+  $myFunctions->addF("رفض","disapprove","c");
+   events::ViewList($where,$Page_Title,$myFunctions);
+  }
+  public function ViewEventList(){
+    $where=array('approved' => 1 );
+    $Page_Title="جميع المناسبات";
+    $myFunctions =new TableView;
+    $myFunctions->addF("عرض","ViewEvent","v");
+    $myFunctions->addF("تعديل","Edit","e");
+   events::ViewList($where,$Page_Title,$myFunctions);
+  }
 public function ViewList($where,$Page_Title,$myFunctions){
 
   global $db;
@@ -31,12 +31,12 @@ public function ViewList($where,$Page_Title,$myFunctions){
 
   $myTable->addE("ID","id","`Events`.`id`");
   $myTable->addE("vip","VIP","`Events`.`VIP`");
-  $myTable->addE("esm el sha5s","name","`members`.`name`");
-  $myTable->addE("subjecta","subject","`Events`.`subject`");
-  $myTable->addElement("el sora","picture","`Events`.`picture`","<img class=\"img-responsive thumbnail\" src='../image.php?id=","&t=150x150' />");
-  $myTable->addE("el description","description","`Events`.`description`");
-  $myTable->addE("esm el catgory","catName","`EventCatigories`.`catName`");
-  $myTable->addE("esm el group","Gname","`Gname`");
+  $myTable->addE("الاسم","name","`members`.`name`");
+  $myTable->addE("عنوان المناسبة","subject","`Events`.`subject`");
+  $myTable->addElement("الصوره","picture","`Events`.`picture`","<img class=\"img-responsive thumbnail\" src='../image.php?id=","&t=150x150' />");
+  $myTable->addE("التفاصيل","description","`Events`.`description`");
+  $myTable->addE("نوع المناسبة","catName","`EventCatigories`.`catName`");
+  $myTable->addE("القبيله","Gname","`Gname`");
   $keyid="id";
   global  $per_page;
 
@@ -70,7 +70,7 @@ public function Approve($id){
   global $db;
   $db->update("Events",array('approved' =>1), $where=array("id"=>$id));
   include("functions/generalFunctions.php");
-  messege("alert-success","Sucess      ","The Event has been approved successfully");
+  messege("alert-success","نجحت العمليه ","تم الموافقة على المناسبة بنجاح");
 
 }
 public function Disapprove($id){

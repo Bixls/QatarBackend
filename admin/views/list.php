@@ -101,12 +101,12 @@ $(document).ready(function(){
           if(empty($getArray['page'])||$getArray['page']=='1')
           {
               $getArray['page']=2;
-        if(!empty($input)){	echo " <li><a  href='?".http_build_query($getArray)."'>next</a></li> ";}
+        if(!empty($input)){	echo " <li><a  href='?".http_build_query($getArray)."'>التالي</a></li> ";}
           }else{
           $getArray['page']--;
-        echo " <li><a  href='?".http_build_query($getArray)."'>prev</a></li> ";
+        echo " <li><a  href='?".http_build_query($getArray)."'>السابق</a></li> ";
           $getArray['page']+=2;
-        if(!empty($input)){		echo " <li><a  href='?".http_build_query($getArray)."'>next</a></li> ";}
+        if(!empty($input)){		echo " <li><a  href='?".http_build_query($getArray)."'>التالي</a></li> ";}
         }
         	echo "</ul>";
  ?>

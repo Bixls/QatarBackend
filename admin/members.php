@@ -5,12 +5,12 @@ class members{
 
   public function viewUnApprovedMemberList(){
     $where=array('Verified' => 0 );
-    $Page_Title="Un-Verified members";
+    $Page_Title="عرض الاضاء الجدد الغير موافق عليهم";
     $myFunctions =new TableView;
-    $myFunctions->addF("Approve","Approve","a");
-    $myFunctions->addF("Disapprive","disapprove","c");
-    $myFunctions->addF("View","View","v");
-    $myFunctions->addF("Edit","Edit","e");
+    $myFunctions->addF("موافقه","Approve","a");
+    $myFunctions->addF("رفض","disapprove","c");
+    $myFunctions->addF("عرض","View","v");
+    $myFunctions->addF("تعديل","Edit","e");
    members::getMembersList($where,$Page_Title,$myFunctions);
   }
   public function getMembersList($where,$Page_Title,$myFunctions){
@@ -18,10 +18,10 @@ class members{
 
 
     $myTable =new TableView;
-    $myTable->addE("member ID","id","`id`");
-    $myTable->addE("Member Name","name","`name`");
-    $myTable->addE("Group Name","Gname","`Gname`");
-    $myTable->addElement("Member Picture","ProfilePic","`ProfilePic`","<img class=\"img-responsive thumbnail\" src='../image.php?id=","&t=150x150' />");
+    $myTable->addE("ID","id","`id`");
+    $myTable->addE("اسم العضو","name","`name`");
+    $myTable->addE("القبيله","Gname","`Gname`");
+    $myTable->addElement("الصوره الشخصيه","ProfilePic","`ProfilePic`","<img class=\"img-responsive thumbnail\" src='../image.php?id=","&t=150x150' />");
     $keyid="id";
     global  $per_page;
 
@@ -41,9 +41,9 @@ class members{
     $Page_Title="All members";
     $where=array('1' => 1 );
     $myFunctions =new TableView;
-    $myFunctions->addF("View","View","v");
-    $myFunctions->addF("Edit","Edit","e");
-    $myFunctions->addF("Delete","Delete","d");
+    $myFunctions->addF("عرض","View","v");
+    $myFunctions->addF("تعديل","Edit","e");
+    $myFunctions->addF("خذف","Delete","d");
    members::getMembersList($where,$Page_Title,$myFunctions);
   }
   public function SearchMembersByNameList(){
