@@ -248,11 +248,16 @@ function GetUserBlockList($inputs){
   $BlockList=new BlockList;
   $BlockList->GetUserBlockList($inputs[0]);
 }
-//****************** Strings *******************?/
+//****************** AdminFunctions *******************?/
 function getString($inputs){
-include ("strings.php");
-$strings=new strings;
+include ("AdminFunctions.php");
+$strings=new AdminFunctions;
 $strings->getString($inputs[0]);
+}
+function getAvatarList($inputs){
+include ("AdminFunctions.php");
+$strings=new AdminFunctions;
+$strings->getAvatarList();
 }
 //*************** General functions ************************/
 function get_client_ip() {
