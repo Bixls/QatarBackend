@@ -7,8 +7,15 @@ $username=$_POST['username'];
 $password=$_POST['password'];
 
 if($username=="admin"&&$password=="admin"){
+if(isset($_POST['remember-me'])){
+  if($_POST['remember-me']){
+    $cookie_name = "username";
+    $cookie_value = $username;
+    setcookie($cookie_name, $cookie_value, time() + (86400 * 30)); // 86400 = 1 day
+}
+}
 $_SESSION['username']=$username; // Initializing Session
-header("location: index.php"); // Redirecting To Other Page
+header("location: index.php");
 } else {
 
 $errors= "اسم المستخد او كلمه السر خاظئه";
@@ -26,7 +33,7 @@ $errors= "اسم المستخد او كلمه السر خاظئه";
  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="//cdn.rawgit.com/morteza/bootstrap-rtl/master/dist/cdnjs/3.3.1/css/bootstrap-rtl.min.css">
-   
+
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
@@ -43,7 +50,7 @@ $errors= "اسم المستخد او كلمه السر خاظئه";
        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="كلمه السر" required>
        <div class="checkbox">
          <label>
-           <input type="checkbox" value="remember-me"> تذكرني
+           <input type="checkbox" name="remember-me" id="remember-me"> تذكرني
          </label>
        </div>
        <button class="btn btn-lg btn-primary btn-block" name="submit" type="submit">تسجيل دخول</button>
