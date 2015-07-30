@@ -26,7 +26,7 @@ public function RenderForm(){
   foreach ($this->ElementsArray as $element) {
   $output.=$element->echoElement();
   }
-  $output.="<button type=\"submit\" id=\"Sbutton\" class=\"btn btn-default\">Submit</button>";
+  $output.="<button type=\"submit\" id=\"Sbutton\" class=\"btn btn-default\">حفظ</button>";
   $output.='
   <h4 id="loading"></h4>
   <div id="msg"></div>

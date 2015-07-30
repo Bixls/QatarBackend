@@ -71,8 +71,30 @@ class members{
   $db->select('members',array('members`.`id'=>$id),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
   if(!$db->error){
   $result=$db->row_array();
-  $header=$result['name'];
-  $body=implode(",",$result);
+
+  $header="<b>"."الاسم";
+  $header.="</b> ".$result['name'];
+  $db->select('Events',array('CreatorID'=>$id),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+  $CreatedEvents=$db->count();
+
+
+  include("views/normalView.php");
+  $NormalView=new NormalView;
+  $ViewImage=$result['ProfilePic'];
+
+  $NormalView->addElement($result['Mobile'],"text","التليفون");
+  $memberState;
+  if($result['Verified']==0){$memberState="منتظر التفعيل"; }elseif ($result['Verified']==1) {
+  $memberState="مفعل"; }elseif ($result['Verified']==-1) {$memberState="مرفوض";}else{
+    $memberState="تم ارسال الرساله بالكود";
+    $memberState.=$result['Verified'];
+  }
+  $NormalView->addElement($memberState,"text","حاله العضو");
+  $NormalView->addElement($result['inVIP'],"text","VIP عدد الدعوات");
+  $NormalView->addElement($result['Gname'],"text","اسم القبيله");
+  $NormalView->addElement($CreatedEvents,"text","عدد المناسبات");
+  $body=$NormalView->RenderForm();
+  $menus="add";
   include("views/single.php");
   }else{
   $header="Error";

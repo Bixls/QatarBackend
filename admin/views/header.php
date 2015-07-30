@@ -18,7 +18,7 @@
 <body>
   <?php include ("views/navBar.php"); ?>
 
-  <div id="messeges">
+  <div style="position:fixed;bottom:0px;" id="messeges">
   </div>
 
 <div class="container">
