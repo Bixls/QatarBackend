@@ -26,7 +26,7 @@ public function RenderForm(){
   foreach ($this->ElementsArray as $element) {
   $output.=$element->echoElement();
   }
-  $output.="<button type=\"submit\" id=\"Sbutton\" class=\"btn btn-default\">حفظ</button>";
+  $output.="<div class='col-md-12 savediv'><button type=\"submit\" id=\"Sbutton\" class=\"btn btn-success\">حفظ</button></div>";
   $output.='
   <h4 id="loading"></h4>
   <div id="msg"></div>
@@ -50,8 +50,9 @@ function __construct($id,$value,$type,$lable){
 public function echoElement(){
 
 $output="";
-$output.='<div class="form-group">';
-if($this->type!="hidden"){ $output.='<label for="'.$this->id.'"> '.$this->lable.' </label>';}
+if($this->type!="hidden"){
+$output.='<div class="form-group col-md-'.($this->type=="textarea"?12:6).'">';
+$output.='<label for="'.$this->id.'"> '.$this->lable.' </label>';
 if($this->type=="select"){
 $output.='<select class="form-control" id="'.  $this->id.'" name="'.  $this->id.'">';
 foreach ($this->value as $key => $value) {
@@ -62,11 +63,13 @@ $output.='</select>';
 $output.='<textarea class="form-control" rows="5" id="'.  $this->id.'" name="'.  $this->id.'"></textarea>';
 }else{
   $output.='<input type="'.$this->type.'" class="form-control" id="'.  $this->id.'" name="'.  $this->id.'"
-      value="'.  $this->value .'" >
-    </div>';
+      value="'.  $this->value .'" >';
 }
-
-
+$output.="  </div>";
+}else{
+  $output.='<input type="'.$this->type.'" class="form-control" id="'.  $this->id.'" name="'.  $this->id.'"
+      value="'.  $this->value .'" >';
+}
 return   $output;
 }
 
@@ -85,7 +88,7 @@ private $id;
 
   public function echoElement(){
     $output="";
-    $output.='<div class="form-group">';
+    $output.='<div class="form-group col-sm-12">';
     $output.='<label for="'.$this->id.'"> '.$this->lable.' </label>';
     $output.='
     <input type="file" name="fileToUpload" class="form-control "accept="image/*"  id="file" required />

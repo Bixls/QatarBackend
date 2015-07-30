@@ -14,18 +14,18 @@
             <?php
 
       if(isset($ViewImage)){echo ('<div class="col-md-6"><img class="img-responsive " src="../image.php?id='.$ViewImage.'" /></div>');}
-      echo('<div class="col-md-6">');
-        if(isset($menus)){echo('<div class="innerMenu">'.$menus.'</div>');}
+      echo('<div class="col-md-'.(isset($form)?12:6).'">');
+      if(isset($menus)){echo('<div class="innerMenu">'.$menus.'</div>');}
       echo ($body);
 
       echo("</div>");
 
        ?>
 
-<div class="col-md-12"></div>
+       <div class="col-md-12"></div>
         </div>
         <div class="modal-footer" style="clear: both;">
-          <button type="button" class="btn btn-default" data-dismiss="modal">اغلاق</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">اغلاق</button>
         </div>
       </div>
 
