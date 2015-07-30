@@ -32,11 +32,11 @@
 
 
 <script>
-function goTo(fun,f,id,cl){
+function goTo(fun,f,id,cl,msg){
   var r=true;
   if(f=="d")
   {
-    r = confirm("do you Realy want to delete "+id);
+    r = confirm(msg);
   }
   if(r){
     $.post("direct.php",

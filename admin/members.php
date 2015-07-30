@@ -94,7 +94,8 @@ class members{
   $NormalView->addElement($result['Gname'],"text","اسم القبيله");
   $NormalView->addElement($CreatedEvents,"text","عدد المناسبات");
   $body=$NormalView->RenderForm();
-  $menus='<a href="#" onclick="goTo(\'Delete\',\'d\','.$result['id'].',\'members\')" >حذف</a>';
+  $DeleteMessege="هل انت متاكد من حذف ".$result['name'];
+  $menus='<a href="#" onclick="goTo(\'Delete\',\'d\','.$result['id'].',\'members\',\''.$DeleteMessege.'\')" >حذف</a>';
   include("views/single.php");
   }else{
   $header="Error";
