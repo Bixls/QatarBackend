@@ -88,14 +88,8 @@ $(document).ready(function(){
 });
 </script>
 
-
-
+<div style="text-align:left">
 <?php
-
-
-
-
-
 //////////////////////////////////////////////////////// Pagging //////////////////////////////////////////
         	echo "<ul class=\"pagination\"> ";
           if(empty($getArray['page'])||$getArray['page']=='1')
@@ -110,3 +104,4 @@ $(document).ready(function(){
         }
         	echo "</ul>";
  ?>
+</div>

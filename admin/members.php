@@ -38,7 +38,7 @@ class members{
   }
 
   public function viewMemberList(){
-    $Page_Title="All members";
+    $Page_Title="جميع الاعضاء";
     $where=array('1' => 1 );
     $myFunctions =new TableView;
     $myFunctions->addF("عرض","View","v");
@@ -94,7 +94,7 @@ class members{
   $NormalView->addElement($result['Gname'],"text","اسم القبيله");
   $NormalView->addElement($CreatedEvents,"text","عدد المناسبات");
   $body=$NormalView->RenderForm();
-  $menus="add";
+  $menus='<a href="#" onclick="goTo(\'Delete\',\'d\','.$result['id'].',\'members\')" >حذف</a>';
   include("views/single.php");
   }else{
   $header="Error";
