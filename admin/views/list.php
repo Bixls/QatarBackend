@@ -32,7 +32,7 @@ if($firstTime){
     echo "<td>";
   foreach (  $myFunctions->functionsArray as $colum) {
 
-      echo("<a class=\"link\" id=".($colum->short).$row[$keyid]." href=\"#\"/>".$colum->title." </a>");
+      echo("<a class=\"link btn btn-default\" id=".($colum->short).$row[$keyid]." href=\"#\"/>".$colum->title." </a>");
 
     }
       echo "</td>";

@@ -56,6 +56,7 @@ $ViewImage=$result['GProfilePic'];
 
 $NormalView->addElement($membersNumber,"text","عدد الاعضاء");
 
+$NormalView->addElement(($result['Royal']==0?"لا":"نعم"),"text","قبيله ملكيه");
 $NormalView->addElement($eventsNumber,"text","عدد المناسبات");
 $NormalView->addElement($result['Description'],"text","تفاصيل القبيله");
 $body=$NormalView->RenderForm();
@@ -85,6 +86,9 @@ public function CreateNew($input){
   $form=new form("index.php","title");
   $form->addElement('Gname',"","text","اسم القليله");
   $form->addImage('GProfilePic',"group","صوره القبيله");
+  $allowComments = array('0' =>"نعم",'1' =>"لا"  );
+  $form->addElement('Royal',$allowComments,"select","قبيله ملكيه ؟");
+  $form->addElement('Description',"","textarea","تفاصيل القبيله");
   $form->addElement('i',"0","hidden","");
   $form->addElement('fn',"insert","hidden","");
   $form->addElement('c',"groups","hidden","");
