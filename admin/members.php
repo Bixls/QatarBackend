@@ -43,7 +43,6 @@ class members{
     $myFunctions =new TableView;
     $myFunctions->addF("عرض","View","v");
     $myFunctions->addF("تعديل","Edit","e");
-    $myFunctions->addF("خذف","Delete","d");
    members::getMembersList($where,$Page_Title,$myFunctions);
   }
   public function SearchMembersByNameList(){
@@ -84,8 +83,17 @@ class members{
 
   $NormalView->addElement($result['Mobile'],"text","التليفون");
   $memberState;
-  if($result['Verified']==0){$memberState="منتظر التفعيل"; }elseif ($result['Verified']==1) {
-  $memberState="مفعل"; }elseif ($result['Verified']==-1) {$memberState="مرفوض";}else{
+  $menus="";
+  if($result['Verified']==0){$memberState="منتظر التفعيل";
+    $menus.='<a class="btn btn-xs btn-success" href="#"
+     onclick="goTo(\'Approve\',\'a\','.$result['id'].',\'members\', \'\')" >تفعيل</a>';
+     $menus.='<a class="btn btn-xs btn-warning" href="#"
+      onclick="goTo(\'disapprove\',\'a\','.$result['id'].',\'members\', \'\')" >رفض</a>';
+  }elseif ($result['Verified']==1) {
+  $memberState="مفعل"; }elseif ($result['Verified']==-1) {$memberState="مرفوض";
+    $menus.='<a class="btn btn-xs btn-success" href="#"
+     onclick="goTo(\'Approve\',\'a\','.$result['id'].',\'members\', \'\')" >تفعيل</a>';
+  }else{
     $memberState="تم ارسال الرساله بالكود";
     $memberState.=$result['Verified'];
   }
@@ -95,7 +103,12 @@ class members{
   $NormalView->addElement($CreatedEvents,"text","عدد المناسبات");
   $body=$NormalView->RenderForm();
   $DeleteMessege="هل انت متاكد من حذف ".$result['name'];
-  $menus='<a href="#" onclick="goTo(\'Delete\',\'d\','.$result['id'].',\'members\',\''.$DeleteMessege.'\')" >حذف</a>';
+
+  $menus.='<a class="btn btn-xs btn-danger" href="#" onclick="goTo(\'Delete\',\'d\','.$result['id'].',\'members\',\''.$DeleteMessege.'\')" >حذف</a>';
+  $menus.='<a class="btn btn-xs btn-default" href="#"> عرض مناسبات العضو</a>';
+  $menus.='<a class="btn btn-xs btn-default" href="#"> ارسال كلمه سر جديده</a>';
+
+
   include("views/single.php");
   }else{
   $header="Error";

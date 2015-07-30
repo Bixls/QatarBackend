@@ -14,8 +14,10 @@
             <?php
 
       if(isset($ViewImage)){echo ('<div class="col-md-6"><img class="img-responsive " src="../image.php?id='.$ViewImage.'" /></div>');}
-      echo ('<div class="col-md-6">'.$body);
-      if(isset($menus)){echo('<div>'.$menus.'</div>');}
+      echo('<div class="col-md-6">');
+        if(isset($menus)){echo('<div class="innerMenu">'.$menus.'</div>');}
+      echo ($body);
+
       echo("</div>");
 
        ?>
