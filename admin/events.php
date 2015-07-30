@@ -61,7 +61,12 @@ public function ViewList($where,$Page_Title,$myFunctions){
 
 }
 public function getEventsbyMember($memberID){
-
+  $where=array('CreatorID' => $memberID );
+  $Page_Title="المناسبات الخاصه بالعضو";
+  $myFunctions =new TableView;
+  $myFunctions->addF("عرض","ViewEvent","v");
+  $myFunctions->addF("تعديل","Edit","e");
+ events::ViewList($where,$Page_Title,$myFunctions);
 }
 public function SearchEventsByName($searcher){
 

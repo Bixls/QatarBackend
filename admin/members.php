@@ -5,7 +5,7 @@ class members{
 
   public function viewUnApprovedMemberList(){
     $where=array('Verified' => 0 );
-    $Page_Title="عرض الاضاء الجدد الغير موافق عليهم";
+    $Page_Title="الاعضاء الجدد الغير موافق عليهم ";
     $myFunctions =new TableView;
     $myFunctions->addF("موافقه","Approve","a");
     $myFunctions->addF("رفض","disapprove","c");
@@ -85,13 +85,13 @@ class members{
   $memberState;
   $menus="";
   if($result['Verified']==0){$memberState="منتظر التفعيل";
-    $menus.='<a class="btn btn-xs btn-success" href="#"
+    $menus.='<a class="btn btn-md btn-success" href="#"
      onclick="goTo(\'Approve\',\'a\','.$result['id'].',\'members\', \'\')" >تفعيل</a>';
-     $menus.='<a class="btn btn-xs btn-warning" href="#"
+     $menus.='<a class="btn btn-md btn-warning" href="#"
       onclick="goTo(\'disapprove\',\'a\','.$result['id'].',\'members\', \'\')" >رفض</a>';
   }elseif ($result['Verified']==1) {
   $memberState="مفعل"; }elseif ($result['Verified']==-1) {$memberState="مرفوض";
-    $menus.='<a class="btn btn-xs btn-success" href="#"
+    $menus.='<a class="btn btn-md btn-success" href="#"
      onclick="goTo(\'Approve\',\'a\','.$result['id'].',\'members\', \'\')" >تفعيل</a>';
   }else{
     $memberState="تم ارسال الرساله بالكود";
@@ -104,9 +104,9 @@ class members{
   $body=$NormalView->RenderForm();
   $DeleteMessege="هل انت متاكد من حذف ".$result['name'];
 
-  $menus.='<a class="btn btn-xs btn-danger" href="#" onclick="goTo(\'Delete\',\'d\','.$result['id'].',\'members\',\''.$DeleteMessege.'\')" >حذف</a>';
-  $menus.='<a class="btn btn-xs btn-default" href="#"> عرض مناسبات العضو</a>';
-  $menus.='<a class="btn btn-xs btn-default" href="#"> ارسال كلمه سر جديده</a>';
+  $menus.='<a class="btn btn-md btn-danger" href="#" onclick="goTo(\'Delete\',\'d\','.$result['id'].',\'members\',\''.$DeleteMessege.'\')" >حذف</a>';
+  $menus.='<a class="btn btn-md btn-default" href="?fn=getEventsbyMember&c=events&i='.$result['id'].'"> عرض مناسبات العضو</a>';
+  $menus.='<a class="btn btn-md btn-default" href="#"> ارسال كلمه سر جديده</a>';
 
 
   include("views/single.php");
