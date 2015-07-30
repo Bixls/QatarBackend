@@ -45,6 +45,14 @@ class members{
     $myFunctions->addF("تعديل","Edit","e");
    members::getMembersList($where,$Page_Title,$myFunctions);
   }
+  public function viewMemberByGroup($groupID){
+    $Page_Title="جميع الاعضاء";
+    $where=array('groupID' => $groupID );
+    $myFunctions =new TableView;
+    $myFunctions->addF("عرض","View","v");
+    $myFunctions->addF("تعديل","Edit","e");
+   members::getMembersList($where,$Page_Title,$myFunctions);
+  }
   public function SearchMembersByNameList(){
 
   }

@@ -21,7 +21,7 @@ public function viewGroupList(){
   $myFunctions =new TableView;
   $myFunctions->addF("عرض","View","v");
   $myFunctions->addF("تعديل","Edit","e");
-    $myFunctions->addF("حذف","Delete","d");
+
   $what=$myTable->returnArray();
   $table="groups";
   $innerJoin="";
@@ -36,7 +36,44 @@ public function editGroup($id){
 
 }
 public function View($id){
+global $db;
+$db->select('groups',array('Gid'=>$id),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+if(!$db->error){
+$result=$db->row_array();
 
+$header="<b>"."قبيله ";
+$header.="</b> ".$result['Gname'];
+$db->select('members',array('groupID'=>$id),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+$membersNumber=$db->count();
+
+$innerJoin = "INNER JOIN `members` ON `members`.`id`=`Events`.`CreatorID`";
+$db->select('Events',array('members`.`groupID'=>$id),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin);
+$eventsNumber=$db->count();
+
+include("views/normalView.php");
+$NormalView=new NormalView;
+$ViewImage=$result['GProfilePic'];
+
+$NormalView->addElement($membersNumber,"text","عدد الاعضاء");
+
+$NormalView->addElement($eventsNumber,"text","عدد المناسبات");
+$NormalView->addElement($result['Description'],"text","تفاصيل القبيله");
+$body=$NormalView->RenderForm();
+$DeleteMessege="هل انت متاكد من حذف ".$result['Gname'];
+$menus="";
+
+$menus.='<a class="btn btn-md btn-danger" href="#" onclick="goTo(\'Delete\',\'d\','.$result['Gid'].',\'groups\',\''.$DeleteMessege.'\')" >حذف</a>';
+$menus.='<a class="btn btn-md btn-default" href="?fn=getEventsbyGroup&c=events&i='.$result['Gid'].'">عرض مناسبات القبيله</a>';
+$menus.='<a class="btn btn-md btn-default" href="?fn=viewMemberByGroup&c=members&i='.$result['Gid'].'">عرض اعضاء القبيله</a>';
+
+
+
+include("views/single.php");
+}else{
+$header="Error";
+$body=$db->errorMessege();
+include("views/single.php");
+}
 }
 public function Edit($id){
 

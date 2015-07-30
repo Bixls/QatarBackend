@@ -41,7 +41,7 @@ public function ViewList($where,$Page_Title,$myFunctions){
   global  $per_page;
 
   $what=$myTable->returnArray();
-  $innerJoin="INNER JOIN (SELECT `groups`.`Gname` Gname ,`members`.`name` ,`members`.`id`
+  $innerJoin="INNER JOIN (SELECT `groups`.`Gname` Gname ,`members`.`name` ,`members`.`id`,`members`.`groupID`
   FROM groups INNER JOIN members ON members.groupID=groups.Gid)
    `members` ON `Events`.`CreatorID`=`members`.`id`
   INNER JOIN `EventCatigories` ON   `Events`.`eventType`=`EventCatigories`.`catID`";
@@ -63,6 +63,14 @@ public function ViewList($where,$Page_Title,$myFunctions){
 public function getEventsbyMember($memberID){
   $where=array('CreatorID' => $memberID );
   $Page_Title="المناسبات الخاصه بالعضو";
+  $myFunctions =new TableView;
+  $myFunctions->addF("عرض","ViewEvent","v");
+  $myFunctions->addF("تعديل","Edit","e");
+ events::ViewList($where,$Page_Title,$myFunctions);
+}
+public function getEventsbyGroup($GroupID){
+  $where=array('members`.`groupID' => $GroupID );
+  $Page_Title="مناسبات القبيله";
   $myFunctions =new TableView;
   $myFunctions->addF("عرض","ViewEvent","v");
   $myFunctions->addF("تعديل","Edit","e");
