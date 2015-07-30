@@ -63,7 +63,7 @@ $body=$NormalView->RenderForm();
 $DeleteMessege="هل انت متاكد من حذف ".$result['Gname'];
 $menus="";
 
-$menus.='<a class="btn btn-md btn-danger" href="#" onclick="goTo(\'Delete\',\'d\','.$result['Gid'].',\'groups\',\''.$DeleteMessege.'\')" >حذف</a>';
+$menus.='<button class="btn btn-md btn-danger" onclick="goTo(\'Delete\',\'d\','.$result['Gid'].',\'groups\',\''.$DeleteMessege.'\')" >حذف</button>';
 $menus.='<a class="btn btn-md btn-default" href="?fn=getEventsbyGroup&c=events&i='.$result['Gid'].'">عرض مناسبات القبيله</a>';
 $menus.='<a class="btn btn-md btn-default" href="?fn=viewMemberByGroup&c=members&i='.$result['Gid'].'">عرض اعضاء القبيله</a>';
 

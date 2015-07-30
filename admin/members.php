@@ -46,7 +46,7 @@ class members{
    members::getMembersList($where,$Page_Title,$myFunctions);
   }
   public function viewMemberByGroup($groupID){
-    $Page_Title="جميع الاعضاء";
+    $Page_Title="اعضاء القبيله";
     $where=array('groupID' => $groupID );
     $myFunctions =new TableView;
     $myFunctions->addF("عرض","View","v");
@@ -93,14 +93,14 @@ class members{
   $memberState;
   $menus="";
   if($result['Verified']==0){$memberState="منتظر التفعيل";
-    $menus.='<a class="btn btn-md btn-success" href="#"
-     onclick="goTo(\'Approve\',\'a\','.$result['id'].',\'members\', \'\')" >تفعيل</a>';
-     $menus.='<a class="btn btn-md btn-warning" href="#"
-      onclick="goTo(\'disapprove\',\'a\','.$result['id'].',\'members\', \'\')" >رفض</a>';
+    $menus.='<button class="btn btn-md btn-success"
+     onclick="goTo(\'Approve\',\'a\','.$result['id'].',\'members\', \'\')" >تفعيل</button>';
+     $menus.='<button class="btn btn-md btn-warning" href="#"
+      onclick="goTo(\'disapprove\',\'a\','.$result['id'].',\'members\', \'\')" >رفض</button>';
   }elseif ($result['Verified']==1) {
   $memberState="مفعل"; }elseif ($result['Verified']==-1) {$memberState="مرفوض";
-    $menus.='<a class="btn btn-md btn-success" href="#"
-     onclick="goTo(\'Approve\',\'a\','.$result['id'].',\'members\', \'\')" >تفعيل</a>';
+    $menus.='<button class="btn btn-md btn-success"
+     onclick="goTo(\'Approve\',\'a\','.$result['id'].',\'members\', \'\')" >تفعيل</button>';
   }else{
     $memberState="تم ارسال الرساله بالكود";
     $memberState.=$result['Verified'];
@@ -112,7 +112,7 @@ class members{
   $body=$NormalView->RenderForm();
   $DeleteMessege="هل انت متاكد من حذف ".$result['name'];
 
-  $menus.='<a class="btn btn-md btn-danger" href="#" onclick="goTo(\'Delete\',\'d\','.$result['id'].',\'members\',\''.$DeleteMessege.'\')" >حذف</a>';
+  $menus.='<button class="btn btn-md btn-danger" onclick="goTo(\'Delete\',\'d\','.$result['id'].',\'members\',\''.$DeleteMessege.'\')" >حذف</button>';
   $menus.='<a class="btn btn-md btn-default" href="?fn=getEventsbyMember&c=events&i='.$result['id'].'"> عرض مناسبات العضو</a>';
   $menus.='<a class="btn btn-md btn-default" href="#"> ارسال كلمه سر جديده</a>';
 
