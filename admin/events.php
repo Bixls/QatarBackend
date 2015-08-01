@@ -8,7 +8,7 @@ class events{
   $where=array('approved' => 0 );
   $Page_Title="الموافقة على المناسبات";
     $myFunctions =new TableView;
-  $myFunctions->addF("عرض","ViewEvent","v");
+  $myFunctions->addF("عرض","View","v");
   $myFunctions->addF("تعديل","Edit","e");
   $myFunctions->addF("موافقة","Approve","a");
   $myFunctions->addF("رفض","disapprove","c");
@@ -18,7 +18,7 @@ class events{
     $where=array('approved' => 1 );
     $Page_Title="جميع المناسبات";
     $myFunctions =new TableView;
-    $myFunctions->addF("عرض","ViewEvent","v");
+    $myFunctions->addF("عرض","View","v");
     $myFunctions->addF("تعديل","Edit","e");
    events::ViewList($where,$Page_Title,$myFunctions);
   }
@@ -92,8 +92,71 @@ public function Disapprove($id){
 public function RemoveEvent($id){
 
 }
-public function ViewEvent($id){
+public function View($id){
+  global $db;
+  $db->select('Events',array('id'=>$id),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+  if(!$db->error){
+  $result=$db->row_array();
 
+  $header="";
+  $header.=$result['subject'];
+  $db->select('EventsComments',array('POSTID'=>$id),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+  $commentsNumber=$db->count();
+
+  $db->select('invitationsLog',array('EventID'=>$id),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+  $invited=$db->count();
+
+  $db->select('invitationsLog',array('EventID'=>$id,'IsGoing'=>1),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+  $isGoing=$db->count();
+
+$innerJoin = "INNER JOIN `groups` ON `members`.`groupID`=`groups`.`Gid`";
+  $db->select('members',array('id'=>$result['CreatorID']),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin);
+  $creator=$db->row_array();
+
+  include("views/normalView.php");
+  $NormalView=new NormalView;
+  $ViewImage=$result['picture'];
+  $NormalView->addElement($creator['name'],"text","اسم صاحب المناسبة");
+  $NormalView->addElement($commentsNumber,"text","عدد التعليقات ");
+  $NormalView->addElement($invited,"text","عدد المدعوون");
+    $NormalView->addElement($isGoing,"text","عدد الذاهبون");
+  $NormalView->addElement($result['timeCreated'],"text","تاريخ الانشاء");
+    $NormalView->addElement($result['TimeEnded'],"text","تاريخ الانتهاء");
+
+$timeNow=Date("Y-m-d h:m:s");
+$expired=($result['TimeEnded']<=$timeNow);
+
+if($result['approved']==1){
+if($result['VIP']&&!$expired)$isViewed="معروضه في الصحه الرئيسية و صفحه قبيله ".$creator['Gname'];
+elseif(!$expired)$isViewed="معروضه في صفحه قبيله ".$creator['Gname'];
+else $isViewed="انتهى وقت عرضها";
+}else{
+$isViewed="منتظره التفعيل";
+}
+
+
+  $NormalView->addElement(($isViewed),"text","حاله المناسبة");
+  $NormalView->addElement(($result['VIP']==0?"لا":"نعم"),"text","VIP");
+  $NormalView->addElement(($result['comments']==0?"لا":"نعم"),"text","السماح بالتعليقات");
+
+
+  $NormalView->addElement($result['description'],"text","تفاصيل المناسبة ");
+  $body=$NormalView->RenderForm();
+  $DeleteMessege="هل انت متاكد من حذف ".$result['subject'];
+  $menus="";
+
+  $menus.='<button class="btn btn-md btn-danger" onclick="goTo(\'Delete\',\'d\','.$result['id'].',\'groups\',\''.$DeleteMessege.'\')" >حذف</button>';
+  $menus.='<a class="btn btn-md btn-default" href="?fn=getEventsbyGroup&c=events&i='.$result['id'].'">عرض الذاهبون</a>';
+  $menus.='<a class="btn btn-md btn-default" href="?fn=viewMemberByGroup&c=members&i='.$result['id'].'">عرض المدعوون</a>';
+  $menus.='<a class="btn btn-md btn-default" href="?fn=viewMemberByGroup&c=members&i='.$result['id'].'">عرض التعليقات</a>';
+
+
+  include("views/single.php");
+  }else{
+  $header="Error";
+  $body=$db->errorMessege();
+  include("views/single.php");
+  }
 }
 
 
