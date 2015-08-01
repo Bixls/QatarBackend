@@ -125,12 +125,15 @@ $innerJoin = "INNER JOIN `groups` ON `members`.`groupID`=`groups`.`Gid`";
 
 $timeNow=Date("Y-m-d h:m:s");
 $expired=($result['TimeEnded']<=$timeNow);
-
+  $menus="";
 if($result['approved']==1){
 if($result['VIP']&&!$expired)$isViewed="معروضه في الصحه الرئيسية و صفحه قبيله ".$creator['Gname'];
 elseif(!$expired)$isViewed="معروضه في صفحه قبيله ".$creator['Gname'];
 else $isViewed="انتهى وقت عرضها";
 }else{
+    $menus.='<button class="btn btn-md btn-success" onclick="goTo(\'Approve\',\'a\','.$result['id'].',\'events\',\'\')" >موافقة</button>';
+    $menus.='<button class="btn btn-md btn-warning" onclick="goTo(\'Disapprove\',\'a\','.$result['id'].',\'events\',\'\')" >رفض</button>';
+
 $isViewed="منتظره التفعيل";
 }
 
@@ -143,7 +146,7 @@ $isViewed="منتظره التفعيل";
   $NormalView->addElement($result['description'],"text","تفاصيل المناسبة ");
   $body=$NormalView->RenderForm();
   $DeleteMessege="هل انت متاكد من حذف ".$result['subject'];
-  $menus="";
+
 
   $menus.='<button class="btn btn-md btn-danger" onclick="goTo(\'Delete\',\'d\','.$result['id'].',\'groups\',\''.$DeleteMessege.'\')" >حذف</button>';
   $menus.='<a class="btn btn-md btn-default" href="?fn=getEventsbyGroup&c=events&i='.$result['id'].'">عرض الذاهبون</a>';
