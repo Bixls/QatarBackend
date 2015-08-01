@@ -37,6 +37,89 @@ class members{
     include("views/list.php");
   }
 
+  public function viewGoingMembers($eventID){
+    global $db;
+    $db->select('Events',array('id'=>$eventID),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+    $event=$db->row_array();;
+    $Page_Title="الذاهبون الى ".$event['subject'];
+
+
+
+    $myFunctions =new TableView;
+    $myFunctions->addF("عرض","View","v");
+    $myFunctions->addF("تعديل","Edit","e");
+
+
+
+   $myTable =new TableView;
+   $myTable->addE("ID","id","`id`");
+   $myTable->addE("اسم العضو","name","`name`");
+   $myTable->addE("القبيله","Gname","`Gname`");
+  //  $myTable->addE("ذاهب","IsGoing","`IsGoing`");
+   $myTable->addElement("الصوره الشخصيه","ProfilePic","`ProfilePic`","<img class=\"img-responsive thumbnail\" src='../image.php?id=","&t=150x150' />");
+   $keyid="id";
+   global  $per_page;
+
+
+   $what=$myTable->returnArray();
+   $where=array('EventID' => $eventID  ,'IsGoing'=>1);
+   $table="members";
+   $innerJoin="INNER JOIN
+   (SELECT `groups`.`Gname` Gname ,
+    `members`.`id`,`members`.`name` name,`members`.`ProfilePic` ProfilePic
+    FROM groups INNER JOIN members ON members.groupID=groups.Gid)
+    `members` ON `members`.`id`=`invitationsLog`.`memberID`";
+  // $innerJoin.="INNER JOIN `members` ON `members`.`id`=`invitationsLog`.`memberID`";
+   $getArray=$_GET;
+   require ("functions/generalFunctions.php");
+   $start=getStartPage($getArray,$per_page);
+   $db->select('invitationsLog',$where,$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$what,$innerJoin);
+
+   $input=$db->result_array();
+   include("views/list.php");
+  }
+
+  public function viewInvitedMembers($eventID){
+
+    global $db;
+    $db->select('Events',array('id'=>$eventID),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+    $event=$db->row_array();;
+    $Page_Title="المدعوون الى ".$event['subject'];
+
+
+    $myFunctions =new TableView;
+    $myFunctions->addF("عرض","View","v");
+    $myFunctions->addF("تعديل","Edit","e");
+
+
+   $myTable =new TableView;
+   $myTable->addE("ID","id","`id`");
+   $myTable->addE("اسم العضو","name","`name`");
+   $myTable->addE("القبيله","Gname","`Gname`");
+  //  $myTable->addE("ذاهب","IsGoing","`IsGoing`");
+   $myTable->addElement("الصوره الشخصيه","ProfilePic","`ProfilePic`","<img class=\"img-responsive thumbnail\" src='../image.php?id=","&t=150x150' />");
+   $keyid="id";
+   global  $per_page;
+
+
+   $what=$myTable->returnArray();
+   $where=array('EventID' => $eventID);
+   $table="members";
+   $innerJoin="INNER JOIN
+   (SELECT `groups`.`Gname` Gname ,
+    `members`.`id`,`members`.`name` name,`members`.`ProfilePic` ProfilePic
+    FROM groups INNER JOIN members ON members.groupID=groups.Gid)
+    `members` ON `members`.`id`=`invitationsLog`.`memberID`";
+  // $innerJoin.="INNER JOIN `members` ON `members`.`id`=`invitationsLog`.`memberID`";
+   $getArray=$_GET;
+   require ("functions/generalFunctions.php");
+   $start=getStartPage($getArray,$per_page);
+   $db->select('invitationsLog',$where,$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$what,$innerJoin);
+
+   $input=$db->result_array();
+   include("views/list.php");
+  }
+
   public function viewMemberList(){
     $Page_Title="جميع الاعضاء";
     $where=array('1' => 1 );

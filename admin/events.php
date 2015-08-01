@@ -149,8 +149,8 @@ $isViewed="منتظره التفعيل";
 
 
   $menus.='<button class="btn btn-md btn-danger" onclick="goTo(\'Delete\',\'d\','.$result['id'].',\'groups\',\''.$DeleteMessege.'\')" >حذف</button>';
-  $menus.='<a class="btn btn-md btn-default" href="?fn=getEventsbyGroup&c=events&i='.$result['id'].'">عرض الذاهبون</a>';
-  $menus.='<a class="btn btn-md btn-default" href="?fn=viewMemberByGroup&c=members&i='.$result['id'].'">عرض المدعوون</a>';
+  $menus.='<a class="btn btn-md btn-default" href="?fn=viewGoingMembers&c=members&i='.$result['id'].'">عرض الذاهبون</a>';
+  $menus.='<a class="btn btn-md btn-default" href="?fn=viewInvitedMembers&c=members&i='.$result['id'].'">عرض المدعوون</a>';
   $menus.='<a class="btn btn-md btn-default" href="?fn=viewMemberByGroup&c=members&i='.$result['id'].'">عرض التعليقات</a>';
 
 
