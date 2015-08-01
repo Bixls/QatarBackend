@@ -34,28 +34,6 @@
 
 
 <script>
-function goTo(fun,f,id,cl,msg){
-  var r=true;
-  if(f=="d")
-  {
-    r = confirm(msg);
-  }
-  if(r){
-    $.post("direct.php",
-    {
-      i:id,
-      fn: fun,
-      c:cl
-    },
-    function(data,status){
-      $('#loading').hide();
-      $("#myModal").modal("hide");
-      $('#messeges').append(data);
-    });
-  }
-}
-
-
 $(document).ready(function(){
   $("#myModal").modal();
   $("#mForm").on('submit',(function(e) {
@@ -77,5 +55,4 @@ $(document).ready(function(){
   });
   }));
 });
-</script>
 </script>

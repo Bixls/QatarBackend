@@ -20,11 +20,11 @@ if($firstTime){
 }
 
 
-  echo "<tr id='R$row[$keyid]'>";
+  echo '<tr class="RowItem" id="R'.$row[$keyid].'"  >';
 
 
   foreach ($row as $key=>$value) {
-      echo "<td>";
+      echo '<td onclick="goTo(\'View\',\'v\','.$row[$keyid].',\''.$table.'\',\'\')"  >';
   $myTable->RenderElement($key,$value);
     echo "</td>";
 
@@ -32,7 +32,7 @@ if($firstTime){
     echo "<td>";
   foreach (  $myFunctions->functionsArray as $colum) {
 
-      echo("<button class=\"link btn btn-default\" id=".($colum->short).$row[$keyid]." />".$colum->title." </button>");
+      echo('<button class="link btn btn-default"  onclick="goTo(\''.$colum->fn.'\',\''.$colum->short.'\','.$row[$keyid].',\''.$table.'\',\'\')"   />'.$colum->title.'</button>');
 
     }
       echo "</td>";
@@ -51,41 +51,28 @@ echo("</table>");
 
 ?>
 <script type="text/javascript">
-function getFunctionName(i){
-  switch(i) {
-  <?php
-    foreach ( $myFunctions->functionsArray as $colum) {
 
-      echo("case '$colum->short':\n");
-      echo("return '$colum->fn' ;\n");
-      echo("break;\n");
-    }
-  ?>
+function goTo(fun,f,ids,cl,msg){
+  var r=true;
+  if(f=="d")
+  {
+    r = confirm(msg);
+  }
+  if(r){
+    $.post("direct.php",
+    {
+      i:ids,
+      fn: fun,
+      c:cl
+    },
+    function(data,status){
+      $('#loading').hide();
+      $("#myModal").modal("hide");
+      $('#messeges').html(data);
+    });
   }
 }
 
-
-
-$(document).ready(function(){
-    $(".link").click(function(event){
-      var r=true;
-      if(event.target.id.substring(0, 1)=="d")
-      {
-        r = confirm("do you Realy want to delete "+event.target.id.substring(1));
-      }
-      if(r){
-        $.post("direct.php",
-        {
-          i:event.target.id.substring(1),
-          fn: getFunctionName(event.target.id.substring(0, 1)),
-          c:"<?php echo $table ?>"
-        },
-        function(data,status){
-          $('#messeges').html(data);
-        });
-      }
-    });
-});
 </script>
 
 <div style="text-align:left">
