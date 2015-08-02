@@ -129,7 +129,12 @@ class members{
    members::getMembersList($where,$Page_Title,$myFunctions);
   }
   public function viewMemberByGroup($groupID){
-    $Page_Title="اعضاء القبيله";
+    global $db;
+    $db->select('groups',array('Gid'=>$groupID),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+    $Group=$db->row_array();;
+    $Page_Title="اعضاء قبيله ".$Group['Gname'];
+
+
     $where=array('groupID' => $groupID );
     $myFunctions =new TableView;
     $myFunctions->addF("عرض","View","v");

@@ -61,16 +61,24 @@ public function ViewList($where,$Page_Title,$myFunctions){
 
 }
 public function getEventsbyMember($memberID){
+  global $db;
+  $db->select('members',array('id'=>$memberID),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+  $creator=$db->row_array();;
+  $Page_Title=" المناسبات الخاصه بالعضو ".$creator['name'];
+
   $where=array('CreatorID' => $memberID );
-  $Page_Title="المناسبات الخاصه بالعضو";
+
   $myFunctions =new TableView;
   $myFunctions->addF("عرض","ViewEvent","v");
   $myFunctions->addF("تعديل","Edit","e");
  events::ViewList($where,$Page_Title,$myFunctions);
 }
 public function getEventsbyGroup($GroupID){
+  global $db;
+  $db->select('groups',array('Gid'=>$GroupID),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+  $Group=$db->row_array();;
+  $Page_Title="مناسبات قبيله  ".$Group['Gname'];
   $where=array('members`.`groupID' => $GroupID );
-  $Page_Title="مناسبات القبيله";
   $myFunctions =new TableView;
   $myFunctions->addF("عرض","ViewEvent","v");
   $myFunctions->addF("تعديل","Edit","e");
