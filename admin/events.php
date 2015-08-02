@@ -156,7 +156,7 @@ $isViewed="منتظره التفعيل";
   $DeleteMessege="هل انت متاكد من حذف ".$result['subject'];
 
 
-  $menus.='<button class="btn btn-md btn-danger" onclick="goTo(\'Delete\',\'d\','.$result['id'].',\'groups\',\''.$DeleteMessege.'\')" >حذف</button>';
+  $menus.='<button class="btn btn-md btn-danger" onclick="goTo(\'delete\',\'d\','.$result['id'].',\'events\',\''.$DeleteMessege.'\')" >حذف</button>';
   $menus.='<a class="btn btn-md btn-default" href="?fn=viewGoingMembers&c=members&i='.$result['id'].'">عرض الذاهبون</a>';
   $menus.='<a class="btn btn-md btn-default" href="?fn=viewInvitedMembers&c=members&i='.$result['id'].'">عرض المدعوون</a>';
   $menus.='<a class="btn btn-md btn-default" href="?fn=viewCommentbyEvent&c=comments&i='.$result['id'].'">عرض التعليقات</a>';
@@ -170,6 +170,17 @@ $isViewed="منتظره التفعيل";
   }
 }
 
+public function delete($id){
+  global $db;
+  $db->delete("Events",$where=array('id' => $id));
+  include("functions/generalFunctions.php");
+  if(!$db->error){
+  messege("alert-success","تمت العمليه بنجاح ,","لفد تم حذف المناسبة بنجاح");
+  echo("<script>$('#R$id').hide();</script>");
+  }else{
+  messege("alert-danger","Falied ",implode(" ",$db->errorMessege()));
+  }
+}
 
 
 public function DisapproveEventbyID($inputs){
