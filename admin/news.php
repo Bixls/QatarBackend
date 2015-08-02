@@ -74,7 +74,6 @@ class news{
     $myFunctions =new TableView;
     $myFunctions->addF("عرض","View","v");
     $myFunctions->addF("تعديل","Edit","e");
-    $myFunctions->addF("حذف","delete","d");
     global $db;
 
 
@@ -97,6 +96,57 @@ class news{
     $input=$db->result_array();
     include("views/list.php");
   }
+
+  public function View($id){
+    global $db;
+    $db->select('News',array('NewsID'=>$id),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+    if(!$db->error){
+    $result=$db->row_array();
+
+    $header="";
+    $header.=$result['Subject'];
+    $db->select('NewsComments',array('POSTID'=>$id),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+    $commentsNumber=$db->count();
+
+
+    include("views/normalView.php");
+    $NormalView=new NormalView;
+    $ViewImage=$result['Image'];
+
+    $NormalView->addElement($commentsNumber,"text","عدد التعليقات ");
+
+    $NormalView->addElement($result['timeCreated'],"text","تاريخ الانشاء");
+
+    $menus="";
+
+    if($result['GroupID']==-1)$isViewed="الرئيسية" ;
+    else{
+      $db->select('groups',array('Gid'=>$result['GroupID']),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+    $group=$db->row_array();
+    $isViewed="قبيله ".$group['Gname'];
+    }
+    $NormalView->addElement(($isViewed),"text","مكان عرض الخبر");
+
+    $NormalView->addElement(($result['AllowComments']==0?"لا":"نعم"),"text","السماح بالتعليقات");
+
+
+    $NormalView->addElement($result['Description'],"text","تفاصيل المناسبة ");
+    $body=$NormalView->RenderForm();
+    $DeleteMessege="هل انت متاكد من حذف ".$result['Subject'];
+
+
+    $menus.='<button class="btn btn-md btn-danger" onclick="goTo(\'delete\',\'d\','.$result['NewsID'].',\'news\',\''.$DeleteMessege.'\')" >حذف</button>';
+    $menus.='<a class="btn btn-md btn-default" href="?fn=viewCommentbyEvent&c=comments&i='.$result['NewsID'].'">عرض التعليقات</a>';
+
+
+    include("views/single.php");
+    }else{
+    $header="Error";
+    $body=$db->errorMessege();
+    include("views/single.php");
+    }
+  }
+
 
 
 
