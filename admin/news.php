@@ -136,7 +136,7 @@ class news{
 
 
     $menus.='<button class="btn btn-md btn-danger" onclick="goTo(\'delete\',\'d\','.$result['NewsID'].',\'news\',\''.$DeleteMessege.'\')" >حذف</button>';
-    $menus.='<a class="btn btn-md btn-default" href="?fn=viewCommentbyEvent&c=comments&i='.$result['NewsID'].'">عرض التعليقات</a>';
+    $menus.='<a class="btn btn-md btn-default" href="?fn=viewCommentbyNews&c=comments&i='.$result['NewsID'].'">عرض التعليقات</a>';
 
 
     include("views/single.php");

@@ -42,6 +42,41 @@ public function viewCommentbyEvent($eventID){
  include("views/list.php");
 }
 public function viewCommentbyNews($newsID){
+  global $db;
+  $db->select('News',array('NewsID'=>$newsID),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+  $news=$db->row_array();;
+  $Page_Title="التعليقات على ".$news['Subject'];
+
+
+  $myFunctions =new TableView;
+  $msg="هل انت متاكد من حذف التعليق ؟";
+  $myFunctions->addF("عرض صاحب التعليق ","View","v");
+  $myFunctions->addF("خذف التعليق","Delete","d");
+
+
+ $myTable =new TableView;
+ $myTable->addE("ID","CommentID","`CommentID`");
+ $myTable->addE("اسم العضو","name","`name`");
+ $myTable->addE("القبيله","Gname","`Gname`");
+ $myTable->addElement("الصوره الشخصيه","ProfilePic","`ProfilePic`","<img class=\"img-responsive thumbnail\" src='../image.php?id=","&t=150x150' />");
+ $myTable->addE("التعليق","comment","`comment`");
+ $keyid="CommentID";
+ global  $per_page;
+ $what=$myTable->returnArray();
+ $where=array('POSTID' => $newsID);
+ $table="comments";
+ $innerJoin="INNER JOIN
+ (SELECT `groups`.`Gname` Gname ,
+  `members`.`id`,`members`.`name` name,`members`.`ProfilePic` ProfilePic
+  FROM groups INNER JOIN members ON members.groupID=groups.Gid)
+  `members` ON `members`.`id`=`NewsComments`.`memberID`";
+ $getArray=$_GET;
+ require ("functions/generalFunctions.php");
+ $start=getStartPage($getArray,$per_page);
+ $db->select('NewsComments',$where,$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$what,$innerJoin);
+ $input=$db->result_array();
+ include("views/list.php");
+
 }
 public function View($id){
   global $db;
