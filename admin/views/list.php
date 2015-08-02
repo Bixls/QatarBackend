@@ -68,6 +68,8 @@ function goTo(fun,f,ids,cl,msg){
     function(data,status){
       $('#loading').hide();
       $("#myModal").modal("hide");
+      $('.modal-backdrop').remove();
+      $('body').removeClass( "modal-open" );
       $('#messeges').html(data);
     });
   }
