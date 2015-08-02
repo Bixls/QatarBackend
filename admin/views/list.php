@@ -32,7 +32,7 @@ if($firstTime){
     echo "<td>";
   foreach (  $myFunctions->functionsArray as $colum) {
 
-      echo('<button class="link btn btn-default"  onclick="goTo(\''.$colum->fn.'\',\''.$colum->short.'\','.$row[$keyid].',\''.$table.'\',\'\')"   />'.$colum->title.'</button>');
+      echo('<button class="link btn btn-default"  onclick="goTo(\''.$colum->fn.'\',\''.$colum->short.'\','.$row[$keyid].',\''.$table.'\',\''.(isset($msg)?$msg:'').'\')"   />'.$colum->title.'</button>');
 
     }
       echo "</td>";

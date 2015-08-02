@@ -9,7 +9,8 @@ public function viewCommentbyEvent($eventID){
 
 
   $myFunctions =new TableView;
-  $myFunctions->addF("عرض ","View","v");
+  $msg="هل انت متاكد من حذف التعليق ؟";
+  $myFunctions->addF("عرض صاحب التعليق ","View","v");
   $myFunctions->addF("خذف التعليق","Delete","d");
 
 
@@ -43,8 +44,23 @@ public function viewCommentbyEvent($eventID){
 public function viewCommentbyNews($newsID){
 }
 public function View($id){
+  global $db;
+  $db->select('EventsComments',array('CommentID'=>$id),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+  if(!$db->error){
+  $result=$db->row_array();
+  members::View($result['memberID']);
+  }
 }
 public function Delete($id){
+  global $db;
+  $db->delete("EventsComments",$where=array('CommentID' => $id));
+  include("functions/generalFunctions.php");
+  if(!$db->error){
+  messege("alert-success","","تم حذف التعليق بنجاح");
+  echo("<script>$('#R$id').hide();</script>");
+  }else{
+  messege("alert-danger","Falied ",implode(" ",$db->errorMessege()));
+  }
 }
 }
 
