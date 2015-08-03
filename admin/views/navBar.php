@@ -51,7 +51,8 @@
           aria-expanded="false">خيارات<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">الاعلانات</a></li>
-            <li><a href="#">الشكاوى و المقترحات</a></li>
+            <li><a href="#">رسائل البرنامج</a></li>
+            <li><a href="?fn=viewFeedbackList&c=Feedbacks&i=0">الشكاوى و المقترحات</a></li>
             <li><a href="#">الصور الرمزيه</a></li>
           </ul>
         </li>
