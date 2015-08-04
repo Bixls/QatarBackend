@@ -26,7 +26,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
            aria-haspopup="true" aria-expanded="false">القبائل <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a class="menuLinks" id="CreateGroup" i="0" c="groups" fn="CreateNew" href="#">اضافه قبيله جديده</a></li>
+            <li><a onclick="goTo('CreateNew','CN','','groups','')" href="#">اضافه قبيله جديده</a></li>
             <li><a href="?fn=viewGroupList&c=groups&i=0">عرض جميع القبائل</a></li>
           </ul>
         </li>
@@ -42,7 +42,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
           aria-haspopup="true" aria-expanded="false">الاخبار <span class="caret"></span></a>
           <ul class="dropdown-menu">
-              <li><a class="menuLinks" id="CreateNews" i="0" c="news" fn="CreateNew" href="#">اضافه خبر</a></li>
+              <li><a onclick="goTo('CreateNew','CN','','news','')" href="#">اضافه خبر</a></li>
             <li><a href="?fn=ViewNewsList&c=news&i=0">عرض جميع الاخبار</a></li>
           </ul>
         </li>
@@ -52,8 +52,10 @@
           <ul class="dropdown-menu">
             <li><a href="#">الاعلانات</a></li>
             <li><a href="#">رسائل البرنامج</a></li>
+            <li><a href="#" onclick="goTo('CreateNew','CN','','Avatars','')">اضافه صوره رمزيه </a></li>
+            <li><a href="?fn=getAvatarsList&c=avatars&i=0">الصور الرمزيه</a>  </li>
             <li><a href="?fn=viewFeedbackList&c=Feedbacks&i=0">الشكاوى و المقترحات</a></li>
-            <li><a href="#">الصور الرمزيه</a></li>
+
           </ul>
         </li>
       </ul>
@@ -77,19 +79,4 @@
   </div><!-- /.container-fluid -->
 </nav>
 
-<script type="text/javascript">
-$(document).ready(function(){
-    $(".menuLinks").click(function(event){
-      $.post("direct.php",
-      {
-        i:$("#"+event.target.id).attr( "i" ),
-        fn:$("#"+event.target.id).attr( "fn" ),
-        c:$("#"+event.target.id).attr( "c" )
-      },
-      function(data,status){
-        $('#messeges').html(data);
-      });
-
-    });
-});
 </script>
