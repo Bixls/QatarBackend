@@ -96,8 +96,15 @@ $inlineMenu.='<div class="inlineMenuItem">اظهار
   $myTable =new TableView;
 
   $myTable->addE("ID","id","`Events`.`id`");
-  $myTable->addE("vip","VIP","`Events`.`VIP`");
+  $eventStatus = array('1' => "مفعله",'0'=>"غير مفعله" );
+  $myTable->addCustomeElement("vip","VIP",array('0' =>"لا" ,'1'=>"نعم" ));
+
   $myTable->addE("الاسم","name","`members`.`name`");
+
+  $eventStatus = array('1' => "مفعله",'0'=>"غير مفعله" );
+  $myTable->addCustomeElement("حاله المناسبة","approved",$eventStatus);
+
+
   $myTable->addE("عنوان المناسبة","subject","`Events`.`subject`");
   $myTable->addElement("الصوره","picture","`Events`.`picture`","<img class=\"img-responsive thumbnail\" src='../image.php?id=","&t=150x150' />");
   $myTable->addE("التفاصيل","description","`Events`.`description`");
