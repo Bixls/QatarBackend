@@ -25,13 +25,12 @@ class events{
 public function ViewList($where,$Page_Title,$myFunctions){
 
   global $db;
+  $oldGet=$_GET;
   $inlineMenu="";
 ///////////////////////////////////// View approved only //////////////////////////
 if(!array_key_exists('approved', $where))
 {
-
-
-$gArray=$_GET;
+$gArray=$oldGet;
 $gArray['VA']=false;
 $va=true;
 if(array_key_exists('VA', $_GET)){
@@ -41,14 +40,31 @@ if(array_key_exists('VA', $_GET)){
   }
   }
   $inlineMenu.='<div class="checkbox inlineMenuItem"><label>
-  <input id="checkBox" ch="?'.http_build_query($_GET).'"  unch="?'.http_build_query($gArray).'" type="checkbox" '.($va?"checked":"").'>اظهر المناسبات الغير مفعله </label></div>';
+  <input class="chBox" ch="?'.http_build_query($_GET).'"  unch="?'.http_build_query($gArray).'" type="checkbox" '.($va?"checked":"").'>اظهر المناسبات الغير مفعله </label></div>';
 }
+///////////////////////////////////// Sort BYy //////////////////////////
+$_GET=$oldGet;
+$gArray=$_GET;
+$gArray['EX']=false;
+$ex=true;
+if(array_key_exists('EX', $_GET)){
+  if($_GET['EX']==false){$ex=false;
+  $_GET['EX']=true;
+  $timeNow=Date("Y-m-d h:m:s");
+
+  $twhere="`TimeEnded` >= '".$timeNow."'";
+  array_push($where,$twhere);
+  //$where['approved']=1;
+  }
+  }
+  $inlineMenu.='<div class="checkbox inlineMenuItem"><label>
+  <input class="chBox" ch="?'.http_build_query($_GET).'"  unch="?'.http_build_query($gArray).'" type="checkbox" '.($ex?"checked":"").'>اظهار المناسبات المنتهيه</label></div>';
+
 ///////////////////////////////////// Sort BYy //////////////////////////
 $inlineMenu.='<div class="inlineMenuItem">ترتيب حسب
       <select class="form-control" id="sel1">
         <option>تاريخ الانشاء</option>
         <option>تاريخ الانتهاء</option>
-        <option>القبيله</option>
       </select></div>';
 ///////////////////////////////////// catigories //////////////////////////
 $nowSelectedCat=0;

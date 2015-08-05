@@ -93,7 +93,7 @@ function goTo(fun,f,ids,cl,msg){
           }
           return false;
       });
-      $("#checkBox").change(function() {
+      $(".chBox").change(function() {
           if(this.checked) {
             var url=$(this).attr('ch');
           }else{
