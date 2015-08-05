@@ -27,6 +27,10 @@ public function ViewList($where,$Page_Title,$myFunctions){
   global $db;
   $inlineMenu="";
 ///////////////////////////////////// View approved only //////////////////////////
+if(!array_key_exists('approved', $where))
+{
+
+
 $gArray=$_GET;
 $gArray['VA']=false;
 $va=true;
@@ -38,6 +42,7 @@ if(array_key_exists('VA', $_GET)){
   }
   $inlineMenu.='<div class="checkbox inlineMenuItem"><label>
   <input id="checkBox" ch="?'.http_build_query($_GET).'"  unch="?'.http_build_query($gArray).'" type="checkbox" '.($va?"checked":"").'>اظهر المناسبات الغير مفعله </label></div>';
+}
 ///////////////////////////////////// Sort BYy //////////////////////////
 $inlineMenu.='<div class="inlineMenuItem">ترتيب حسب
       <select class="form-control" id="sel1">
