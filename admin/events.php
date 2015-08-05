@@ -25,13 +25,20 @@ class events{
 public function ViewList($where,$Page_Title,$myFunctions){
 
   global $db;
-  $nowSelectedCat=0;
-  if(array_key_exists('catID', $_GET)){
-    $where['eventType']=  $_GET['catID'];
-    $nowSelectedCat=$_GET['catID'];
+  $inlineMenu="";
+///////////////////////////////////// View approved only //////////////////////////
+$gArray=$_GET;
+$gArray['VA']=false;
+$va=true;
+if(array_key_exists('VA', $_GET)){
+  if($_GET['VA']==false){$va=false;
+  $_GET['VA']=true;
+  $where['approved']=1;
   }
-  //print_r($input);
-  $inlineMenu='<div class="checkbox inlineMenuItem"><label><input type="checkbox" checked>اظهر المناسبات الغير مفعله </label></div>';
+  }
+  $inlineMenu.='<div class="checkbox inlineMenuItem"><label>
+  <input id="checkBox" ch="?'.http_build_query($_GET).'"  unch="?'.http_build_query($gArray).'" type="checkbox" '.($va?"checked":"").'>اظهر المناسبات الغير مفعله </label></div>';
+///////////////////////////////////// Sort BYy //////////////////////////
 $inlineMenu.='<div class="inlineMenuItem">ترتيب حسب
       <select class="form-control" id="sel1">
         <option>تاريخ الانشاء</option>
@@ -39,6 +46,11 @@ $inlineMenu.='<div class="inlineMenuItem">ترتيب حسب
         <option>القبيله</option>
       </select></div>';
 ///////////////////////////////////// catigories //////////////////////////
+$nowSelectedCat=0;
+if(array_key_exists('catID', $_GET)){
+  $where['eventType']=  $_GET['catID'];
+  $nowSelectedCat=$_GET['catID'];
+}
       $db->select('EventCatigories',"",$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
       $results=$db->result_array();
       $eventTypeSelect="";

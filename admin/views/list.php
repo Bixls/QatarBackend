@@ -93,7 +93,20 @@ function goTo(fun,f,ids,cl,msg){
           }
           return false;
       });
+      $("#checkBox").change(function() {
+          if(this.checked) {
+            var url=$(this).attr('ch');
+          }else{
+            var url=$(this).attr('unch');
+          }
+          if (url) { // require a URL
+              window.location = url; // redirect
+          }
+          return false;
+
+      });
     });
+
 
 
 </script>
