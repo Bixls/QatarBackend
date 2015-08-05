@@ -79,12 +79,14 @@ function goTo(fun,f,ids,cl,msg){
 
 <div style="text-align:left">
 <?php
+
+
 //////////////////////////////////////////////////////// Pagging //////////////////////////////////////////
         	echo "<ul class=\"pagination\"> ";
           if(empty($getArray['page'])||$getArray['page']=='1')
           {
               $getArray['page']=2;
-        if(!empty($input)){	echo " <li><a  href='?".http_build_query($getArray)."'>التالي</a></li> ";}
+        if(!empty($input)&&count($input)>=$per_page){	echo " <li><a  href='?".http_build_query($getArray)."'>التالي</a></li> ";}
           }else{
           $getArray['page']--;
         echo " <li><a  href='?".http_build_query($getArray)."'>السابق</a></li> ";
