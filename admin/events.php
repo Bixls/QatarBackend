@@ -15,7 +15,7 @@ class events{
    events::ViewList($where,$Page_Title,$myFunctions);
   }
   public function ViewEventList(){
-    $where=array('approved' => 1 );
+    $where=array();
     $Page_Title="جميع المناسبات";
     $myFunctions =new TableView;
     $myFunctions->addF("عرض","View","v");
@@ -25,6 +25,39 @@ class events{
 public function ViewList($where,$Page_Title,$myFunctions){
 
   global $db;
+  $nowSelectedCat=0;
+  if(array_key_exists('catID', $_GET)){
+    $where['eventType']=  $_GET['catID'];
+    $nowSelectedCat=$_GET['catID'];
+  }
+  //print_r($input);
+  $inlineMenu='<div class="checkbox inlineMenuItem"><label><input type="checkbox" checked>اظهر المناسبات الغير مفعله </label></div>';
+$inlineMenu.='<div class="inlineMenuItem">ترتيب حسب
+      <select class="form-control" id="sel1">
+        <option>تاريخ الانشاء</option>
+        <option>تاريخ الانتهاء</option>
+        <option>القبيله</option>
+      </select></div>';
+///////////////////////////////////// catigories //////////////////////////
+      $db->select('EventCatigories',"",$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+      $results=$db->result_array();
+      $eventTypeSelect="";
+foreach ($results as $value) {
+$_GET['catID']=$value['catID'];
+$eventTypeSelect.="<option ".($nowSelectedCat==$value['catID']?"selected='selected'":"")." value='?".http_build_query($_GET)."'>".$value['catName']."</option>";
+}
+unset($_GET['catID']);
+$inlineMenu.='<div class="inlineMenuItem">اظهار
+            <select class="form-control"  id="dynamic_select">
+              <option value="?'.http_build_query($_GET).'">جميع المناسبات</option>
+            '.$eventTypeSelect.'
+            </select></div>';
+
+
+///////////////////////////////////// catigories //////////////////////////
+
+
+
   $table="Events";
 
   $myTable =new TableView;
@@ -48,13 +81,11 @@ public function ViewList($where,$Page_Title,$myFunctions){
 
   $getArray=$_GET;
   $where;
+
   require ("functions/generalFunctions.php");
   $start=getStartPage($getArray,$per_page);
-  $db->select($table,$where,$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$what,$innerJoin);
+  $db->select($table,$where,$limit=$start.",".$per_page,$order="TimeEnded DESC",$where_mode="AND",$print_query=false,$what,$innerJoin);
   $input=$db->result_array();
-
-  //print_r($input);
-
 
 
   include("views/list.php");

@@ -3,7 +3,15 @@ $firstTime=true;
 echo ("<div class=\"page-header\">
     <h1>$Page_Title</h1>
   </div>");
-
+  if(isset($inlineMenu)){
+?>
+<div class="pageMenu">
+  <?
+echo $inlineMenu;
+  ?>
+</div>
+<?
+}
 if(!empty($input)){
     echo "<table class=\"table table-striped\">";
 foreach ($input as $row) {
@@ -74,6 +82,19 @@ function goTo(fun,f,ids,cl,msg){
     });
   }
 }
+
+
+    $(function(){
+      // bind change event to select
+      $('#dynamic_select').on('change', function () {
+          var url = $(this).val(); // get selected value
+          if (url) { // require a URL
+              window.location = url; // redirect
+          }
+          return false;
+      });
+    });
+
 
 </script>
 
