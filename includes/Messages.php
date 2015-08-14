@@ -17,6 +17,14 @@
 public function  sendMessege($inputs)
 {
   $error= array();
+  if(!is_array($inputs->ReciverID)){
+
+  $reciver = new stdClass();
+  $reciver->id = $inputs->ReciverID;
+  $inputs->ReciverID= array();
+  array_push($inputs->ReciverID,$reciver);
+  }
+
   foreach ($inputs->ReciverID as $ReciverID) {
     $this->db->insert("messageLog",array(
       'SenderID' =>  $inputs->SenderID,
