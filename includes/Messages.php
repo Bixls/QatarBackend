@@ -16,8 +16,19 @@
 
 public function  sendMessege($inputs)
 {
-  $this->db->insert("messageLog", get_object_vars($inputs));
-  echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
+  $error= array();
+  foreach ($inputs->ReciverID as $ReciverID) {
+    $this->db->insert("messageLog",array(
+      'SenderID' =>  $inputs->SenderID,
+      'ReciverID' => $ReciverID->id,
+      'Subject' =>  $inputs->Subject,
+      'Content' =>  $inputs->Content
+    ));
+    if($this->db->error){
+    array_push($error,$this->db->errorMessege());
+    }
+  }
+  echo json_encode(!empty($error)?$error: array('sucess' => true));
 }
 public function  deleteMessege($inputs)
 {
