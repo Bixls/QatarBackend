@@ -71,7 +71,7 @@ public function CreateEvent($inputs) {
 
   if(empty($error)){
   $this->db->insert("Events", get_object_vars($inputs));
-  echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
+  echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true,'id'=>$this->db->id()));
   }else{
   echo json_encode($arrayName = array('sucess' =>false ,'reason'=>$error ));
   // echo faild because you dont have enough points
