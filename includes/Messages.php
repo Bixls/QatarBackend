@@ -18,7 +18,6 @@ public function  sendMessege($inputs)
 {
   $error= array();
   if(!is_array($inputs->ReciverID)){
-
   $reciver = new stdClass();
   $reciver->id = $inputs->ReciverID;
   $inputs->ReciverID= array();
@@ -74,17 +73,17 @@ public function  ReadMessege($inputs)
 }
 public function  RetriveInbox($inputs)
 {
-  $table="invitationsLog";
-  $where=array('invitationsLog`.`memberID'=>$inputs->ReciverID);
+  $table="messageLog";
+  $where=array('messageLog`.`ReciverID'=>$inputs->ReciverID);
   $limit=$inputs->start.",".$inputs->limit;
-  $What="
-  `invitationsLog`.`invitationID`,
-   `invitationsLog`.`EventID`,
-   `members`.`name` ,
-   `members`.`ProfilePic` ,
-   `Events`.`VIP` type,
-   `Events`.`subject`";
-  $innerJoin=  "INNER JOIN `members` ON `members`.`id`=`invitationsLog`.`memberID` INNER JOIN `Events` on Events.id=invitationsLog.EventID";
+  $What="`messageLog`.`messageID`
+  ,`members`.`name` ,
+  `members`.`ProfilePic` ,
+  `messageLog`.`Subject`,
+  `messageLog`.`type`,
+  `messageLog`.`Status`,
+  `messageLog`.`EventID`";
+  $innerJoin=  "INNER JOIN `members` ON `members`.`id`=`messageLog`.`SenderID`";
   $this->db->select($table,$where,$limit,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
   echo json_encode($this->db->error?$this->db->errorMessege():$this->db->result());
 }
@@ -98,7 +97,7 @@ public function retriveInvitationInbox($inputs){
    `members`.`name` ,
    `members`.`ProfilePic` ,
    `Events`.`VIP` type,
-   `Events`.`subject`";
+   `Events`.`subject` Subject";
   $innerJoin=  "INNER JOIN `members` ON `members`.`id`=`invitationsLog`.`memberID` INNER JOIN `Events` on Events.id=invitationsLog.EventID";
   $this->db->select($table,$where,$limit,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
   echo json_encode($this->db->error?$this->db->errorMessege():$this->db->result());
