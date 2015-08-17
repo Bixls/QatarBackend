@@ -95,11 +95,23 @@ public function Edit($id){
   $allowComments = array('1' =>"نعم"
   ,'0' =>"لا"  );
   $oldValue=$allowComments[$result['Royal']];
- unset($allowComments[$result['Royal']]);
+  unset($allowComments[$result['Royal']]);
   $allowComments[$result['Royal']]=$oldValue;
   $allowComments = array_reverse($allowComments,true);
   $form->addElement('Royal',$allowComments,"select","قبيله ملكيه ؟");
-  $form->addElement('priority',$result['priority'],"text","ترتيب القبيله");
+
+
+  global $db;
+  $db->select('groups',"",$limit=false,$order="priority",$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+  $resCash=$db->result_array();
+   $groups = array("-1"=>"الاول");
+    foreach ($resCash as $key) {
+      //array_push($group,$key["Gname"]);
+      $groups[$key["priority"]]=$key["Gname"];
+    }
+
+
+  $form->addSelect('priority',$groups,$result['priority'],"الترتيب قبل");
   $form->addElement('Description',$result['Description'],"textarea","تفاصيل القبيله");
   $form->addElement('i',$id,"hidden","");
   $form->addElement('fn',"update","hidden","");
@@ -131,7 +143,17 @@ public function CreateNew($input){
   $allowComments = array('1' =>"نعم",'0' =>"لا"  );
   $form->addElement('Royal',$allowComments,"select","قبيله ملكيه ؟");
   $form->addElement('Description',"","textarea","تفاصيل القبيله");
-  $form->addElement('priority',"","text","ترتيب القبيله");
+global $db;
+  $db->select('groups',"",$limit=false,$order="priority",$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+  $result=$db->result_array();
+$groups[-1]="الاول";
+  foreach ($result as $key) {
+    //array_push($group,$key["Gname"]);
+    $groups[$key["priority"]]=$key["Gname"];
+  }
+
+  $form->addElement('priority',$groups,"select","القبيله");
+
 
   $form->addElement('i',"0","hidden","");
   $form->addElement('fn',"insert","hidden","");
@@ -190,7 +212,8 @@ $db->update("groups", $what =  array('Gname' =>  $_POST['Gname'],'GProfilePic' =
 , $where=array("Gid"=>$id));
 include("functions/generalFunctions.php");
   if(!$db->error){
-  messege("alert-success","تمت العمليه , ","  لقد تم اضافه القبيله بنجاح");
+  messege("alert-success","تمت العمليه , ",
+  "لقد تم تعديل القبيله بنجاح");
 //sucess i can here reload
   }else{
   messege("alert-danger","Falied ",$db->errorMessege());

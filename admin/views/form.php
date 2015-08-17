@@ -21,6 +21,11 @@ $myElement=new image($id,$type,$lable);
 array_push($this->ElementsArray,$myElement);
 //print_r($this->ElementsArray);
 }
+public function addSelect($id,$value,$Selected,$lable){
+$myElement=new SelectElement($id,$value,$Selected,$lable);
+array_push($this->ElementsArray,$myElement);
+//print_r($this->ElementsArray);
+}
 public function RenderForm(){
   $output="<form id=\"mForm\"  method=\"post\" enctype=\"multipart/form-data\">";
   foreach ($this->ElementsArray as $element) {
@@ -36,6 +41,32 @@ return $output;
 }
 
 }
+class SelectElement{
+public $id;
+public $value;
+public $selected;
+public $lable;
+function __construct($id,$value,$selected,$lable){
+  $this->id=$id;
+  $this->selected=$selected;
+  $this->value=$value;
+  $this->lable=$lable;
+}
+public function echoElement(){
+$output="";
+$output.='<div class="form-group col-md-6">';
+$output.='<label for="'.$this->id.'"> '.$this->lable.' </label>';
+$output.='<select class="form-control" id="'.  $this->id.'" name="'.$this->id.'">';
+foreach ($this->value as $key => $value) {
+$output.='<option value="'.$key.'" '.($this->selected==$key?"selected":"").'>'.$value.'</option>';
+}
+$output.='</select></div>';
+
+return   $output;
+}
+
+}
+
 class element{
 public $id;
 public $value;
@@ -56,7 +87,7 @@ $output.='<label for="'.$this->id.'"> '.$this->lable.' </label>';
 if($this->type=="select"){
 $output.='<select class="form-control" id="'.  $this->id.'" name="'.$this->id.'">';
 foreach ($this->value as $key => $value) {
-$output.='<option value="'.$key.'">'.$value.'</option>';
+$output.='<option value="'.$key.'" selected>'.$value.'</option>';
 }
 $output.='</select>';
 }elseif($this->type=="textarea"){
