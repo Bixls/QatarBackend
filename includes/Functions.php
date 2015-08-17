@@ -209,26 +209,26 @@ function sendMessege($inputs)
 }
 function RetriveInbox($inputs)
 {
-  include("Messages.php");
-  $messege=new Messages;
-  $messege->RetriveInbox($inputs[0]);
+  include("invitationsLog.php");
+  $messege=new invitationsLog;
+  $messege->RetriveInvitationInbox($inputs[0]);
 }
 function ReadMessege($inputs)
 {
-  include("Messages.php");
-  $messege=new Messages;
+  include("invitationsLog.php");
+  $messege=new invitationsLog;
   $messege->ReadMessege($inputs[0]);
 }
 function deleteMessege($inputs)
 {
-  include("Messages.php");
-  $messege=new Messages;
+  include("invitationsLog.php");
+  $messege=new invitationsLog;
   $messege->deleteMessege($inputs[0]);
 }
 function unReadInbox($inputs)
 {
-  include("Messages.php");
-  $messege=new Messages;
+  include("invitationsLog.php");
+  $messege=new invitationsLog;
   $messege->unReadInbox($inputs[0]);
 }
 //************** Feedbacks *************************

@@ -132,8 +132,53 @@ echo json_encode($respond);
 $dbConnect->close();
 
 }
+public function RetriveInvitationInbox($inputs){
+  $table="invitationsLog";
+  $where=array('invitationsLog`.`memberID'=>$inputs->ReciverID);
+  $limit=$inputs->start.",".$inputs->limit;
+  $What="
+  `invitationsLog`.`invitationID`,
+  `invitationsLog`.`Status`,
+   `invitationsLog`.`EventID`,
+   `members`.`name` ,
+   `members`.`ProfilePic` ,
+   `Events`.`VIP` ,
+   `Events`.`subject` Subject";
+  $innerJoin=  "INNER JOIN `members` ON `members`.`id`=`invitationsLog`.`memberID` INNER JOIN `Events` on Events.id=invitationsLog.EventID";
+  $this->db->select($table,$where,$limit,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
+  echo json_encode($this->db->error?$this->db->errorMessege():$this->db->result());
+}
+public function  ReadMessege($inputs)
+{
 
+  $this->db->select($table='invitationsLog',$where=array('invitationID'=>$inputs->messageID),$limit=false,false,"AND",false,"*",false);
+  if(!$this->db->error)
+  {
+  $messegeIntry=$this->db->row_array();
+    $What="`members`.`name` , `members`.`ProfilePic`,
+     `Events`.`id` ,`Events`.`subject` ,`Events`.`eventType` , `Events`.`VIP` ,
+     `Events`.`picture` ,`Events`.`description`, `Events`.`TimeEnded`, `Events`.`timeCreated` ,
+      `Events`.`comments` , `Events`.`approved`";
+    $innerJoin = "INNER JOIN `members` ON `Events`.`CreatorID`=`members`.`id`";
+    $this->db->select('Events',array('Events`.`id'=>$messegeIntry['EventID']),$limit,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
+    echo json_encode($this->db->error?$this->db->errorMessege():$this->db->result());
 
+    $this->db->update('invitationsLog', $fields=array('Status'=>1), $where);
+  }else{ echo json_encode($this->db->errorMessege());}
+}
+
+public function  unReadInbox($inputs)
+{
+    $this->db->select('invitationsLog',$where=array('memberID'=>$inputs->ReciverID,'Status'=>0),false,false,"AND",false,"*",false);
+    $respond = array('unReaded' => $this->db->count());
+    echo json_encode($this->db->error?$this->db->errorMessege():$respond);
+}
+
+public function  deleteMessege($inputs)
+{
+  $this->db->delete("invitationsLog", $where=array("invitationID"=>$inputs->messageID));
+  echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
+}
 
 
 
