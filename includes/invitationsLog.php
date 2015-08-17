@@ -15,14 +15,21 @@ $this->db->select($table='Events',$where=array('id'=>$inputs->EventID),false,fal
 if($this->db->error){echo json_encode($this->db->errorMessege()); return false; }
 $outs=$this->db->row_array();
 $eventType=$outs['eventType'];
-$vip=$outs['VIP'];
+$vip=$outs['VIP']; // the event is VIP or not
 $sender=$outs['CreatorID'];
 $respond= array();
+
+$this->db->select($table='members',$where=array('id'=>$sender),false,false,"AND",false,"*",false);
+if($this->db->error){echo json_encode($this->db->errorMessege()); return false; }
+$senderRow=$this->db->row_array();
+$senderPoints=$senderRow['inVIP'];
+$SendingStatus = new stdClass();
 
 foreach ($inputs->listArray as $key) {
 
   $res = new stdClass();
-  $res->id=$key->id;
+
+
 
 
     $this->db->select($table='BlockList',$where=array('memberID'=>$key->id,'InvitationID'=>$eventType),false,false,"AND",false,"*",false);
@@ -36,26 +43,38 @@ foreach ($inputs->listArray as $key) {
               if($this->db->count()<=0)
                   {
                       //invite people
-                      $this->db->insert("invitationsLog", array('EventID' =>$inputs->EventID , 'memberID'=>$key->id ));
-                  if($this->db->error){echo json_encode($this->db->errorMessege()); return false; }
+
+                  if($vip==1){
+                    if($senderPoints<=0){
+                      $SendingStatus->noPoints=true;
+                      break;
+                    }
+                    $senderPoints--;
+                  }
+                  $this->db->insert("invitationsLog", array('EventID' =>$inputs->EventID , 'memberID'=>$key->id ));
+              if($this->db->error){echo json_encode($this->db->errorMessege()); return false; }
+                    $res->id=$key->id;
+                    array_push($respond,$res);
                       //Send messege
-                      $this->db->insert("messageLog",array('SenderID' => $sender, 'ReciverID'=>$key->id,'EventID'=>$inputs->EventID,'type'=>$vip?3:2));
+                  /*    $this->db->insert("messageLog",array('SenderID' => $sender, 'ReciverID'=>$key->id,'EventID'=>$inputs->EventID,'type'=>$vip?3:2));
                     if($this->db->error){echo json_encode($this->db->errorMessege()); return false; }
-                      $res->sucess=true;
+                      $res->sucess=true; */
                   }
                   else{
-                        $res->sucess=false;  //Already invited
+                      //  $res->sucess=false;  //Already invited
                   }
 
       }
-      else{ $res->sucess=true; } //member Block the invitation
+      else {   $res->id=$key->id; $res->sucess=true;     array_push($respond,$res);} //member Block the invitation
 
-        array_push($respond,$res);
+    //    array_push($respond,$res);
 }
-
-
+if($vip==1){
+  $this->db->update('members', $fields=array('inVIP'=>$senderPoints), array('id'=>$sender));
+}
+  $SendingStatus->SentTo=$respond;
 //array_push($respond,$error);
-echo json_encode($respond);
+echo json_encode($SendingStatus);
 }
 
 
