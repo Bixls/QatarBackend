@@ -64,6 +64,9 @@ $DeleteMessege="هل انت متاكد من حذف ".$result['Gname'];
 $menus="";
 
 $menus.='<button class="btn btn-md btn-danger" onclick="goTo(\'Delete\',\'d\','.$result['Gid'].',\'groups\',\''.$DeleteMessege.'\')" >حذف</button>';
+
+$menus.='<button class="btn btn-md btn-success" onclick="goTo(\'Edit\',\'e\','.$result['Gid'].',\'groups\',\''.$DeleteMessege.'\')" >تعديل</button>';
+
 $menus.='<a class="btn btn-md btn-default" href="?fn=getEventsbyGroup&c=events&i='.$result['Gid'].'">عرض مناسبات القبيله</a>';
 $menus.='<a class="btn btn-md btn-default" href="?fn=viewMemberByGroup&c=members&i='.$result['Gid'].'">عرض اعضاء القبيله</a>';
 
@@ -78,6 +81,31 @@ include("views/single.php");
 }
 public function Edit($id){
 
+  global $db;
+  $db->select('groups',array('Gid'=>$id),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+  if(!$db->error){
+  $result=$db->row_array();
+
+  $header="تعديل قبيله".$result['Gname'];
+  include("views/form.php");
+  $form=new form("index.php","title");
+  $form->addElement('Gname',$result['Gname'],"text","اسم القليله");
+  $form->addImage('GProfilePic',"group","صوره القبيله");
+  $allowComments = array('1' =>"نعم"
+  ,'0' =>"لا"  );
+  $oldValue=$allowComments[$result['Royal']];
+ unset($allowComments[$result['Royal']]);
+  $allowComments[$result['Royal']]=$oldValue;
+  $allowComments = array_reverse($allowComments,true);
+  $form->addElement('Royal',$allowComments,"select","قبيله ملكيه ؟");
+  $form->addElement('Description',$result['Description'],"textarea","تفاصيل القبيله");
+  $form->addElement('i',$id,"hidden","");
+  $form->addElement('fn',"update","hidden","");
+  $form->addElement('c',"groups","hidden","");
+  $body=$form->RenderForm();
+//  $body="fields that will create the new group is here";
+  include("views/single.php");
+}
 }
 public function CreateNew($input){
 
@@ -86,7 +114,7 @@ public function CreateNew($input){
   $form=new form("index.php","title");
   $form->addElement('Gname',"","text","اسم القليله");
   $form->addImage('GProfilePic',"group","صوره القبيله");
-  $allowComments = array('0' =>"نعم",'1' =>"لا"  );
+  $allowComments = array('1' =>"نعم",'0' =>"لا"  );
   $form->addElement('Royal',$allowComments,"select","قبيله ملكيه ؟");
   $form->addElement('Description',"","textarea","تفاصيل القبيله");
   $form->addElement('i',"0","hidden","");
@@ -117,7 +145,8 @@ public function insert($id)
 if($respond['success']=="true"){
 
 global $db;
-$db->insert("groups", $what = array('Gname' =>  $_POST['Gname'],'GProfilePic' => $respond['id']));
+$db->insert("groups", $what = array('Gname' =>  $_POST['Gname'],'GProfilePic' => $respond['id']
+,'Description' =>  $_POST['Description'],'Royal' => $_POST['Royal']));
 include("functions/generalFunctions.php");
   if(!$db->error){
   messege("alert-success","تمت العمليه , ","  لقد تم اضافه القبيله بنجاح");
@@ -125,6 +154,44 @@ include("functions/generalFunctions.php");
   messege("alert-danger","Falied ",$db->errorMessege());
   }
 
+}
+}
+
+public function update($id)
+{
+if($_FILES["fileToUpload"]["name"]!=NULL)
+{
+  ob_start();
+  $NoResponse="NoResponse";
+  include(ROOTPATH."/upload.php");
+  ob_end_clean();
+if($respond['success']=="true"){
+
+global $db;
+$db->update("groups", $what =  array('Gname' =>  $_POST['Gname'],'GProfilePic' => $respond['id']
+,'Description' =>  $_POST['Description'],'Royal' => $_POST['Royal'])
+, $where=array("Gid"=>$id));
+include("functions/generalFunctions.php");
+  if(!$db->error){
+  messege("alert-success","تمت العمليه , ","  لقد تم اضافه القبيله بنجاح");
+//sucess i can here reload
+  }else{
+  messege("alert-danger","Falied ",$db->errorMessege());
+  }
+
+}
+}
+else{
+  global $db;
+  $db->update("groups", $what =  array('Gname' =>  $_POST['Gname']
+  ,'Description' =>  $_POST['Description'],'Royal' => $_POST['Royal'])
+  , $where=array("Gid"=>$id));
+  include("functions/generalFunctions.php");
+    if(!$db->error){
+    messege("alert-success","تمت العمليه , ","  لقد تم اضافه القبيله بنجاح");
+    }else{
+    messege("alert-danger","Falied ",$db->errorMessege());
+    }
 }
 }
 

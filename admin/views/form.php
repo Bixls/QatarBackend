@@ -54,13 +54,13 @@ if($this->type!="hidden"){
 $output.='<div class="form-group col-md-'.($this->type=="textarea"?12:6).'">';
 $output.='<label for="'.$this->id.'"> '.$this->lable.' </label>';
 if($this->type=="select"){
-$output.='<select class="form-control" id="'.  $this->id.'" name="'.  $this->id.'">';
+$output.='<select class="form-control" id="'.  $this->id.'" name="'.$this->id.'">';
 foreach ($this->value as $key => $value) {
 $output.='<option value="'.$key.'">'.$value.'</option>';
 }
 $output.='</select>';
 }elseif($this->type=="textarea"){
-$output.='<textarea class="form-control" rows="5" id="'.  $this->id.'" name="'.  $this->id.'"></textarea>';
+$output.='<textarea class="form-control" rows="5" id="'.  $this->id.'" name="'.  $this->id.'">'.$this->value.'</textarea>';
 }else{
   $output.='<input type="'.$this->type.'" class="form-control" id="'.  $this->id.'" name="'.  $this->id.'"
       value="'.  $this->value .'" >';
@@ -91,7 +91,7 @@ private $id;
     $output.='<div class="form-group col-sm-12">';
     $output.='<label for="'.$this->id.'"> '.$this->lable.' </label>';
     $output.='
-    <input type="file" name="fileToUpload" class="form-control "accept="image/*"  id="file" required />
+    <input type="file" name="fileToUpload" class="form-control" accept="image/*"  id="file"  />
     <input type="hidden" name="type" id="type" value='.$this->type.' required />
     </div>';
     return $output;
