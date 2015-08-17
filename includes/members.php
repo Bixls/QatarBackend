@@ -32,6 +32,7 @@ $errors = array();
   if(empty($errors))
   {
   $inputs->password=md5($inputs->password);
+  $inputs->Verified=rand( 1000 ,  9999 );
   $this->db->insert("members", get_object_vars($inputs));
   if(!$this->db->error){
     echo json_encode(  array('sucess' => true,'id'=>$this->db->id())) ;
