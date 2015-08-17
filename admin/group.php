@@ -29,6 +29,8 @@ public function viewGroupList(){
   $getArray=$_GET;
   require ("functions/generalFunctions.php");
   $start=getStartPage($getArray,$per_page);
+  $db->select($table,"",$limit=false,$order="priority",$where_mode="AND",$print_query=false,$What="*",$innerJoin);
+  $numberOFPosts=$db->count();
   $db->select($table,"",$limit=$start.",".$per_page,$order="priority",$where_mode="AND",$print_query=false,$What="*",$innerJoin);
   $input=$db->result_array();
   include("views/list.php");

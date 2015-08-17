@@ -114,19 +114,28 @@ function goTo(fun,f,ids,cl,msg){
 <div style="text-align:left">
 <?php
 
+$numberOfPages=(int)ceil($numberOFPosts/$per_page);
+if(empty($getArray['page']))
+{
+  $getArray['page']=1;
+}
+$currentPage=$getArray['page'];
 
-//////////////////////////////////////////////////////// Pagging //////////////////////////////////////////
-        	echo "<ul class=\"pagination\"> ";
-          if(empty($getArray['page'])||$getArray['page']=='1')
-          {
-              $getArray['page']=2;
-        if(!empty($input)&&count($input)>=$per_page){	echo " <li><a  href='?".http_build_query($getArray)."'>التالي</a></li> ";}
-          }else{
-          $getArray['page']--;
-        echo " <li><a  href='?".http_build_query($getArray)."'>السابق</a></li> ";
-          $getArray['page']+=2;
-        if(!empty($input)){		echo " <li><a  href='?".http_build_query($getArray)."'>التالي</a></li> ";}
-        }
-        	echo "</ul>";
+	echo "<ul class=\"pagination\"> ";
+if($currentPage!=1){
+  $getArray['page']=$currentPage-1;
+  echo " <li><a  href='?".http_build_query($getArray)."'>السابق</a></li> ";
+}
+$getArray['page']=1;
+for($i=1;$i<=$numberOfPages;$i++){
+  echo " <li ".($i==$currentPage?'class=\'active\'':'')." ><a href='?".http_build_query($getArray)."'>$i</a></li> ";
+  $getArray['page']++;
+}
+if($currentPage!=$numberOfPages){
+    $getArray['page']=$currentPage+1;
+  echo " <li><a  href='?".http_build_query($getArray)."'>التالي</a></li> ";
+}
+  	echo "</ul>";
+
  ?>
 </div>
