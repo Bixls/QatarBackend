@@ -221,7 +221,7 @@ public function editEvent($inputs){
   }
   if(!$error){
   $this->db->update("Events", get_object_vars($inputs), $where=array("id"=>$inputs->id));
-  echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
+  echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true,'id'=>$output['id']));
 }else{
   echo json_encode($arrayName = array('sucess' =>false ,'reason'=>"VIP" ));
   // echo faild because you dont have enough points
