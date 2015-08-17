@@ -14,6 +14,7 @@ public function viewGroupList(){
   require_once("views/tablelist.php");
   $myTable =new TableView;
   $myTable->addE("id","Gid","`Gid`");
+  $myTable->addE("ترتيب القبيله","priority","`priority`");
   $myTable->addE("اسم القبيله","Gname","`Gname`");
   $myTable->addElement("صوره القبيله","GProfilePic","`GProfilePic`","<img class=\"img-responsive thumbnail\" src='../image.php?id=","&t=150x150' />");
   $keyid="Gid";
@@ -28,7 +29,7 @@ public function viewGroupList(){
   $getArray=$_GET;
   require ("functions/generalFunctions.php");
   $start=getStartPage($getArray,$per_page);
-  $db->select($table,"",$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin);
+  $db->select($table,"",$limit=$start.",".$per_page,$order="priority",$where_mode="AND",$print_query=false,$What="*",$innerJoin);
   $input=$db->result_array();
   include("views/list.php");
 }
@@ -98,6 +99,7 @@ public function Edit($id){
   $allowComments[$result['Royal']]=$oldValue;
   $allowComments = array_reverse($allowComments,true);
   $form->addElement('Royal',$allowComments,"select","قبيله ملكيه ؟");
+  $form->addElement('priority',$result['priority'],"text","ترتيب القبيله");
   $form->addElement('Description',$result['Description'],"textarea","تفاصيل القبيله");
   $form->addElement('i',$id,"hidden","");
   $form->addElement('fn',"update","hidden","");
@@ -106,6 +108,18 @@ public function Edit($id){
 //  $body="fields that will create the new group is here";
   include("views/single.php");
 }
+}
+public function sort(){
+
+  global $db;
+  $db->select($table='groups',"",$limit=false,$order="priority",$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+  $input=$db->result_array();
+  $i=0;
+  foreach ($input as $key) {
+    $db->update("groups", $what =  array('priority' =>  $i)
+    , $where=array("Gid"=>$key['Gid']));
+    $i++;
+  }
 }
 public function CreateNew($input){
 
@@ -117,6 +131,8 @@ public function CreateNew($input){
   $allowComments = array('1' =>"نعم",'0' =>"لا"  );
   $form->addElement('Royal',$allowComments,"select","قبيله ملكيه ؟");
   $form->addElement('Description',"","textarea","تفاصيل القبيله");
+  $form->addElement('priority',"","text","ترتيب القبيله");
+
   $form->addElement('i',"0","hidden","");
   $form->addElement('fn',"insert","hidden","");
   $form->addElement('c',"groups","hidden","");
@@ -146,10 +162,11 @@ if($respond['success']=="true"){
 
 global $db;
 $db->insert("groups", $what = array('Gname' =>  $_POST['Gname'],'GProfilePic' => $respond['id']
-,'Description' =>  $_POST['Description'],'Royal' => $_POST['Royal']));
+,'Description' =>  $_POST['Description'],'priority' =>  $_POST['priority'],'Royal' => $_POST['Royal']));
 include("functions/generalFunctions.php");
   if(!$db->error){
   messege("alert-success","تمت العمليه , ","  لقد تم اضافه القبيله بنجاح");
+  groups::sort();
   }else{
   messege("alert-danger","Falied ",$db->errorMessege());
   }
@@ -169,7 +186,7 @@ if($respond['success']=="true"){
 
 global $db;
 $db->update("groups", $what =  array('Gname' =>  $_POST['Gname'],'GProfilePic' => $respond['id']
-,'Description' =>  $_POST['Description'],'Royal' => $_POST['Royal'])
+,'Description' =>  $_POST['Description'],'priority' =>  $_POST['priority'],'Royal' => $_POST['Royal'])
 , $where=array("Gid"=>$id));
 include("functions/generalFunctions.php");
   if(!$db->error){
@@ -184,7 +201,7 @@ include("functions/generalFunctions.php");
 else{
   global $db;
   $db->update("groups", $what =  array('Gname' =>  $_POST['Gname']
-  ,'Description' =>  $_POST['Description'],'Royal' => $_POST['Royal'])
+  ,'Description' =>  $_POST['Description'],'priority' =>  $_POST['priority'],'Royal' => $_POST['Royal'])
   , $where=array("Gid"=>$id));
   include("functions/generalFunctions.php");
     if(!$db->error){
@@ -193,6 +210,7 @@ else{
     messege("alert-danger","Falied ",$db->errorMessege());
     }
 }
+groups::sort();
 }
 
 }
