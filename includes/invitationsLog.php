@@ -65,7 +65,15 @@ foreach ($inputs->listArray as $key) {
                   }
 
       }
-      else {   $res->id=$key->id; $res->sucess=true;     array_push($respond,$res);} //member Block the invitation
+      else {
+        // if the memer is blocking the invitation
+        if($vip==1){
+          if($senderPoints<=0){
+            $SendingStatus->noPoints=true;
+            break;
+          }
+          $senderPoints--;
+        }  $res->id=$key->id; $res->Blocked=true;     array_push($respond,$res);} //member Block the invitation
 
     //    array_push($respond,$res);
 }
