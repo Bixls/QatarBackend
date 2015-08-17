@@ -134,7 +134,7 @@ $dbConnect->close();
 }
 public function RetriveInvitationInbox($inputs){
   $table="invitationsLog";
-  $where=array('invitationsLog`.`memberID'=>$inputs->ReciverID);
+  $where=array('invitationsLog`.`memberID'=>$inputs->ReciverID,'Events`.`approved'=>1);
   $limit=$inputs->start.",".$inputs->limit;
   $What="
   `invitationsLog`.`invitationID`,
