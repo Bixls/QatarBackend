@@ -1,6 +1,9 @@
 <?php
 session_start();
-if(isset($_SESSION["username"])){
+if(isset($_SESSION["username"])||isset($_COOKIE["username"])){
+  if(isset($_COOKIE["username"])){
+    $_SESSION['username']=$_COOKIE["username"];
+  }
 require_once("../configuration.php");
 require_once('../db.php');
 $db = new db(DB_DATABASE, DB_USER, DB_PASSWORD, DB_HOST); // $host is optional and defaults to 'localhost'

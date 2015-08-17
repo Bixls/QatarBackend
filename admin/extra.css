@@ -1,0 +1,31 @@
+.innerMenu .btn{
+  margin: 5px;
+}
+.innerMenu{
+  margin-bottom: 5px;
+}
+
+*{
+    font-family: tahoma;
+}
+
+.savediv{
+  text-align: center;
+}
+.RowItem{
+  cursor: pointer;
+}
+.RowItem:hover{
+  background-color: #eee!important;
+}
+.pageMenu{
+  text-align: left;
+}
+.pageMenu .inlineMenuItem{
+  display: inline-block!important;
+  margin: 5px;
+}
+.pageMenu .form-control{
+  display: inline-block!important;
+  width: auto;
+}

@@ -140,7 +140,13 @@ function alreadyFoundMobile($Mobile){
 
 public function editProfile($inputs){
   //Verify member name
-  if(!$this->alreadyFound($inputs->name,$inputs->groupID)){
+  $this->db->select($table='members',$where=array('id'=>$inputs->id),false,false,"AND",false,"*",false);
+  $output=$this->db->row_array();
+  $found=false;
+  if($output['name']!=$inputs->name){
+    $found=$this->alreadyFound($inputs->name,$inputs->groupID);
+  }
+  if(!$found){
   // if changed password
   if(isset($inputs->password)){
     $inputs->password=md5($inputs->password);

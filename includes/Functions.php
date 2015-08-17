@@ -209,26 +209,26 @@ function sendMessege($inputs)
 }
 function RetriveInbox($inputs)
 {
-  include("Messages.php");
-  $messege=new Messages;
-  $messege->RetriveInbox($inputs[0]);
+  include("invitationsLog.php");
+  $messege=new invitationsLog;
+  $messege->RetriveInvitationInbox($inputs[0]);
 }
 function ReadMessege($inputs)
 {
-  include("Messages.php");
-  $messege=new Messages;
+  include("invitationsLog.php");
+  $messege=new invitationsLog;
   $messege->ReadMessege($inputs[0]);
 }
 function deleteMessege($inputs)
 {
-  include("Messages.php");
-  $messege=new Messages;
+  include("invitationsLog.php");
+  $messege=new invitationsLog;
   $messege->deleteMessege($inputs[0]);
 }
 function unReadInbox($inputs)
 {
-  include("Messages.php");
-  $messege=new Messages;
+  include("invitationsLog.php");
+  $messege=new invitationsLog;
   $messege->unReadInbox($inputs[0]);
 }
 //************** Feedbacks *************************
@@ -247,6 +247,17 @@ function GetUserBlockList($inputs){
   include("BlockList.php");
   $BlockList=new BlockList;
   $BlockList->GetUserBlockList($inputs[0]);
+}
+//****************** AdminFunctions *******************?/
+function getString($inputs){
+include ("AdminFunctions.php");
+$strings=new AdminFunctions;
+$strings->getString($inputs[0]);
+}
+function getAvatarList($inputs){
+include ("AdminFunctions.php");
+$strings=new AdminFunctions;
+$strings->getAvatarList();
 }
 //*************** General functions ************************/
 function get_client_ip() {

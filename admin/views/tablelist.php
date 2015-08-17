@@ -23,6 +23,10 @@ public function returnArray(){
   $this->TableItems[$dbID]=$myElement;
   }
 
+  public function addCustomeElement($head,$dbID,$functionArray){
+  $myElement=new customItem($head,$dbID,$functionArray);
+  $this->TableItems[$dbID]=$myElement;
+  }
 
   public function addF($title,$fn,$short){
   $myElement=new functionItem($title,$fn,$short,"","");
@@ -58,10 +62,31 @@ $this->extraHtmlAfter=$extraHtmlAfter;
 }
 
 public function renderMe($value){
+  if (strlen($value) > 70)
+   $value =mb_substr($value,0,70,'UTF-8').' ...';
 return $this->extraHtmlBefore.$value.$this->extraHtmlAfter;
 }
-
 }
+
+class customItem{
+
+public $DB_Name;
+public $head;
+public $functionArray= array();
+
+
+function __construct($head,$DB_Name,$functionArray){
+$this->DB_Name=$DB_Name;
+$this->head=$head;
+$this->functionArray=$functionArray;
+}
+
+public function renderMe($value){
+return $this->functionArray[$value];
+}
+}
+
+
 class functionItem{
 public $title;
 public $fn;

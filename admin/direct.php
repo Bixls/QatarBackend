@@ -10,6 +10,9 @@ require_once("members.php");
 require_once("group.php");
 require_once("events.php");
 require_once("news.php");
+require_once("comments.php");
+require_once("feedbacks.php");
+require_once("avatars.php");
 if(isset($_POST['fn']))
 {
 $function=$_POST['fn'];

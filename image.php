@@ -16,9 +16,11 @@ for ($i = 0; $i < count($parts) - 1; $i++) {
 }
 
 
-
-$src =$dir.$row['imageSrc'].$_GET['t'].".".$row['ext'];
-
+if(!isset($_GET['t'])){
+$src =$dir.$row['imageSrc'].".".$row['ext'];
+}else{
+  $src =$dir.$row['imageSrc'].$_GET['t'].".".$row['ext'];
+}
 
 //echo $src;
   header('Content-Type: image/jpeg');

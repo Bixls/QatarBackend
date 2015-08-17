@@ -19,7 +19,7 @@ public function getInvitationList($inputs){
 
         $invitations->number=$row['number'];
         $invitations->packageName=$row['packageName'];
-        $invitations->VIP=$row['VIP'];
+        //$invitations->VIP=$row['VIP'];
         $invitations->price=$row['price'];
       array_push($stack, $invitations);
       }

@@ -16,8 +16,26 @@
 
 public function  sendMessege($inputs)
 {
-  $this->db->insert("messageLog", get_object_vars($inputs));
-  echo json_encode($this->db->error?$this->db->errorMessege(): array('sucess' => true));
+  $error= array();
+  if(!is_array($inputs->ReciverID)){
+  $reciver = new stdClass();
+  $reciver->id = $inputs->ReciverID;
+  $inputs->ReciverID= array();
+  array_push($inputs->ReciverID,$reciver);
+  }
+
+  foreach ($inputs->ReciverID as $ReciverID) {
+    $this->db->insert("messageLog",array(
+      'SenderID' =>  $inputs->SenderID,
+      'ReciverID' => $ReciverID->id,
+      'Subject' =>  $inputs->Subject,
+      'Content' =>  $inputs->Content
+    ));
+    if($this->db->error){
+    array_push($error,$this->db->errorMessege());
+    }
+  }
+  echo json_encode(!empty($error)?$error: array('sucess' => true));
 }
 public function  deleteMessege($inputs)
 {
@@ -58,12 +76,17 @@ public function  RetriveInbox($inputs)
   $table="messageLog";
   $where=array('messageLog`.`ReciverID'=>$inputs->ReciverID);
   $limit=$inputs->start.",".$inputs->limit;
-  $What="`messageLog`.`messageID`,`members`.`name` , `members`.`ProfilePic` , `messageLog`.`Subject`, `messageLog`.`type`, `messageLog`.`Status`, `messageLog`.`EventID`";
+  $What="`messageLog`.`messageID`
+  ,`members`.`name` ,
+  `members`.`ProfilePic` ,
+  `messageLog`.`Subject`,
+  `messageLog`.`type`,
+  `messageLog`.`Status`,
+  `messageLog`.`EventID`";
   $innerJoin=  "INNER JOIN `members` ON `members`.`id`=`messageLog`.`SenderID`";
   $this->db->select($table,$where,$limit,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
   echo json_encode($this->db->error?$this->db->errorMessege():$this->db->result());
 }
-
 public function  unReadInbox($inputs)
 {
     $this->db->select('messageLog',$where=array('ReciverID'=>$inputs->ReciverID,'Status'=>0),false,false,"AND",false,"*",false);

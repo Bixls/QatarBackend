@@ -13,7 +13,7 @@ return 0;
 function messege($type,$title,$content){
 
 ?>
-<div style="position:fixed;width:100%">
+<div style="position:fixed;width:100%;bottom: 0px;">
 <div class="container">
 <div class="col-md-6"></div>
 
