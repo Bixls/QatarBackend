@@ -39,6 +39,8 @@ public function viewCommentbyEvent($eventID){
  $db->select('EventsComments',$where,$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$what,$innerJoin);
 
  $input=$db->result_array();
+ $db->select('EventsComments',$where,$limit=false,$order=false,$where_mode="AND",$print_query=false,$what,$innerJoin);
+$numberOFPosts=$db->count();
  include("views/list.php");
 }
 public function viewCommentbyNews($newsID){
@@ -75,6 +77,9 @@ public function viewCommentbyNews($newsID){
  $start=getStartPage($getArray,$per_page);
  $db->select('NewsComments',$where,$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$what,$innerJoin);
  $input=$db->result_array();
+
+ $db->select('NewsComments',$where,$limit=false,$order=false,$where_mode="AND",$print_query=false,$what,$innerJoin);
+$numberOFPosts=$db->count();
  include("views/list.php");
 
 }
