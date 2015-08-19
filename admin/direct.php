@@ -13,6 +13,7 @@ require_once("news.php");
 require_once("comments.php");
 require_once("feedbacks.php");
 require_once("avatars.php");
+require_once("general.php");
 if(isset($_POST['fn']))
 {
 $function=$_POST['fn'];

@@ -32,7 +32,7 @@ if($firstTime){
 
 
   foreach ($row as $key=>$value) {
-      echo '<td onclick="goTo(\'View\',\'v\','.$row[$keyid].',\''.$table.'\',\'\')"  >';
+      echo '<td onclick="goTo(\''.(isset($viewVar)?$viewVar:"View").'\',\'v\','.$row[$keyid].',\''.$table.'\',\'\')"  >';
   $myTable->RenderElement($key,$value);
     echo "</td>";
 

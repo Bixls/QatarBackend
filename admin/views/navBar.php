@@ -36,6 +36,8 @@
           <ul class="dropdown-menu">
             <li><a href="?fn=ViewUnApprovedEventList&c=events&i=0">الموافقه على المناسبات</a></li>
             <li><a href="?fn=ViewEventList&c=events&i=0">عرض جميع المناسبات</a></li>
+            <li><a href="?fn=getEventTypesList&c=general&i=0">عرض انواع الدعوات</a></li>
+            <li><a onclick="goTo('CreateEventTypesNew','CN','','general','')" href="#">اضافه نوع دعوة جديد</a></li>
           </ul>
         </li>
         <li class="dropdown">
