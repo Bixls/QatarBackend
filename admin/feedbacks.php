@@ -25,9 +25,13 @@ class Feedbacks{
     $innerJoin="inner join members on members.id=Feedbacks.SenderID";
     $getArray=$_GET;
     require ("functions/generalFunctions.php");
+
     $start=getStartPage($getArray,$per_page);
     $db->select($table,"",$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin);
     $input=$db->result_array();
+    $db->select($table,"",$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin);
+    $numberOFPosts=$db->count();
+
     include("views/list.php");
   }
 

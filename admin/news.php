@@ -91,6 +91,8 @@ class news{
     $innerJoin="";
     $getArray=$_GET;
     require ("functions/generalFunctions.php");
+    $db->select($table,$where,$limit=false,$order=false,$where_mode="AND",$print_query=false,$what,$innerJoin);
+    $numberOFPosts=$db->count();
     $start=getStartPage($getArray,$per_page);
     $db->select($table,$where,$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$what,$innerJoin);
     $input=$db->result_array();

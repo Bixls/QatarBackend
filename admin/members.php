@@ -32,6 +32,8 @@ class members{
     $getArray=$_GET;
     require ("functions/generalFunctions.php");
     $start=getStartPage($getArray,$per_page);
+    $db->select($table,$where,$limit=false,$order=false,$where_mode="AND",$print_query=false,$what,$innerJoin);
+    $numberOFPosts=$db->count();
     $db->select($table,$where,$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$what,$innerJoin);
     $input=$db->result_array();
     include("views/list.php");
@@ -73,6 +75,8 @@ class members{
    $getArray=$_GET;
    require ("functions/generalFunctions.php");
    $start=getStartPage($getArray,$per_page);
+   $db->select('invitationsLog',$where,$limit=false,$order=false,$where_mode="AND",$print_query=false,$what,$innerJoin);
+   $numberOFPosts=$db->count();
    $db->select('invitationsLog',$where,$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$what,$innerJoin);
 
    $input=$db->result_array();
@@ -114,6 +118,8 @@ class members{
    $getArray=$_GET;
    require ("functions/generalFunctions.php");
    $start=getStartPage($getArray,$per_page);
+   $db->select('invitationsLog',$where,$limit=false,$order=false,$where_mode="AND",$print_query=false,$what,$innerJoin);
+   $numberOFPosts=$db->count();
    $db->select('invitationsLog',$where,$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$what,$innerJoin);
 
    $input=$db->result_array();

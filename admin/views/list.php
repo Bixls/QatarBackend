@@ -111,10 +111,11 @@ function goTo(fun,f,ids,cl,msg){
 
 </script>
 
-<div style="text-align:left">
+<div style="text-align:center">
 <?php
 
 $numberOfPages=(int)ceil($numberOFPosts/$per_page);
+
 if(empty($getArray['page']))
 {
   $getArray['page']=1;
@@ -131,7 +132,7 @@ for($i=1;$i<=$numberOfPages;$i++){
   echo " <li ".($i==$currentPage?'class=\'active\'':'')." ><a href='?".http_build_query($getArray)."'>$i</a></li> ";
   $getArray['page']++;
 }
-if($currentPage!=$numberOfPages){
+if($currentPage!=$numberOfPages&&$numberOfPages!=0){
     $getArray['page']=$currentPage+1;
   echo " <li><a  href='?".http_build_query($getArray)."'>التالي</a></li> ";
 }

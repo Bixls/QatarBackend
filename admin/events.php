@@ -127,6 +127,8 @@ $inlineMenu.='<div class="inlineMenuItem">اظهار
   $db->select($table,$where,$limit=$start.",".$per_page,$order="TimeEnded DESC",$where_mode="AND",$print_query=false,$what,$innerJoin);
   $input=$db->result_array();
 
+  $db->select($table,$where,$limit=false,$order="TimeEnded DESC",$where_mode="AND",$print_query=false,$what,$innerJoin);
+    $numberOFPosts=$db->count();
 
   include("views/list.php");
 

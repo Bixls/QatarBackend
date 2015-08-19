@@ -28,6 +28,9 @@ $msg="هل انت متاكد من حذف الصوره ؟";
         $start=getStartPage($getArray,$per_page);
         $db->select($table,"",$limit=$start.",".$per_page,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin);
         $input=$db->result_array();
+        $db->select($table,"",$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin);
+        $numberOFPosts=$db->count();
+
         include("views/list.php");
   }
   public function CreateNew($input){
