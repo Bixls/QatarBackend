@@ -93,7 +93,7 @@ class general{
     $body=$NormalView->RenderForm();
     $DeleteMessege="هل انت متاكد من حذف ";
 
-    $menus='<button class="btn btn-md btn-danger" onclick="goTo(\'delete\',\'d\','.$result['catID'].',\'general\',\''.$DeleteMessege.'\')" >حذف</button>';
+    $menus='<button class="btn btn-md btn-danger" onclick="goTo(\'deleteEventTypes\',\'d\','.$result['catID'].',\'general\',\''.$DeleteMessege.'\')" >حذف</button>';
     $menus.='<button class="btn btn-md btn-success" onclick="goTo(\'EditEventTypes\',\'e\','.$result['catID'].',\'general\',\''.$DeleteMessege.'\')" >تعديل</button>';
     $menus.='<a class="btn btn-md btn-default" href="?fn=ViewEventList&c=events&i=0&catID='.$result['catID'].'">عرض المناسبات</a>';
 

@@ -37,35 +37,25 @@ class Feedbacks{
 
   public function View($id){
   global $db;
-  $db->select('groups',array('Gid'=>$id),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+  $db->select('Feedbacks',array('FeedbackID'=>$id),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="inner join members on Feedbacks.SenderID=members.id");
   if(!$db->error){
   $result=$db->row_array();
 
-  $header="<b>"."قبيله ";
-  $header.="</b> ".$result['Gname'];
-  $db->select('members',array('groupID'=>$id),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
-  $membersNumber=$db->count();
+  $header="<b>"."رسالة من ";
+  $header.="</b> ".$result['name'];
 
-  $innerJoin = "INNER JOIN `members` ON `members`.`id`=`Events`.`CreatorID`";
-  $db->select('Events',array('members`.`groupID'=>$id),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin);
-  $eventsNumber=$db->count();
 
   include("views/normalView.php");
   $NormalView=new NormalView;
-  $ViewImage=$result['GProfilePic'];
 
-  $NormalView->addElement($membersNumber,"text","عدد الاعضاء");
 
-  $NormalView->addElement(($result['Royal']==0?"لا":"نعم"),"text","قبيله ملكيه");
-  $NormalView->addElement($eventsNumber,"text","عدد المناسبات");
-  $NormalView->addElement($result['Description'],"text","تفاصيل القبيله");
+  $NormalView->addElement($result['Subject'],"text","عنوان الرساله");
+  $NormalView->addElement($result['Message'],"text","تفاصيل الرساله");
   $body=$NormalView->RenderForm();
-  $DeleteMessege="هل انت متاكد من حذف ".$result['Gname'];
+
   $menus="";
 
-  $menus.='<button class="btn btn-md btn-danger" onclick="goTo(\'Delete\',\'d\','.$result['Gid'].',\'groups\',\''.$DeleteMessege.'\')" >حذف</button>';
-  $menus.='<a class="btn btn-md btn-default" href="?fn=getEventsbyGroup&c=events&i='.$result['Gid'].'">عرض مناسبات القبيله</a>';
-  $menus.='<a class="btn btn-md btn-default" href="?fn=viewMemberByGroup&c=members&i='.$result['Gid'].'">عرض اعضاء القبيله</a>';
+  $menus.='<button class="btn btn-md btn-default" onclick="goTo(\'View\',\'v\','.$result['id'].',\'members\',\''.$DeleteMessege.'\')" >عرض صاحب الرساله</button>';
 
 
 
