@@ -65,12 +65,23 @@ class news{
     messege("alert-danger","Falied ",implode(" ",$db->errorMessege()));
     }
   }
-
+  public function search($name){
+    $searc="`Subject` LIKE '%".$name."%'";
+    $where=array($searc);
+    $Page_Title="البحث عن ".$name;
+    $myFunctions =new TableView;
+    $myFunctions->addF("عرض","View","v");
+  //  $myFunctions->addF("تعديل","Edit","e");
+ news::ViewNList($where,$Page_Title,$myFunctions);
+  }
   public function ViewNewsList(){
+        $Page_Title="عرض حميع الاخبار المنشوره";
+        $where=array('1' => 1 );
+        $myFunctions="";
+         news::ViewNList($where,$Page_Title,$myFunctions);
+  }
+  public function ViewNList($where,$Page_Title,$myFunctions){
 
-
-    $Page_Title="عرض حميع الاخبار المنشوره";
-    $where=array('1' => 1 );
     $myFunctions =new TableView;
     $myFunctions->addF("عرض","View","v");
     $myFunctions->addF("تعديل","Edit","e");

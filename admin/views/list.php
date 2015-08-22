@@ -58,58 +58,6 @@ echo("</table>");
 
 
 ?>
-<script type="text/javascript">
-
-function goTo(fun,f,ids,cl,msg){
-  var r=true;
-  if(f=="d")
-  {
-    r = confirm(msg);
-  }
-  if(r){
-    $.post("direct.php",
-    {
-      i:ids,
-      fn: fun,
-      c:cl
-    },
-    function(data,status){
-      $('#loading').hide();
-      $("#myModal").modal("hide");
-      $('.modal-backdrop').remove();
-      $('body').removeClass( "modal-open" );
-      $('#messeges').html(data);
-    });
-  }
-}
-
-
-    $(function(){
-      // bind change event to select
-      $('#dynamic_select').on('change', function () {
-          var url = $(this).val(); // get selected value
-          if (url) { // require a URL
-              window.location = url; // redirect
-          }
-          return false;
-      });
-      $(".chBox").change(function() {
-          if(this.checked) {
-            var url=$(this).attr('ch');
-          }else{
-            var url=$(this).attr('unch');
-          }
-          if (url) { // require a URL
-              window.location = url; // redirect
-          }
-          return false;
-
-      });
-    });
-
-
-
-</script>
 
 <div style="text-align:center">
 <?php

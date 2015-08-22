@@ -4,6 +4,15 @@
 
 class events{
 
+  public function search($name){
+    $searc="`subject` LIKE '%".$name."%'";
+    $where=array($searc);
+    $Page_Title="البحث عن ".$name;
+    $myFunctions =new TableView;
+    $myFunctions->addF("عرض","View","v");
+  //  $myFunctions->addF("تعديل","Edit","e");
+   events::ViewList($where,$Page_Title,$myFunctions);
+  }
   public function ViewUnApprovedEventList(){
   $where=array('approved' => 0 );
   $Page_Title="الموافقة على المناسبات";

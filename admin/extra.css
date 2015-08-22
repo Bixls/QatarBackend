@@ -29,3 +29,16 @@
   display: inline-block!important;
   width: auto;
 }
+.searchDrop{
+  border-top-right-radius: 0px;
+border-bottom-right-radius: 0px;
+margin-right: -5px;
+padding-right: 11px;
+}
+.searchText{
+  border-top-left-radius: 0px;
+border-bottom-left-radius: 0px;
+border-left: 0px none;
+margin-left: 0px;
+padding-left: 0px;
+}

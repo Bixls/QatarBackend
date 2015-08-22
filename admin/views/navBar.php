@@ -61,17 +61,29 @@
           </ul>
         </li>
       </ul>
-      <form class="navbar-form navbar-left" role="search">
+      <form class="navbar-form navbar-left" id="SearchForm" role="search">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="بحث">
-          <select class="form-control" id="sel1">
-        <option>الاعضاء</option>
-        <option>القبائل</option>
-        <option>المناسبات</option>
-        <option>الاخبار</option>
+          <input type="text" id="SK" class="form-control searchText"
+          <?php //placeholding search with searching item
+          $selectedSearch="";
+           if(array_key_exists('fn', $_GET)&&array_key_exists('i', $_GET)){$selectedSearch=$_GET['c'];if($_GET['fn']=="search"){echo ("value=".$_GET['i']);}
+          } ?>
+           placeholder="بحث">
+          <select class="form-control  searchDrop" id="SF">
+            <?php
+            $SearchElements=array(
+            'members' => "الاعضاء",
+            'groups' => "القبائل",
+            'events' => "المناسبات",
+            'news' => "الاخبار"
+                  );
+                  foreach ($SearchElements as $key => $value) {
+                  echo("<option value='".$key."' ".($key==$selectedSearch?'selected':'').">".$value."</option>");
+                  }
+             ?>
       </select>
         </div>
-        <button type="submit" class="btn btn-default">بحث</button>
+        <button type="submit"  class="btn btn-default">بحث</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">

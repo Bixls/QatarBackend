@@ -7,9 +7,24 @@ class groups{
 public function addGroup($inputs){
 
 }
+public function search($name){
+  $searc="`Gname` LIKE '%".$name."%'";
+  $where=array($searc);
+  $Page_Title="البحث عن ".$name;
+  $myFunctions =new TableView;
+  $myFunctions->addF("عرض","View","v");
+//  $myFunctions->addF("تعديل","Edit","e");
+ groups::viewGList($where,$Page_Title,$myFunctions);
+}
 public function viewGroupList(){
-
   $Page_Title="القبائل";
+  $where='';
+  $myFunctions='';
+ groups::viewGList($where,$Page_Title,$myFunctions);
+}
+
+public function viewGList($where,$Page_Title,$myFunctions){
+
   global $db;
   require_once("views/tablelist.php");
   $myTable =new TableView;
@@ -29,9 +44,9 @@ public function viewGroupList(){
   $getArray=$_GET;
   require ("functions/generalFunctions.php");
   $start=getStartPage($getArray,$per_page);
-  $db->select($table,"",$limit=false,$order="priority",$where_mode="AND",$print_query=false,$What="*",$innerJoin);
+  $db->select($table,$where,$limit=false,$order="priority",$where_mode="AND",$print_query=false,$What="*",$innerJoin);
   $numberOFPosts=$db->count();
-  $db->select($table,"",$limit=$start.",".$per_page,$order="priority",$where_mode="AND",$print_query=false,$What="*",$innerJoin);
+  $db->select($table,$where,$limit=$start.",".$per_page,$order="priority",$where_mode="AND",$print_query=false,$What="*",$innerJoin);
   $input=$db->result_array();
   include("views/list.php");
 }

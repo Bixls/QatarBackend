@@ -147,8 +147,14 @@ class members{
     $myFunctions->addF("تعديل","Edit","e");
    members::getMembersList($where,$Page_Title,$myFunctions);
   }
-  public function SearchMembersByNameList(){
-
+  public function search($name){
+    $searc="`name` LIKE '%".$name."%'";
+    $where=array($searc);
+    $Page_Title="البحث عن ".$name;
+    $myFunctions =new TableView;
+    $myFunctions->addF("عرض","View","v");
+  //  $myFunctions->addF("تعديل","Edit","e");
+   members::getMembersList($where,$Page_Title,$myFunctions);
   }
   public function Edit($id){
     global $db;
