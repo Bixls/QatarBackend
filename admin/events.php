@@ -9,7 +9,7 @@ class events{
   $Page_Title="الموافقة على المناسبات";
     $myFunctions =new TableView;
   $myFunctions->addF("عرض","View","v");
-  $myFunctions->addF("تعديل","Edit","e");
+//  $myFunctions->addF("تعديل","Edit","e");
   $myFunctions->addF("موافقة","Approve","a");
   $myFunctions->addF("رفض","disapprove","c");
    events::ViewList($where,$Page_Title,$myFunctions);
@@ -19,7 +19,7 @@ class events{
     $Page_Title="جميع المناسبات";
     $myFunctions =new TableView;
     $myFunctions->addF("عرض","View","v");
-    $myFunctions->addF("تعديل","Edit","e");
+  //  $myFunctions->addF("تعديل","Edit","e");
    events::ViewList($where,$Page_Title,$myFunctions);
   }
 public function ViewList($where,$Page_Title,$myFunctions){
@@ -143,7 +143,7 @@ public function getEventsbyMember($memberID){
 
   $myFunctions =new TableView;
   $myFunctions->addF("عرض","ViewEvent","v");
-  $myFunctions->addF("تعديل","Edit","e");
+//  $myFunctions->addF("تعديل","Edit","e");
  events::ViewList($where,$Page_Title,$myFunctions);
 }
 public function getEventsbyGroup($GroupID){
@@ -154,7 +154,7 @@ public function getEventsbyGroup($GroupID){
   $where=array('members`.`groupID' => $GroupID );
   $myFunctions =new TableView;
   $myFunctions->addF("عرض","ViewEvent","v");
-  $myFunctions->addF("تعديل","Edit","e");
+//  $myFunctions->addF("تعديل","Edit","e");
  events::ViewList($where,$Page_Title,$myFunctions);
 }
 public function SearchEventsByName($searcher){

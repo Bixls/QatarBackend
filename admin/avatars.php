@@ -17,7 +17,7 @@ $msg="هل انت متاكد من حذف الصوره ؟";
         global  $per_page;
         $myFunctions =new TableView;
         $myFunctions->addF("عرض","View","v");
-        $myFunctions->addF("تعديل","Edit","e");
+    //    $myFunctions->addF("تعديل","Edit","e");
         $myFunctions->addF("حذف","delete","d");
 
         $what=$myTable->returnArray();

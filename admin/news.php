@@ -138,6 +138,8 @@ class news{
 
 
     $menus.='<button class="btn btn-md btn-danger" onclick="goTo(\'delete\',\'d\','.$result['NewsID'].',\'news\',\''.$DeleteMessege.'\')" >حذف</button>';
+
+        $menus.='<button class="btn btn-md btn-success" onclick="goTo(\'Edit\',\'e\','.$result['NewsID'].',\'news\',\''.$DeleteMessege.'\')" >تعديل</button>';
     $menus.='<a class="btn btn-md btn-default" href="?fn=viewCommentbyNews&c=comments&i='.$result['NewsID'].'">عرض التعليقات</a>';
 
 

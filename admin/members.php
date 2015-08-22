@@ -10,7 +10,7 @@ class members{
     $myFunctions->addF("موافقه","Approve","a");
     $myFunctions->addF("رفض","disapprove","c");
     $myFunctions->addF("عرض","View","v");
-    $myFunctions->addF("تعديل","Edit","e");
+  //  $myFunctions->addF("تعديل","Edit","e");
    members::getMembersList($where,$Page_Title,$myFunctions);
   }
   public function getMembersList($where,$Page_Title,$myFunctions){
@@ -49,7 +49,7 @@ class members{
 
     $myFunctions =new TableView;
     $myFunctions->addF("عرض","View","v");
-    $myFunctions->addF("تعديل","Edit","e");
+  //  $myFunctions->addF("تعديل","Edit","e");
 
 
 
@@ -93,7 +93,7 @@ class members{
 
     $myFunctions =new TableView;
     $myFunctions->addF("عرض","View","v");
-    $myFunctions->addF("تعديل","Edit","e");
+  //  $myFunctions->addF("تعديل","Edit","e");
 
 
    $myTable =new TableView;
@@ -131,7 +131,7 @@ class members{
     $where=array('1' => 1 );
     $myFunctions =new TableView;
     $myFunctions->addF("عرض","View","v");
-    $myFunctions->addF("تعديل","Edit","e");
+  //  $myFunctions->addF("تعديل","Edit","e");
    members::getMembersList($where,$Page_Title,$myFunctions);
   }
   public function viewMemberByGroup($groupID){
@@ -221,7 +221,7 @@ class members{
   public function Approve($id){
 //Set the randome number in the Database
 //Send sms with this number
-global $db;
+  global $db;
   $ValidKey=rand( 1000 ,  9999 );
   //Code to send The SMS
   $db->update('members',$what=array('Verified'=>$ValidKey),$where = array('id' => $id ));

@@ -18,7 +18,7 @@ class Feedbacks{
     global  $per_page;
     $myFunctions =new TableView;
     $myFunctions->addF("عرض","View","v");
-    $myFunctions->addF("تعديل","Edit","e");
+  //  $myFunctions->addF("تعديل","Edit","e");
 
     $what=$myTable->returnArray();
     $table="Feedbacks";
