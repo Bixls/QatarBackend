@@ -55,7 +55,7 @@ class Feedbacks{
 
   $menus="";
 
-  $menus.='<button class="btn btn-md btn-default" onclick="goTo(\'View\',\'v\','.$result['id'].',\'members\',\''.$DeleteMessege.'\')" >عرض صاحب الرساله</button>';
+  $menus.='<button class="btn btn-md btn-default" onclick="goTo(\'View\',\'v\','.$result['id'].',\'members\',\'\')" >عرض صاحب الرساله</button>';
 
 
 

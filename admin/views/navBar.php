@@ -64,6 +64,12 @@
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="بحث">
+          <select class="form-control" id="sel1">
+        <option>الاعضاء</option>
+        <option>القبائل</option>
+        <option>المناسبات</option>
+        <option>الاخبار</option>
+      </select>
         </div>
         <button type="submit" class="btn btn-default">بحث</button>
       </form>
