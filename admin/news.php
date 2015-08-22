@@ -148,6 +148,79 @@ class news{
     include("views/single.php");
     }
   }
+  public function Edit($id){
+
+    global $db;
+    $db->select('News',array('NewsID'=>$id),$limit=false,$order=false,$where_mode="AND",$print_query=false,$What="*",$innerJoin="");
+    if(!$db->error){
+    $result=$db->row_array();
+
+    $header=" تعديل خبر ".$result['Subject'];
+    include("views/form.php");
+    $form=new form("index.php","title");
+
+    $form->addElement('Subject',$result['Subject'],"text","عنوان الخبر");
+    $form->addImage('Image',"Image","صوره الخبر");
+    global $db;
+    $What="*";
+    $innerJoin = "";
+    $db->select('groups',"",$limit=false,$order=false,$where_mode="AND",$print_query=false,$What,$innerJoin);
+    $resultGroup=$db->result_array();
+   $groups = array("-1"=>"الرئيسية");
+    foreach ($resultGroup as $key) {
+      //array_push($group,$key["Gname"]);
+      $groups[$key["Gid"]]=$key["Gname"];
+    }
+
+
+    $form->addSelect('GroupID',$groups,$result['GroupID'],"القبيله");
+    $allowComments = array('1' =>"نعم",'0' =>"لا"  );
+    $form->addSelect('AllowComments',$allowComments,$result['AllowComments'],"السماح بالتعليقات");
+      $form->addElement('Description',$result['Description'],"textarea","تفاصيل الخبر");
+    $form->addElement('i',$result['NewsID'],"hidden","");
+    $form->addElement('fn',"update","hidden","");
+    $form->addElement('c',"news","hidden","");
+    $body=$form->RenderForm();
+  //  $body="fields that will create the new group is here";
+    include("views/single.php");
+  }
+  }
+  public function update($id){
+    if($_FILES["fileToUpload"]["name"]!=NULL)
+    {
+    ob_start();
+    $NoResponse="NoResponse";
+    include(ROOTPATH."/upload.php");
+    ob_end_clean();
+  if($respond['success']=="true"){
+
+  global $db;
+  $db->update("News", $what = array('GroupID' =>  $_POST['GroupID'],
+  'Subject' =>  $_POST['Subject'],
+  'AllowComments' =>  $_POST['AllowComments'],
+  'Description' =>  $_POST['Description'],
+  'Image' => $respond['id']),$where= array('NewsID' => $id ));
+  include("functions/generalFunctions.php");
+    if(!$db->error){
+    messege("alert-success","تمت العمليه , ","تم انشاء الخبر بنجاح");
+    }else{
+    messege("alert-danger","Falied ",implode(" ",$db->errorMessege()));
+    }
+  }
+}else{
+  global $db;
+  $db->update("News", $what = array('GroupID' =>  $_POST['GroupID'],
+  'Subject' =>  $_POST['Subject'],
+  'AllowComments' =>  $_POST['AllowComments'],
+  'Description' =>  $_POST['Description']),$where= array('NewsID' => $id ));
+  include("functions/generalFunctions.php");
+    if(!$db->error){
+    messege("alert-success","تمت العمليه , ","تم انشاء الخبر بنجاح");
+    }else{
+    messege("alert-danger","Falied ",implode(" ",$db->errorMessege()));
+    }
+  }
+}
 
 
 
